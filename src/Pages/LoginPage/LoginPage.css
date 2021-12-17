@@ -1,0 +1,47 @@
+.loginPage{
+    height: 100vh;
+    width:100vw;
+    background-color: rgb(242, 252, 111);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: fadeInAnimation ease 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode:forwards;
+    align-items: center;
+}
+@keyframes fadeInAnimation{
+    0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+   }
+}
+.title{
+    font-family: 'Noto Sans Display', sans-serif;
+    font-size: 50px;
+    font-weight:500;
+    animation: fadeInAnimation ease 3s;
+    animation-iteration-count: 1;
+    animation-fill-mode:forwards;
+}
+.subtitle{
+    font-family: 'Noto Sans Display', sans-serif;
+    font-size: 25px;
+    font-weight:300;
+    animation: fadeInAnimation ease 3s;
+    animation-iteration-count: 1;
+    animation-fill-mode:forwards;
+    margin-bottom: 10vh;
+}
+.login{
+    animation: fadeInAnimation ease 3s;
+    animation-iteration-count: 1;
+    animation-fill-mode:forwards;
+    max-width: 30vw;
+    background-color: rgb(245, 167, 23);
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 10px;
+}
