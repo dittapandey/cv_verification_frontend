@@ -1,0 +1,32 @@
+.navbar{
+    background-color: #292E31;
+    color: white;
+    max-width:100cw;
+    display: flex;
+    justify-content: space-between;
+}
+.iitg-logo{
+    height:48px;
+    width:48px;
+}
+.left-navbar{
+    display: flex;
+    padding: 5px;
+    align-items: center;
+}
+.right-navbar{
+    display: flex;
+    padding: 5px;
+    align-items: center;
+}
+.sub-navbar{
+    padding:5px 15px 5px;
+    border-radius: 2.5ch;
+}
+.sub-navbar:hover{
+    background-color: #1c1f20;
+}
+.site-title{
+    font-size: larger;
+    padding: 5px 15px 5px;
+}

@@ -1,0 +1,54 @@
+.viewpoint{
+    display:flex;
+    flex-direction: column;
+    height:100ch;
+    min-height: fit-content;
+    min-width: fit-content;
+}
+.top{
+    flex:30;
+    display: flex;
+    flex-direction: column;
+}
+.topupper{
+    display: flex;
+    flex:90;
+    padding:25px;
+}
+.addapointbutton{
+    align-self: flex-end;
+}
+.middle{
+    flex:7;
+    align-items: center;
+    background-color: #C4C4C4;
+}
+.bottom{
+    display:flex;
+    flex-direction: column;
+    align-content: flex-start;
+    flex:65;
+    padding: 15px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+input::selection{
+    border-style: none;
+}
+.redbuttons{
+    display: flex;
+    flex-direction: row;
+}
+
+.toplower{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex:1;
+}
+.searchbar{
+    padding:15px;
+}
+.redbutton{
+    padding: 15px;
+}

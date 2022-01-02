@@ -1,19 +1,29 @@
 import logo from './logo.svg';
 import './App.css';
 import LoginPage from './Pages/LoginPage/LoginPage';
-import {Router, Routes,BrowserRouter} from 'react-router-dom';
+import AddAPoint from './Pages/AddAPoint/AddAPoint'
+import {Route,
+  BrowserRouter as Router,
+  Routes} from 'react-router-dom';
+import {useEffect, useState} from 'react';
 
 function App() {
+  const [user, setUser] = useState(null);
+  useEffect(()=>{
+    const getUser = () => {
+      
+    }
+  });
   return (
     <div className="App">
-      <BrowserRouter>
-      <Routes>
-        <Router path="/">
-          <LoginPage/>
-        </Router>
-      </Routes>
-      </BrowserRouter>
-      <LoginPage/>
+      <Router>
+        <Routes>
+        <Route path="/" element={<LoginPage/>}/>
+        <Route path="/addapoint" element={<AddAPoint/>}/>
+        </Routes>
+        
+      </Router>
+      {/* <LoginPage/> */}
     </div>
   );
 }

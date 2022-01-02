@@ -1,5 +1,9 @@
 .App {
   text-align: center;
+  height: 100ch;
+  background-color: #F2EFEB;
+  min-width: fit-content;
+  min-height: fit-content;
 }
 
 .App-logo {
@@ -35,4 +39,7 @@
   to {
     transform: rotate(360deg);
   }
+}
+.text-left{
+  text-align: left;
 }

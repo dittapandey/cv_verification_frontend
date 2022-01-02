@@ -1,0 +1,43 @@
+.sidemenu {
+    background-color:#A60303;
+    color: white;
+    height: 100ch; /* 100% Full-height */
+    min-height: fit-content;
+    min-width: fit-content;
+    width: 15vw; /* 0 width - change this with JavaScript */
+     /* Stay in place */
+    top: 72.8px; /* Stay at the top */
+    left: 0;
+    align-items: center;
+    padding-top:10vh;
+    padding-left: 15px;
+    padding-right: 15px;
+    display: flex;
+    flex-direction:column;
+    justify-content: space-between;
+    overflow: hidden;
+ /* Black*/
+ /* Disable horizontal scroll */
+     /* Place content 60px from the top */ /* 0.5 second transition effect to slide in the sidenav */
+}
+.sidemenu a{
+    text-decoration: none;
+    color: white;
+}
+.lower{
+    font-size:small;
+    text-align:right;
+
+}
+.items {
+    align-items: center;
+    padding: 5px 6px 5px;
+    border-radius: 10px;
+    margin-top: 2vh;
+}
+.items:hover{
+    background-color:#470101;
+}
+.selected{
+    background-color: #312929 !important;
+}

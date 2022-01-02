@@ -1,0 +1,26 @@
+.card{
+    min-height: 150px;
+    max-height: max-content;
+    display: flex;
+    min-width:1000px;
+    flex-direction: row;
+    justify-content: space-evenly;
+    border-radius: 1ch;
+    margin-top: 10px;
+    align-items: center;
+}
+.A{
+    background-color: #CDE1C8;
+}
+.D{
+    background-color:#EA9A9A;
+}
+.P{
+    background-color:#E2E392;
+}
+.col{
+    display: flex;
+    flex-direction: column;
+    min-width: fit-content;
+    max-width: max-content;
+}
