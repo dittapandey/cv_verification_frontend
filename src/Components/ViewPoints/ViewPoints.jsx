@@ -79,9 +79,9 @@ const ViewPoints = () => {
                 middle
             </div>
             <div className="bottom">
-                <PointCard point={point}/>
-                <PointCard point={point}/>
-                <PointCard point={point}/>
+                <PointCard point={point} flagmenu={false}/>
+                <PointCard point={point} flagmenu={false}/>
+                <PointCard point={point} flagmenu={false}/>
             </div>
 
             

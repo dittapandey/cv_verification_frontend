@@ -1,7 +1,7 @@
 .loginPage{
     height: 100vh;
     width:100vw;
-    background-color: rgb(242, 252, 111);
+    background-color: #FFF4D8;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -40,8 +40,10 @@
     animation-iteration-count: 1;
     animation-fill-mode:forwards;
     max-width: 30vw;
-    background-color: rgb(245, 167, 23);
+    color:white;
+    font-weight: bold;
+    background-color: #F4623A;
     padding: 15px;
-    border-radius: 15px;
+    border-radius: 5px;
     box-shadow: 10px;
 }

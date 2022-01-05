@@ -1,11 +1,17 @@
 import './LoginPage.css';
 import Card from '@mui/material/Card';
 
+const url = "http://localhost:3000";
 
 const LoginPage = () => {
     function handleLogIn(){
-        
-        console.log('log in button pressed');
+        // fetch(url+"/auth/login")
+        // .then((res)=>{
+        //     console.log(res);
+        // }).catch((err)=>{
+        //     console.log(err);
+        // })
+        window.open(url+"/auth/login","_self");
     }
     return ( 
         <div className="loginPage">
