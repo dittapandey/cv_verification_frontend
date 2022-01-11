@@ -38,7 +38,7 @@ const PointCard = (props) => {
                     </div>
                 </div>
             </div>
-            {flagmenu && <div className="col p4">
+            {flagmenu && <div className="p4">
                 <div className="flag-menu" onClick={(e)=>{handleFlagMenu(e)}}>
                     <MoreVert/>
                 </div>

@@ -3,4 +3,6 @@ const full = {
     "A" : "Approved",
     "D" : "Denied"
 }
-export {full};
+
+const BACKEND_URL="http://localhost:3000"
+export {full, BACKEND_URL};

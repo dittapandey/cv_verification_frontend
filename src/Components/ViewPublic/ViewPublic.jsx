@@ -1,8 +1,153 @@
 import Button from "../Button/Button";
-import {useState} from 'react';
+import {useState, useMemo} from 'react';
+import { useSortBy, useTable, usePagination, useExpanded } from 'react-table'
 import "./ViewPublic.css";
-import { ArrowDownward, Margin } from "@mui/icons-material";
+import styled from "styled-components";
+import { ArrowDownward, ConstructionOutlined, Margin } from "@mui/icons-material";
 import PublicCard from "../PublicCard/PublicCard";
+import PointCard from "../PointCard/PointCard"
+import CardContent from "../../Assets/CardContent";
+
+const Styles = styled.div`
+  `
+
+
+
+function Table({ columns, data }) {
+    // Use the state and functions returned from useTable to build your UI
+    const {
+      getTableProps,
+      getTableBodyProps,
+      headerGroups,
+      page,
+      prepareRow,
+      canPreviousPage,
+      canNextPage,
+      pageOptions,
+      pageCount,
+      gotoPage,
+      nextPage,
+      previousPage,
+      setPageSize,
+      state:{pageIndex, pageSize, }
+    } = useTable({
+      columns,
+      data,
+      initialState:{pageIndex:1, pageSize: 5}
+    },useSortBy,usePagination)
+  
+    // Render the UI for your table
+    return (
+        <div className="table_content">
+            <table {...getTableProps()} style={{ borderCollapse: "separate", borderSpacing:"0px 15px", width: "100%"}}>
+                <thead  style={{backgroundColor:"#343A40",
+                    padding:"10px",
+                 width:"100%"}}>
+                    {headerGroups.map(headerGroup => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                        {/* {console.log(JSON.stringify(headerGroup.headers.original))} */}
+                        {headerGroup.headers.map(column => {
+                            console.log(column.headers);
+                            return (
+                            <th {...column.getHeaderProps(column.getSortByToggleProps())}>{column.render('Header')}
+                            <span>
+                                {column.isSorted
+                                ? column.isSortedDesc
+                                    ? '🔽'
+                                    : '🔼'
+                                : '🔽🔼'}
+                            </span></th>
+                        )})}
+                        </tr>
+                    ))}
+                    </thead>
+                
+                <tbody {...getTableBodyProps()}>
+                {page.map((row, i) => {
+                    prepareRow(row)
+                    return (
+
+                            <tr className={row.original.status}{...row.getRowProps()} style={{
+                                height:"50px",
+                                marginTop:"10px"
+                            }}
+                            >
+                                {/* {console.log(row.original.status)} */}
+                                {row.cells.map(cell => {
+                                    if(cell.value === row.original.description){
+                                        if(cell.value.length>25){
+                                            cell.value = cell.value.substring(0,25)+"...";
+                                        }
+                                        // console.log(cell.value);
+                                    }
+                                // return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                return <td {...cell.getCellProps()}>{cell.value}</td>
+                                })}
+                            </tr>
+                            /* <tr style={{horizontalAlign:"center"}}>
+                                <td></td>
+                                <td ><PointCard point={row.original} flagmenu={true}/></td>
+                                <td></td>
+                            </tr> */
+                        
+                    )
+                })}
+                </tbody>
+            </table>
+            <div className="pagination">
+                <div className="buttons">
+                    <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                    {'<<'}
+                    </button>{' '}
+                    <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                    {'<'}
+                    </button>{' '}
+                    <button onClick={() => nextPage()} disabled={!canNextPage}>
+                    {'>'}
+                    </button>{' '}
+                    <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                    {'>>'}
+                    </button>{' '}
+                </div>
+                <div className="page_control">
+                <span>
+                    Page{' '}
+                    <strong>
+                        {pageIndex + 1} of {pageOptions.length}
+                    </strong>{' '}
+                    </span>
+                    <span>
+                    | Go to page:{' '}
+                    <input
+                        type="number"
+                        defaultValue={pageIndex + 1}
+                        onChange={e => {
+                        const page = e.target.value ? Number(e.target.value) - 1 : 0
+                        gotoPage(page)
+                        }}
+                        style={{ width: '100px' }}
+                    />
+                    </span>{' '}
+                    <select
+                    value={pageSize}
+                    onChange={e => {
+                        setPageSize(Number(e.target.value))
+                    }}
+                    >
+                    {[5, 20, 30, 40, 50].map(pageSize => (
+                        <option key={pageSize} value={pageSize}>
+                        Show {pageSize}
+                        </option>
+                    ))}
+                    </select>
+                </div>
+                
+            </div>
+
+        </div>
+      
+    )
+  }
 
 const ViewPublic = () => {
     const [query, setQuery] = useState("");
@@ -22,6 +167,24 @@ const ViewPublic = () => {
     function handleQuery(e){
         setQuery(e.target.value);
     }
+    const columns = useMemo(
+        ()=>[
+                {
+                    Header:"Title",
+                    accessor:"title"
+                },
+                {
+                    Header:"Description",
+                    accessor:"description",
+                    
+                },
+                {
+                    Header:"End Date",
+                    accessor:"end_date"
+                }
+        ]
+    );
+    // const data = useMemo(()=>{CardContent},[])
     return ( 
         <div className="viewpoint">
             <div className="top">
@@ -75,15 +238,11 @@ const ViewPublic = () => {
                 </div>
                 
             </div>
-            <div className="middle">
-                middle
-            </div>
             <div className="bottom">
-                <PublicCard point={point}/>
-                <PublicCard point={point}/>
-                <PublicCard point={point}/>
-                <PublicCard point={point}/>
-                <PublicCard point={point}/>
+                <Styles>
+                <Table columns={columns} data={CardContent}/>
+                </Styles>
+                
             </div>
         </div>
      );
