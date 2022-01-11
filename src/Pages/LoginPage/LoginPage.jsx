@@ -3,15 +3,11 @@ import Card from '@mui/material/Card';
 
 const url = "http://localhost:3000";
 
-const LoginPage = () => {
-    function handleLogIn(){
-        // fetch(url+"/auth/login")
-        // .then((res)=>{
-        //     console.log(res);
-        // }).catch((err)=>{
-        //     console.log(err);
-        // })
+const LoginPage = (props) => {
+    function handleLogIn(e){
         window.open(url+"/auth/login","_self");
+        fetch(url+'auth/status')
+        .then((res)=>{console.log(res)});
     }
     return ( 
         <div className="loginPage">
@@ -26,7 +22,7 @@ const LoginPage = () => {
             <div className="subtitle">
                 Your one stop destination for all Project verifications.
             </div>
-            <div onClick={() => handleLogIn()} className="login">
+            <div onClick={(e) => handleLogIn(e)} className="login">
                 LogIn using Outlook
             </div>
             <div className="ContactUs">

@@ -3,9 +3,12 @@ import {useState} from 'react';
 import "./ViewPoints.css";
 import { ArrowDownward, Margin } from "@mui/icons-material";
 import PointCard from "../PointCard/PointCard";
+import { BACKEND_URL as url } from "../../Assets/FullForm";
+import { useEffect } from "react";
 
 const ViewPoints = () => {
     const [query, setQuery] = useState("");
+    const [clubMenu, setClubMenu] = useState(false);
     const point = {
         title:"Dummy Point",
         description:"This point was made for dummy testing of the points card",
@@ -21,6 +24,32 @@ const ViewPoints = () => {
     }
     function handleQuery(e){
         setQuery(e.target.value);
+    }
+
+    const [clubs, setClubs] = useState(
+        [
+            {org_id: 100, name: 'Coding Club', createdAt: '2022-01-03T06:57:39.000Z', updatedAt: '2022-01-03T06:57:39.000Z', parent_org_id: null}
+        ]
+    );
+
+    function fetchClubs(){
+        fetch(url+"/orgs")
+        .then((res)=>res.json())
+            .then((result)=>{
+                console.log(result);
+                setClubs(result);
+            }).catch((e)=>{
+                console.error("Error Message is",e.message)
+            });
+    }
+    
+    useEffect(()=>{
+        fetchClubs();
+    },[])
+    
+
+    function toggleClubMenu(){
+        setClubMenu(!clubMenu);
     }
     return ( 
         <div className="viewpoint">
@@ -57,7 +86,20 @@ const ViewPoints = () => {
                                 borderRadius:"1ch",
                                 alignContent:"center",
                                 Margin:"15px"                    
-                            }}><ArrowDownward fontSize="small"/>Select Board</button>
+                            }}
+                            onClick={()=>{toggleClubMenu()}}
+                            ><ArrowDownward fontSize="small"/>Select Board</button>
+                        </div>
+                        <div className="menu club">
+                            {   
+                                clubs.map((club)=>
+                                    {
+                                        return (
+                                        <div className="clubitem">
+                                            {club.name}
+                                        </div>
+                                    );})
+                            }
                         </div>
                         <div className="redbutton">
                         <button style={{
@@ -83,8 +125,6 @@ const ViewPoints = () => {
                 <PointCard point={point} flagmenu={false}/>
                 <PointCard point={point} flagmenu={false}/>
             </div>
-
-            
         </div>
      );
 }

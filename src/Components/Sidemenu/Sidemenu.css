@@ -8,6 +8,7 @@
      /* Stay in place */
     /* top: 72.8px; Stay at the top */
     left: 0;
+    bottom:0;
     align-items: center;
     padding-top:0vh;
 
@@ -15,7 +16,7 @@
     flex-direction:column;
     
     overflow-y: auto;
-    position: fixed;
+    position: sticky;
    
  /* Black*/
  /* Disable horizontal scroll */

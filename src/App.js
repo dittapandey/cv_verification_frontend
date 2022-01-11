@@ -1,25 +1,22 @@
 import logo from './logo.svg';
 import './App.css';
 import LoginPage from './Pages/LoginPage/LoginPage';
-import AddAPoint from './Pages/AddAPoint/AddAPoint'
+import HeadingPage from './Pages/HeadingPage/HeadingPage'
 import {Route,
   BrowserRouter as Router,
   Routes} from 'react-router-dom';
 import {useEffect, useState} from 'react';
+import {BACKEND_URL as url} from "./Assets/FullForm";
+
 
 function App() {
   const [user, setUser] = useState(null);
-  useEffect(()=>{
-    const getUser = () => {
-      
-    }
-  });
   return (
     <div className="App">
       <Router>
         <Routes>
-        <Route path="/" element={<LoginPage/>}/>
-        <Route path="/landingPage" element={<AddAPoint/>}/>
+        <Route exact path="/" element={<LoginPage/>}/>
+        <Route exact path="/headingPage" element={<HeadingPage/>}/>
         </Routes>
         
       </Router>
