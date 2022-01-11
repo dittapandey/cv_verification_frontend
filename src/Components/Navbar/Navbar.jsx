@@ -7,9 +7,7 @@ const Navbar = () => {
         <div className="sub-navbar">
           <img className="iitg-logo" src="/iitg-logo.png" alt="image" />
         </div>
-        <div className="site-title">
-          CV VERIFICATION PORTAL
-        </div>
+        <div className="site-title">CV VERIFICATION PORTAL</div>
       </div>
       <div className="right-navbar">
         <div className="sub-navbar">

@@ -30,9 +30,7 @@ const AddAPoint = () => {
     }
     return ( 
         <div className="AddAPoint">
-            <div className="row1">
-                <NavBar/>
-            </div>
+
             <div className="row2">
                 <div className="sidemenu">
                     <Sidemenu item={item} setItem={setItem}/>

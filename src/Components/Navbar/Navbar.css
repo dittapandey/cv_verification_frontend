@@ -1,9 +1,10 @@
 .navbar{
     background-color: #292E31;
     color: white;
-    max-width:100cw;
+    width: 100%;
     display: flex;
     justify-content: space-between;
+    position: fixed;
 }
 .iitg-logo{
     height:48px;
@@ -27,6 +28,8 @@
     background-color: #1c1f20;
 }
 .site-title{
-    font-size: larger;
+    font-size: 20;
     padding: 5px 15px 5px;
 }
+
+
