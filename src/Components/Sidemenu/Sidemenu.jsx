@@ -1,5 +1,6 @@
 import './Sidemenu.css';
 import MenuList from '../../Assets/MenuList';
+import AdminMenuList from '../../Assets/AdminMenuList';
 import {useState} from 'react';
 import { useEffect } from 'react';
 const Sidemenu = (props) => {
@@ -41,9 +42,15 @@ const Sidemenu = (props) => {
             </div>
             <hr id='line' />
              <div className="user">
-            ADMIN CONTROLS
+                 ADMIN CONTROLS
              </div>
-            <hr id='small-line' />
+             <hr id='small-line' />
+             <div className="upper">
+                {AdminMenuList.map((M)=>(
+                    <div className={"items"+(M.selected?" selected":"")} onClick={()=> handleClick(M)}>{M.title}</div>
+                ))}
+            </div>
+            
             <div className="lower">
                 <p>Faqs</p>
                 <p>Contact us</p>
