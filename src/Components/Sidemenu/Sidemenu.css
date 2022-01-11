@@ -15,7 +15,7 @@
     flex-direction:column;
     
     overflow-y: auto;
-    position: fixed;
+    position: sticky;
    
  /* Black*/
  /* Disable horizontal scroll */
@@ -73,3 +73,4 @@
 
 .sidemenu::-webkit-scrollbar { width: 0 !important }
 .sidemenu{overflow: -moz-scrollbars-none; }
+

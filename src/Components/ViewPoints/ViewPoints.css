@@ -52,3 +52,6 @@ input::selection{
 .redbutton{
     padding: 15px;
 }
+
+.bottom::-webkit-scrollbar { width: 0 !important }
+.bottom{overflow: -moz-scrollbars-none; }

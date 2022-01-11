@@ -1,30 +1,30 @@
-const MenuList = [
+const AdminMenuList = [
     {
         id: 1,
-        title: "View Your CV Points",
+        title: "Points approved by You",
         selected: true
     },
     {   
         id: 2,
-        title: "View Public Records",
+        title: "View Requests",
         selected: false
     },
     {
         id: 3,
-        title: "Flagged By You",
+        title: "My Point Templates",
         selected: false
     },
     {
         id: 4,
-        title: "Your Flagged Points",
+        title: "Flag Approvals",
         selected: false
     },
     {
         id: 5,
-        title: "General Guidelines",
+        title: "Admin Guidelines",
         selected: false
     }
 ];
 
-export default MenuList;
+export default AdminMenuList;
 
