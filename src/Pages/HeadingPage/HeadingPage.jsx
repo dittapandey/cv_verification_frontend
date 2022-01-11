@@ -8,6 +8,7 @@ import ViewPublic from "../../Components/ViewPublic/ViewPublic";
 import FlaggedByYou from "../../Components/FlaggedByYou/FlaggedByYou";
 import SelfFlag from "../../Components/SelfFlag/SelfFlag";
 import GeneralGuidelines from "../../Components/GeneralGuidelines/GeneralGuidelines";
+import AddAPoint from "../../Components/AddAPoint/AddAPoint";
 const HeadingPage = () => {
     const [name, setName]= useState("");
     const [item, setItem]= useState(MenuList[0]);
@@ -30,6 +31,7 @@ const HeadingPage = () => {
     }
     return ( 
         <div className="AddAPoint">
+            <AddAPoint/>
             <div className="row2">
                     <Sidemenu item={item} setItem={setItem}/>
                 <div className="content">

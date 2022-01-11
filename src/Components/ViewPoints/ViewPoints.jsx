@@ -71,46 +71,49 @@ const ViewPoints = () => {
                                 minHeight:"35px",
                                 textAlign:"left",
                                 padding:"5px",
-                                
+                                boxShadow:"0px 8px 16px 0px rgba(0,0,0,0.2)"
                             }} type="text" 
                             value={query}
                             onChange={handleQuery}/>
                         </form>
                     </div>
                     <div className="redbuttons">
-                        <div className="redbutton">
-                            <button style={{
-                                backgroundColor:"#A60303",
-                                color:"white",
-                                borderStyle:"none",
-                                borderRadius:"1ch",
-                                alignContent:"center",
-                                Margin:"15px"                    
-                            }}
-                            onClick={()=>{toggleClubMenu()}}
-                            ><ArrowDownward fontSize="small"/>Select Board</button>
-                        </div>
-                        <div className="menu club">
+                        <div className="dropdown">
+                            <button className="dropbtn" onClick={()=>{toggleClubMenu()}}
+                            ><ArrowDownward fontSize="small"/>  Select Board</button>
+                            <div className="dropdown-content">
                             {   
                                 clubs.map((club)=>
                                     {
                                         return (
-                                        <div className="clubitem">
+                                        // <div className="clubitem">
+                                        //     {club.name}
+                                        // </div>
+                                        <a href="#">
                                             {club.name}
-                                        </div>
+                                        </a>
                                     );})
                             }
                         </div>
-                        <div className="redbutton">
-                        <button style={{
-                            backgroundColor:"#A60303",
-                            color:"white",
-                            borderStyle:"none",
-                            borderRadius:"1ch",
-                            alignContent:"center",
-                            Margin:"15px",
-                            
-                        }}><ArrowDownward fontSize="small"/>Select Club</button>
+                        </div>
+                        
+                        <div className="dropdown">
+                            <button className="dropbtn" onClick={()=>{toggleClubMenu()}}
+                            ><ArrowDownward fontSize="small"/>  Select Board</button>
+                            <div className="dropdown-content">
+                            {   
+                                clubs.map((club)=>
+                                    {
+                                        return (
+                                        // <div className="clubitem">
+                                        //     {club.name}
+                                        // </div>
+                                        <a href="#">
+                                            {club.name}
+                                        </a>
+                                    );})
+                            }
+                        </div>
                         </div>
                         
                     </div>

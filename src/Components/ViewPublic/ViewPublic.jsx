@@ -1,5 +1,5 @@
 import Button from "../Button/Button";
-import {useState, useMemo} from 'react';
+import {useState, useMemo, useEffect} from 'react';
 import { useSortBy, useTable, usePagination, useExpanded } from 'react-table'
 import "./ViewPublic.css";
 import styled from "styled-components";
@@ -7,6 +7,7 @@ import { ArrowDownward, ConstructionOutlined, Margin } from "@mui/icons-material
 import PublicCard from "../PublicCard/PublicCard";
 import PointCard from "../PointCard/PointCard"
 import CardContent from "../../Assets/CardContent";
+import { BACKEND_URL as url } from "../../Assets/FullForm";
 
 const Styles = styled.div`
   `
@@ -185,6 +186,27 @@ const ViewPublic = () => {
         ]
     );
     // const data = useMemo(()=>{CardContent},[])
+
+    const [clubs, setClubs] = useState(
+        [
+            {org_id: 100, name: 'Coding Club', createdAt: '2022-01-03T06:57:39.000Z', updatedAt: '2022-01-03T06:57:39.000Z', parent_org_id: null}
+        ]
+    );
+
+    function fetchClubs(){
+        fetch(url+"/orgs")
+        .then((res)=>res.json())
+            .then((result)=>{
+                console.log(result);
+                setClubs(result);
+            }).catch((e)=>{
+                console.error("Error Message is",e.message)
+            });
+    }
+    
+    useEffect(()=>{
+        fetchClubs();
+    },[])
     return ( 
         <div className="viewpoint">
             <div className="top">
@@ -212,26 +234,42 @@ const ViewPublic = () => {
                         </form>
                     </div>
                     <div className="redbuttons">
-                        <div className="redbutton">
-                            <button style={{
-                                backgroundColor:"#A60303",
-                                color:"white",
-                                borderStyle:"none",
-                                borderRadius:"1ch",
-                                alignContent:"center",
-                                Margin:"15px"                    
-                            }}><ArrowDownward fontSize="small"/>Select Board</button>
+                        <div className="dropdown">
+                            <button className="dropbtn" 
+                            ><ArrowDownward fontSize="small"/>  Select Board</button>
+                            <div className="dropdown-content">
+                            {   
+                                clubs.map((club)=>
+                                    {
+                                        return (
+                                        // <div className="clubitem">
+                                        //     {club.name}
+                                        // </div>
+                                        <a href="#">
+                                            {club.name}
+                                        </a>
+                                    );})
+                            }
                         </div>
-                        <div className="redbutton">
-                        <button style={{
-                            backgroundColor:"#A60303",
-                            color:"white",
-                            borderStyle:"none",
-                            borderRadius:"1ch",
-                            alignContent:"center",
-                            Margin:"15px",
-                            
-                        }}><ArrowDownward fontSize="small"/>Select Club</button>
+                        </div>
+                        
+                        <div className="dropdown">
+                            <button className="dropbtn"
+                            ><ArrowDownward fontSize="small"/>  Select Board</button>
+                            <div className="dropdown-content">
+                            {   
+                                clubs.map((club)=>
+                                    {
+                                        return (
+                                        // <div className="clubitem">
+                                        //     {club.name}
+                                        // </div>
+                                        <a href="#">
+                                            {club.name}
+                                        </a>
+                                    );})
+                            }
+                        </div>
                         </div>
                         
                     </div>

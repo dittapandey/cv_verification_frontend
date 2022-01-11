@@ -7,13 +7,15 @@ const Button = (props) => {
     return ( 
         <div className="button">
             <button className="btn" onClick={()=>{handleClick()}}
+                on
                 style={{
                     color:fg_color,
                     backgroundColor:bg_color,
                     borderRadius:"1ch",
                     padding:"10px 15px",
                     borderStyle:"none",
-
+                    fontSize:"20px",
+                    boxShadow:"0px 8px 16px 0px rgba(0,0,0,0.2)"
                 }}
             >{text}</button>
         </div>
