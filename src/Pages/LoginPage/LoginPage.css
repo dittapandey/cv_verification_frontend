@@ -9,6 +9,11 @@
     animation-iteration-count: 1;
     animation-fill-mode:forwards;
     align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
 }
 @keyframes fadeInAnimation{
     0% {
@@ -20,8 +25,12 @@
 }
 .title{
     font-family: 'Noto Sans Display', sans-serif;
-    font-size: 50px;
-    font-weight:500;
+    font-size: 22px;
+    font-weight:bold;
+    text-align: center;
+    padding-top: 9px;
+    padding-left: 10px;
+    color: #343434;
     animation: fadeInAnimation ease 3s;
     animation-iteration-count: 1;
     animation-fill-mode:forwards;
@@ -29,21 +38,46 @@
 .subtitle{
     font-family: 'Noto Sans Display', sans-serif;
     font-size: 25px;
-    font-weight:300;
+    font-weight:450;
+    color: #343434;
     animation: fadeInAnimation ease 3s;
     animation-iteration-count: 1;
     animation-fill-mode:forwards;
-    margin-bottom: 10vh;
+    margin-bottom: 5vh;
 }
 .login{
     animation: fadeInAnimation ease 3s;
     animation-iteration-count: 1;
     animation-fill-mode:forwards;
     max-width: 30vw;
-    color:white;
-    font-weight: bold;
+    color:#FFF8EE;
+    font-weight: 550;
     background-color: #F4623A;
     padding: 15px;
     border-radius: 5px;
     box-shadow: 10px;
+}
+.instiName{
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    
+}
+
+.ContactUs{
+
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    padding: 10px;
+    color: #343434;
+}
+#l{
+
+    font-size: 20px;
+    margin: 2px;
 }

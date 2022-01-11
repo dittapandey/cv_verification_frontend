@@ -19,7 +19,7 @@ function App() {
       <Router>
         <Routes>
         <Route path="/" element={<LoginPage/>}/>
-        <Route path="/landingpage" element={<AddAPoint/>}/>
+        <Route path="/landingPage" element={<AddAPoint/>}/>
         </Routes>
         
       </Router>
