@@ -1,12 +1,10 @@
 .sidemenu {
     background-color:#343A40;
     color: white;
-    height: 100%; /* 100% Full-height */
+    height: 100vh;
     min-height: fit-content;
     min-width: fit-content;
-    width: 15vw; /* 0 width - change this with JavaScript */
-     /* Stay in place */
-    /* top: 72.8px; Stay at the top */
+    width: 15vw; 
     left: 0;
     bottom:0;
     align-items: center;
@@ -17,10 +15,7 @@
     justify-content: space-between;
     overflow-y: auto;
     position: sticky;
-   
- /* Black*/
- /* Disable horizontal scroll */
-     /* Place content 60px from the top */ /* 0.5 second transition effect to slide in the sidenav */
+    
 }
 .sidemenu a{
     text-decoration: none;
@@ -29,6 +24,8 @@
 .lower{
     font-size:small;
     text-align:right;
+    padding: 5px;
+    bottom: 5px;
 
 }
 .items {
@@ -70,6 +67,8 @@
 .user{
     color : #DADADA;
     font-weight: bold;
+    padding-top: 2vh;
+    align-items: center;
 }
 
 .sidemenu::-webkit-scrollbar { width: 0 !important }

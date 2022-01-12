@@ -6,9 +6,10 @@ import PointCard from "../PointCard/PointCard";
 import { BACKEND_URL as url } from "../../Assets/FullForm";
 import { useEffect } from "react";
 
-const ViewPoints = () => {
+const ViewPoints = (props) => {
     const [query, setQuery] = useState("");
     const [clubMenu, setClubMenu] = useState(false);
+    const setShowAddPoint=props.setShowAddPoint;
     const point = {
         title:"Dummy Point",
         description:"This point was made for dummy testing of the points card",
@@ -20,7 +21,7 @@ const ViewPoints = () => {
         visibility:"P"
     }
     function handleAddAPoint(){
-        console.log("Add A Point Button Clicked");
+        setShowAddPoint(true);
     }
     function handleQuery(e){
         setQuery(e.target.value);
@@ -56,7 +57,7 @@ const ViewPoints = () => {
             <div className="top">
                 <div className="topupper">
                     <div className="addapointbutton">
-                        <Button fg_color={"white"} bg_color={"#0A6ABF"} handleClick={handleAddAPoint} text={"Add A Point"}/>
+                        <Button fg_color={"white"} bg_color={"#0A6ABF"} handleClick={()=>{handleAddAPoint()}} text={"Add A Point"}/>
                     </div>
                 </div>
                 

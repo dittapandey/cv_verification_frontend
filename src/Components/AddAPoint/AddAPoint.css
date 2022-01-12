@@ -7,13 +7,105 @@
     display:flex;
     flex-direction: column;
     justify-content: center;
+    backdrop-filter: blur(10px);
 }
+
 .addapoint{
     right:2;
     z-index:2;
     width:60vw;
-    height:60vh;
+    height:80vh;
     margin:auto;
     background-color: rgb(243, 237, 237);
     border-radius: 30px;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    padding:15px;
+    position:relative;
+    
+}
+.close{
+    position: absolute;
+    top:15px;
+    right:25px;
+}
+.heading{
+    padding:30px;
+    text-align: center;
+    text-decoration: underline;
+    color:rgb(71, 71, 71);
+    font-size: xx-large;
+    font-weight: 700;
+}
+
+select{
+    background-color: rgb(71, 71, 71);
+    font-size:large;
+    box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+option:hover{
+    background-color: rgb(41, 41, 41);
+}
+
+h4{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: larger;
+    margin-bottom: 10px;
+    padding-right: 15px;
+}
+
+label {
+    display:flex;
+    flex-direction: column;
+}
+
+input{
+    min-width: 400px;
+    height: 45px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 15px;
+    box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.form_{
+    margin-top: 6vh;
+    display:flexbox;
+    flex-direction:column;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.form_::-webkit-scrollbar { width: 0 !important }
+.form_{overflow: -moz-scrollbars-none; }
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.form-content{
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+    padding: 10px;
+}
+.but{
+    margin-top: 30px !important;
+}
+.form-content button{
+    font-size:20px;
+    padding:10px;
+    background-color: rgb(71, 71, 71);
+    color:white;
+    border-style: none;
+    border-radius: 10px;
+    box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.list{
+    margin-top: 10px;
 }

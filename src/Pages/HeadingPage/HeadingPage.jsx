@@ -1,5 +1,5 @@
 import { useState } from "react";
-import MenuList from '../../Assets/MenuList';
+import {MenuList} from '../../Assets/Lists';
 import './HeadingPage.css';
 import NavBar from "../../Components/Navbar/Navbar";
 import Sidemenu from "../../Components/Sidemenu/Sidemenu";
@@ -12,9 +12,11 @@ import AddAPoint from "../../Components/AddAPoint/AddAPoint";
 const HeadingPage = () => {
     const [name, setName]= useState("");
     const [item, setItem]= useState(MenuList[0]);
+    const [showAddPoint, setShowAddPoint] = useState(false);
+
     function itemRender(M){
         if(M.id===1){
-            return <ViewPoints/>
+            return <ViewPoints setShowAddPoint={setShowAddPoint}/>
         }
         else if(M.id===2){
             return <ViewPublic/>
@@ -31,7 +33,7 @@ const HeadingPage = () => {
     }
     return ( 
         <div className="AddAPoint">
-            <AddAPoint/>
+            {showAddPoint && <AddAPoint setShowAddPoint={setShowAddPoint}/>}
             <div className="row2">
                     <Sidemenu item={item} setItem={setItem}/>
                 <div className="content">
