@@ -121,10 +121,17 @@ const ViewPoints = (props) => {
                 </div>
                 
             </div>
-            <div className="middle">
-                middle
+            <div className="Selection-bar">
+                <button type="button">Experience</button>
+                <button type="button">Projects</button>
+                <button type="button">Courses</button>
+                <button type="button">Positions of Responsibility</button>
+                <button type="button">Achievements</button>
+                <button type="button">Extracurriculars</button>
             </div>
             <div className="bottom">
+                <PointCard point={point} flagmenu={false}/>
+                <PointCard point={point} flagmenu={false}/>
                 <PointCard point={point} flagmenu={false}/>
                 <PointCard point={point} flagmenu={false}/>
                 <PointCard point={point} flagmenu={false}/>
