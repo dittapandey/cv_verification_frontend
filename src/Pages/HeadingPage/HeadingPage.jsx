@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {MenuList} from '../../Assets/Lists';
+import {MenuList, PointTypes} from '../../Assets/Lists';
 import './HeadingPage.css';
 import NavBar from "../../Components/Navbar/Navbar";
 import Sidemenu from "../../Components/Sidemenu/Sidemenu";
@@ -30,6 +30,9 @@ const HeadingPage = () => {
         else if(M.id===5){
             return <GeneralGuidelines/>
         }
+
+        
+            // cons
     }
     return ( 
         <div className="AddAPoint">

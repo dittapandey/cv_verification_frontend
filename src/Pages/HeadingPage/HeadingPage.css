@@ -30,5 +30,6 @@
 }
 .content{
     flex:4;
+    width: fit-content;
     
 }

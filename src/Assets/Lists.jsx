@@ -69,6 +69,39 @@ const CategoryList =[
     },
 ]
 
-export {AdminMenuList, MenuList, CategoryList};
+const PointTypes = [
+    {
+        id: 1,
+        title: "Projects",
+        selected: true
+    },
+    {   
+        id: 2,
+        title: "Experiences",
+        selected: false
+    },
+    {
+        id: 3,
+        title: "Courses",
+        selected: false
+    },
+    {
+        id: 4,
+        title: "Position of Responsibilities",
+        selected: false
+    },
+    {
+        id: 5,
+        title: "Achievements",
+        selected: false
+    },
+    {
+        id: 6,
+        title: "Extracurricular",
+        selected: false
+    }
+];
+
+export {AdminMenuList, MenuList, CategoryList, PointTypes};
 
 

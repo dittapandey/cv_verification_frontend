@@ -1,5 +1,6 @@
 import Button from "../Button/Button";
 import {useState} from 'react';
+import { PointTypes} from '../../Assets/Lists';
 import "./ViewPoints.css";
 import { ArrowDownward, Margin } from "@mui/icons-material";
 import PointCard from "../PointCard/PointCard";
@@ -43,6 +44,18 @@ const ViewPoints = (props) => {
                 console.error("Error Message is",e.message)
             });
     }
+
+    const item=props.item;
+        const setItem=props.setItem;
+        function pointTypeClick(pointType){
+            setItem(pointType);
+            PointTypes.map((M)=>{
+                if(M==pointType){
+                    M.selected=true;
+                } else{
+                    M.selected=false;
+                }
+            })}
     
     useEffect(()=>{
         fetchClubs();
@@ -122,12 +135,9 @@ const ViewPoints = (props) => {
                 
             </div>
             <div className="Selection-bar">
-                <button type="button">Experience</button>
-                <button type="button">Projects</button>
-                <button type="button">Courses</button>
-                <button type="button">Positions of Responsibility</button>
-                <button type="button">Achievements</button>
-                <button type="button">Extracurriculars</button>
+            {PointTypes.map((M)=>(
+                    <div className={"types"+(M.selected?" selected":"")} onClick={()=> pointTypeClick(M)}>{M.title}</div>
+                ))}
             </div>
             <div className="bottom">
                 <PointCard point={point} flagmenu={false}/>

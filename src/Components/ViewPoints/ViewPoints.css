@@ -107,6 +107,22 @@ input:focus{
     background-color: black;
     
 }
+
+.types {
+    align-items: center;
+    padding: 10px 60px 10px 60px;
+    border-radius: 15px;
+    color: white;
+    
+}
+.types:hover{
+    background-color:#dbdbdb;
+    color: black;
+}
+.selected .types{
+    background-color: #494E53 !important;
+    color: white !important;
+}
   
   .dropdown-content a:hover {background-color: #ddd;}
   
