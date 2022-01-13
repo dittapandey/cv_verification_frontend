@@ -43,6 +43,7 @@ select{
     background-color: rgb(71, 71, 71);
     font-size:large;
     box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);
+    min-width: 200px;
 }
 option:hover{
     background-color: rgb(41, 41, 41);
