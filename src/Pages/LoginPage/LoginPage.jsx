@@ -6,8 +6,8 @@ const url = "http://localhost:3000";
 const LoginPage = (props) => {
     function handleLogIn(e){
         window.open(url+"/auth/login","_self");
-        fetch(url+'auth/status')
-        .then((res)=>{console.log(res)});
+        // fetch(url+'auth/status')
+        // .then((res)=>{console.log(res)});
     }
     return ( 
         <div className="loginPage">

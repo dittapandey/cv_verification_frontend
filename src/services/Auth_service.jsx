@@ -1,12 +1,7 @@
 import {BACKEND_URL as url} from '../Assets/FullForm';
 
 function isAuthenticated(){
-    fetch(url+'/auth/status',{
-        credentials:'include',
-        headers:{
-            Access_Allow
-        }
-    })
+    fetch(url+'/auth/status')
     .then(res=>res.json())
     .then((response)=>console.log(response));
 }
