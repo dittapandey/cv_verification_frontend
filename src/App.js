@@ -1,7 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import LoginPage from './Pages/LoginPage/LoginPage';
-import HeadingPage from './Pages/HeadingPage/HeadingPage'
+import HeadingPage from './Pages/HeadingPage/HeadingPage';
+import HeadingPageCopy from './Pages/HeadingPage copy/HeadingPageCopy'
 import {Route,
   BrowserRouter as Router,
   Routes} from 'react-router-dom';
@@ -17,6 +18,7 @@ function App() {
         <Routes>
         <Route exact path="/" element={<LoginPage/>}/>
         <Route exact path="/headingPage" element={<HeadingPage/>}/>
+        <Route exact path="/headingPageCopy" element={<HeadingPageCopy/>}/>
         </Routes>
         
       </Router>
