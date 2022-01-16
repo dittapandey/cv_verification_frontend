@@ -4,11 +4,16 @@ import "./ViewPoints.css";
 import { ArrowDownward, Margin } from "@mui/icons-material";
 import PointCard from "../PointCard/PointCard";
 import { BACKEND_URL as url } from "../../Assets/FullForm";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import { AppContext } from "../../App";
+import { CategoryList } from "../../Assets/Lists";
 
 const ViewPoints = (props) => {
+    const appContext = useContext(AppContext);
     const [query, setQuery] = useState("");
     const [clubMenu, setClubMenu] = useState(false);
+    const [currentCategory, setCurrentCategory] = useState(CategoryList["categories"][0]);
+    const [rawData, setRawData] = useState([{}]);
     const setShowAddPoint=props.setShowAddPoint;
     const point = {
         title:"Dummy Point",
@@ -27,31 +32,42 @@ const ViewPoints = (props) => {
         setQuery(e.target.value);
     }
 
-    const [clubs, setClubs] = useState(
-        [
-            {org_id: 100, name: 'Coding Club', createdAt: '2022-01-03T06:57:39.000Z', updatedAt: '2022-01-03T06:57:39.000Z', parent_org_id: null}
-        ]
-    );
+    const [clubs, setClubs] =appContext.clubs;
 
-    function fetchClubs(){
-        fetch(url+"/orgs")
-        .then((res)=>res.json())
-            .then((result)=>{
-                console.log(result);
-                setClubs(result);
-            }).catch((e)=>{
-                console.error("Error Message is",e.message)
-            });
+    // function fetchClubs(){
+    //     fetch(url+"/orgs")
+    //     .then((res)=>res.json())
+    //         .then((result)=>{
+    //             console.log(result);
+    //             setClubs(result);
+    //         }).catch((e)=>{
+    //             console.error("Error Message is",e.message)
+    //         });
+    // }
+
+    
+
+    
+
+    function categoryChange(_category){
+        setCurrentCategory(_category)
+        CategoryList["categories"].map((category)=>{
+            if(category.title===_category){
+                category.selected=true;
+            } else {
+                category.selected=false;
+            }
+        })
     }
-    
-    useEffect(()=>{
-        fetchClubs();
-    },[])
-    
 
     function toggleClubMenu(){
         setClubMenu(!clubMenu);
     }
+
+    useEffect(()=>{
+        appContext.fetchRawData();
+    },[])
+
     return ( 
         <div className="viewpoint">
             <div className="top">
@@ -121,20 +137,26 @@ const ViewPoints = (props) => {
                 </div>
                 
             </div>
-            <div className="Selection-bar">
-                <button type="button">Experience</button>
+            <div className="Selection-bar middle">
+                {/* <button type="button">Experience</button>
                 <button type="button">Projects</button>
                 <button type="button">Courses</button>
                 <button type="button">Positions of Responsibility</button>
                 <button type="button">Achievements</button>
-                <button type="button">Extracurriculars</button>
+                <button type="button">Extracurriculars</button> */}
+                {
+                    CategoryList["categories"].map((category)=>{
+                        return(<button type="button" onClick={()=>{categoryChange(category)}}>{category.title}</button>);
+                    })
+                }
             </div>
             <div className="bottom">
+                {/* <PointCard point={point} flagmenu={false}/>
                 <PointCard point={point} flagmenu={false}/>
                 <PointCard point={point} flagmenu={false}/>
                 <PointCard point={point} flagmenu={false}/>
-                <PointCard point={point} flagmenu={false}/>
-                <PointCard point={point} flagmenu={false}/>
+                <PointCard point={point} flagmenu={false}/> */}
+                {currentCategory.title}
             </div>
         </div>
      );

@@ -2,6 +2,8 @@ import {BACKEND_URL as url} from '../Assets/FullForm';
 import axios from "axios";
 import { useState } from 'react';
 
+var user;
+
 function isAuthenticated(){
     // let user=null;
     // fetch(url+'/auth/status',{
@@ -31,6 +33,7 @@ function isAuthenticated(){
     .then((res)=>{
         if(res.data.user){
             console.log(res.data.user)
+            user=res.data.user;
             return res.data.user;
         } else {
             console.log("User data not received");
@@ -46,4 +49,4 @@ function isAuthenticated(){
     // .catch((error)=>{console.error(error.message)});
 }
 
-export {isAuthenticated};
+export {isAuthenticated, user};

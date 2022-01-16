@@ -1,16 +1,13 @@
 import './Sidemenu.css';
 import {MenuList,AdminMenuList} from '../../Assets/Lists';
-import {useState} from 'react';
+import { AppContext } from '../../App';
+import {useState, useContext} from 'react';
 import { useEffect } from 'react';
 import { isAuthenticated } from '../../services/Auth_service';
 const Sidemenu = (props) => {
     // const [item, setItem] = useState(MenuList[0]);
-    const [user, setUser] = useState(null);
-    const _user = isAuthenticated();
-    console.log(_user);
-    if(_user){
-        setUser(_user);
-    }
+    const appContext = useContext(AppContext);
+    const user = appContext.user;
     const item=props.item;
     const setItem=props.setItem;
     function handleClick(menuitem){

@@ -59,6 +59,7 @@ const CategoryList ={
     {   
         id:1,
         title: "Projects",
+        selected:true,
         sub_category: [
             {
                 id:11,
@@ -76,11 +77,18 @@ const CategoryList ={
                 id:14,
                 title:"Projects under profs"
             }
-        ]
+        ],
+        hash:{
+            "Personal Project": 11,
+            "Project under IITG clubs/orgs": 12,
+            "Projects under non-IITG clubs/orgs": 13,
+            "Projects under profs": 14
+        }
     },
     {
         id:2,
         title: "Courses",
+        selected:false,
         sub_category: [
             {
                 id:21,
@@ -89,11 +97,16 @@ const CategoryList ={
                 id:22,
                 title: "Online Courses"
             }
-        ]
+        ], 
+        hash: {
+            "College Course":21,
+            "Online Courses":22
+        }
     },
     {
         id:3,
         title: "Positions of responsibility",
+        selected:false,
         sub_category: [
             {
                 id:31,
@@ -103,11 +116,16 @@ const CategoryList ={
                 id:32,
                 title:"Outside IITG"
             }
-        ]
+        ],
+        hash:{
+            "In IITG":31,
+            "Outside IITG":32
+        }
     },
     {
         id:4,
         title: "Achievements",
+        selected:false,
         sub_category:[
             {
                 id:41,
@@ -117,11 +135,16 @@ const CategoryList ={
                 id:42,
                 title:"Outside IITG"
             }
-        ]
+        ],
+        hash: {
+            "Inside IITG":41,
+            "Outside IITG":42
+        }
     },
     {
         id:5,
         title:"Experience",
+        selected:false,
         sub_category:[
             {
                 id:51,
@@ -135,17 +158,26 @@ const CategoryList ={
                 id:53,
                 title:"Projects under profs"
             }
-        ]
+        ],
+        hash:{
+            "Project under IITG clubs/orgs":51,
+            "Projects under non-IITG clubs/orgs":52,
+            "Projects under profs":53,
+        }
     },
     {
         id:6,
         title:"Extracurriculars",
+        selected:false,
         sub_category:[
             {
                 id:61,
-                title: ""
+                title: "Extracurriculars"
             }
-        ]
+        ],
+        hash:{
+            "Extracurriculars":61
+        }
     }
 ],
 "hash":{

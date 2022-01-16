@@ -1,13 +1,15 @@
 import { Close, Co2Sharp } from '@mui/icons-material';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { CategoryList } from '../../Assets/Lists';
 import './AddAPoint.css';
 import { BACKEND_URL as url } from '../../Assets/FullForm';
 import { isAuthenticated } from '../../services/Auth_service';
 import axios from "axios";
 import { orgToOrg_id } from '../../services/Org_service';
+import {AppContext} from '../../App';
 
 const AddAPoint = (props) => {
+    const appContext = useContext(AppContext);
     const setShowAddPoint = props.setShowAddPoint;
     const [inputs, setInputs] = useState({
         title:"",
@@ -17,7 +19,8 @@ const AddAPoint = (props) => {
         org_id:0
     });
     const [categoryId, setCategoryId] = useState(1);
-    const [clubId, setClubId] = useState({});
+    const [clubId, setClubId] = appContext.clubId;
+    const [clubs, setClubs] = appContext.clubs;
     // const [fade,setFade] = 
     // const [closeButtonColor, setCloseButtonColor] = useState("disabled");
 
@@ -51,13 +54,15 @@ const AddAPoint = (props) => {
             },
             credentials: "include",
             mode:"cors"
-            }).then((res)=>{res.text()})
+            }).then((res)=>{res.json()})
             .then((response)=>{
                 console.log(response)
                 alert("Request submitted");
                 setShowAddPoint(false);
             })
-            .catch((error)=>{console.error(error.message)});
+            .catch((error)=>{
+                console.error(error.message)
+            });
         } else {
             alert("Check all your inputs again");
         }
@@ -73,30 +78,27 @@ const AddAPoint = (props) => {
         setInputs(values => ({...values, [name]: value}))
     }
 
-    const [clubs, setClubs] = useState(
-        [
-            {org_id: 100, name: 'Coding Club', createdAt: '2022-01-03T06:57:39.000Z', updatedAt: '2022-01-03T06:57:39.000Z', parent_org_id: null}
-        ]
-    );
+    
     
 
-    function fetchClubs(){
-        fetch(url+"/orgs")
-        .then((res)=>res.json())
-            .then((result)=>{
-                // console.log(result);
-                setClubs(result);
-                setClubId(orgToOrg_id(clubs));
-                console.log(clubs);
-                console.log(clubId);
-            }).catch((e)=>{
-                console.error("Error Message is",e.message);
-            });
-    }
+    // function fetchClubs(){
+    //     fetch(url+"/orgs")
+    //     .then((res)=>res.json())
+    //         .then((result)=>{
+    //             // console.log(result);
+    //             setClubs(result);
+    //             setClubId(orgToOrg_id(clubs));
+    //             console.log(clubs);
+    //             console.log(clubId);
+    //         }).catch((e)=>{
+    //             console.error("Error Message is",e.message);
+    //         });
+    // }
     
     useEffect(()=>{
-        fetchClubs();
-    },[])
+        setClubId(orgToOrg_id(clubs));
+        console.log(clubId);
+    },[clubs])
 
     return ( 
         <div className="page">
