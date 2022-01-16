@@ -1,6 +1,9 @@
 .card{
-    min-height: 150px;
+    min-height: fit-content;
+    /* margin-top: 20px;
+    margin-bottom: 20px; */
     max-height: max-content;
+    
     min-width:800px;
     display: flex;
     justify-content: space-around;

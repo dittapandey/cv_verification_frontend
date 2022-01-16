@@ -5,6 +5,7 @@ import NavBar from "../../Components/Navbar/Navbar";
 import Sidemenu from "../../Components/Sidemenu/Sidemenu";
 import ViewPoints from "../../Components/ViewPoints/ViewPoints";
 import ViewPublic from "../../Components/ViewPublic/ViewPublic";
+import ViewRequest from "../../Components/ViewRequests/ViewRequests"
 import FlaggedByYou from "../../Components/FlaggedByYou/FlaggedByYou";
 import SelfFlag from "../../Components/SelfFlag/SelfFlag";
 import GeneralGuidelines from "../../Components/GeneralGuidelines/GeneralGuidelines";
