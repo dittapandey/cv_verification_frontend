@@ -2,8 +2,15 @@ import './Sidemenu.css';
 import {MenuList,AdminMenuList} from '../../Assets/Lists';
 import {useState} from 'react';
 import { useEffect } from 'react';
+import { isAuthenticated } from '../../services/Auth_service';
 const Sidemenu = (props) => {
     // const [item, setItem] = useState(MenuList[0]);
+    const [user, setUser] = useState(null);
+    const _user = isAuthenticated();
+    console.log(_user);
+    if(_user){
+        setUser(_user);
+    }
     const item=props.item;
     const setItem=props.setItem;
     function handleClick(menuitem){
@@ -32,7 +39,7 @@ const Sidemenu = (props) => {
                 </div>
                 <hr id='line' />
                 <div className="user">
-                    WELCOME JOHN SMITH
+                    WELCOME {user?user.name:"JS"}
                 </div>
                 <hr id='small-line' />
                 <div className="upper">

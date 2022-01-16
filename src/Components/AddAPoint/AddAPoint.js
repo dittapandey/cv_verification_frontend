@@ -4,28 +4,45 @@ import { CategoryList } from '../../Assets/Lists';
 import './AddAPoint.css';
 import { BACKEND_URL as url } from '../../Assets/FullForm';
 import { isAuthenticated } from '../../services/Auth_service';
+import axios from "axios";
+import { orgToOrg_id } from '../../services/Org_service';
 
 const AddAPoint = (props) => {
     const setShowAddPoint = props.setShowAddPoint;
-    const [inputs, setInputs] = useState({});
+    const [inputs, setInputs] = useState({
+        title:"",
+        description:"",
+        cat: "Projects",
+        sub_category: "Personal Project",
+        org_id:0
+    });
     const [categoryId, setCategoryId] = useState(1);
-    const [clubId, setClubId] = useState(0);
+    const [clubId, setClubId] = useState({});
     // const [fade,setFade] = 
     // const [closeButtonColor, setCloseButtonColor] = useState("disabled");
 
-
-    function getClubId(club){
-        console.log(club);
-        setClubId(club.org_id);
-    }
     function closeAddPoint(){
         setShowAddPoint(false);
     }
     function handleSubmit(event){
         event.preventDefault()
+        // authentication
         isAuthenticated();
-        console.log(inputs);
-        fetch(url+'/points',{
+
+        //inputs manipulation
+        inputs["category"]=inputs.cat+"$"+inputs.sub_category;
+        delete inputs.cat;
+        delete inputs.sub_category;
+        inputs["org_id"]=clubId[inputs.club];
+
+        //checking if all the inputs are valid
+        var check_inputs=true;
+        if(inputs["title"]==="" || inputs["description"]==="" || inputs["org_id"]===0){
+            check_inputs=!check_inputs;
+        }
+        console.log(JSON.stringify(inputs));
+        if(check_inputs){
+            fetch(url+'/points',{
             method:'POST',
             body:JSON.stringify(inputs),
             headers: {
@@ -33,15 +50,24 @@ const AddAPoint = (props) => {
                 "Accept":"application/json"
             },
             credentials: "include",
-            mode:"no-cors"
-        }).then((res)=>{res.text()})
-        .then((response)=>{console.log(response)})
-        .catch((error)=>{console.error(error.message)});
+            mode:"cors"
+            }).then((res)=>{res.text()})
+            .then((response)=>{
+                console.log(response)
+                alert("Request submitted");
+                setShowAddPoint(false);
+            })
+            .catch((error)=>{console.error(error.message)});
+        } else {
+            alert("Check all your inputs again");
+        }
+
+        
     }
     const handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
-        if(name==="category"){
+        if(name==="cat"){
             setCategoryId(CategoryList["hash"][value]);
         }
         setInputs(values => ({...values, [name]: value}))
@@ -52,6 +78,7 @@ const AddAPoint = (props) => {
             {org_id: 100, name: 'Coding Club', createdAt: '2022-01-03T06:57:39.000Z', updatedAt: '2022-01-03T06:57:39.000Z', parent_org_id: null}
         ]
     );
+    
 
     function fetchClubs(){
         fetch(url+"/orgs")
@@ -59,8 +86,11 @@ const AddAPoint = (props) => {
             .then((result)=>{
                 // console.log(result);
                 setClubs(result);
+                setClubId(orgToOrg_id(clubs));
+                console.log(clubs);
+                console.log(clubId);
             }).catch((e)=>{
-                console.error("Error Message is",e.message)
+                console.error("Error Message is",e.message);
             });
     }
     
@@ -98,7 +128,7 @@ const AddAPoint = (props) => {
                         </div>
                         <div className="form-content list">
                             <h4>Point Category:</h4>
-                            <select value={inputs.category || " "} name="category"  onChange={handleChange}>
+                            <select value={inputs.cat || " "} name="cat"  onChange={handleChange}>
                                 {
                                     CategoryList["categories"].map((category)=>{
                                         // console.log(category);
