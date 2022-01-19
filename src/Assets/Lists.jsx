@@ -23,32 +23,29 @@ const MenuList = [
         id: 5,
         title: "General Guidelines",
         selected: false
-    }
-];
-
-const AdminMenuList = [
+    },
     {
-        id: 1,
+        id: 6,
         title: "Points approved by You",
-        selected: true
+        selected: false
     },
     {   
-        id: 2,
+        id: 7,
         title: "View Requests",
         selected: false
     },
     {
-        id: 3,
+        id: 8,
         title: "My Point Templates",
         selected: false
     },
     {
-        id: 4,
+        id: 9,
         title: "Flag Approvals",
         selected: false
     },
     {
-        id: 5,
+        id: 10,
         title: "Admin Guidelines",
         selected: false
     }
@@ -190,6 +187,6 @@ const CategoryList ={
 }
 }
 
-export {AdminMenuList, MenuList, CategoryList};
+export { MenuList, CategoryList};
 
 

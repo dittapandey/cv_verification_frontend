@@ -14,17 +14,8 @@ const ViewPoints = (props) => {
     const [clubMenu, setClubMenu] = useState(false);
     const [currentCategory, setCurrentCategory] = useState(CategoryList["categories"][0]);
     const [rawData, setRawData] = useState([{}]);
+    const [categoryData, setCategoryData] = appContext.categoryData;
     const setShowAddPoint=props.setShowAddPoint;
-    const point = {
-        title:"Dummy Point",
-        description:"This point was made for dummy testing of the points card",
-        start_date: "23/12/2002",
-        end_date:"12/12/2002",
-        category:"experience",
-        proof_link: "https://www.google.com/",
-        status:"D",
-        visibility:"P"
-    }
     function handleAddAPoint(){
         setShowAddPoint(true);
     }
@@ -156,7 +147,21 @@ const ViewPoints = (props) => {
                 <PointCard point={point} flagmenu={false}/>
                 <PointCard point={point} flagmenu={false}/>
                 <PointCard point={point} flagmenu={false}/> */}
-                {currentCategory.title}
+                {/* {currentCategory.title} */}
+                {currentCategory.sub_category.map((sub_category)=>{
+                    return(
+                        <div className="sub_category">
+                            {sub_category.title}
+                            {JSON.stringify(categoryData["categories"][currentCategory.id-1].sub_category[sub_category.id%10 -1]["data"])}
+                            {/* {categoryData["categories"][currentCategory.id-1].sub_category[sub_category.id%10 -1]["data"].map((point)=>{
+                                return(
+                                    <PointCard point={point} flagmenu={false}/>
+                                );
+                            })} */}
+                        </div>
+                    )
+                })}
+                
             </div>
         </div>
      );

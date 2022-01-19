@@ -9,6 +9,9 @@ import FlaggedByYou from "../../Components/FlaggedByYou/FlaggedByYou";
 import SelfFlag from "../../Components/SelfFlag/SelfFlag";
 import GeneralGuidelines from "../../Components/GeneralGuidelines/GeneralGuidelines";
 import AddAPoint from "../../Components/AddAPoint/AddAPoint";
+import WorkInProgress from "../../Components/WorkInProgress/WorkInProgress";
+import ViewRequest from "../../Components/ViewRequests/ViewRequests";
+import FlagApprovals from "../../Components/FlagApprovals/FlagApprovals";
 const HeadingPage = () => {
     const [name, setName]= useState("");
     const [item, setItem]= useState(MenuList[0]);
@@ -28,6 +31,16 @@ const HeadingPage = () => {
             return <SelfFlag/>
         }
         else if(M.id===5){
+            return <GeneralGuidelines/>
+        } else if(M.id==6){
+            return <WorkInProgress/>
+        } else if(M.id == 7){
+            return <ViewRequest/>
+        } else if(M.id == 8){
+            return <WorkInProgress/>
+        } else if(M.id == 9){
+            return <FlagApprovals/>
+        } else if(M.id==10){
             return <GeneralGuidelines/>
         }
     }

@@ -113,3 +113,7 @@ input:focus{
   .dropdown:hover .dropdown-content {display: block;}
   
   .dropdown:hover .dropbtn {background-color: #5f0303;}
+
+.sub_category_title{
+    font-size:x-large
+}

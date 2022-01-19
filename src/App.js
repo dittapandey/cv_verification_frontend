@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+
 import './App.css';
 import LoginPage from './Pages/LoginPage/LoginPage';
 import HeadingPage from './Pages/HeadingPage/HeadingPage'
@@ -7,7 +7,6 @@ import {Route,
   Routes, Link} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import {BACKEND_URL as url} from "./Assets/FullForm";
-import { isAuthenticated } from './services/Auth_service';
 import { createContext } from 'react';
 import axios from 'axios';
 import { CategoryList } from './Assets/Lists';
@@ -19,26 +18,250 @@ function App() {
   const [clubs, setClubs] = useState([{}]);
   const [clubId, setClubId] = useState({});
   const [rawData, setRawData] = useState([{}]);
-  const [categoryData, setCategoryData] = useState({});
+  const [categoryData, setCategoryData] = useState(
+    {
+      "categories":[
+      {   
+          id:1,
+          title: "Projects",
+          selected:true,
+          sub_category: [
+              {
+                  id:11,
+                  title: "Personal Project",
+                  data:[{
+                    title:"",
+                    description:"",
+                    category:"",
+                    
+                  }]
+              },
+              {
+                  id:12,
+                  title: "Project under IITG clubs/orgs",
+                  data:[{
+                    title:"",
+                    description:"",
+                    category:""
+                  }]
+              },
+              {
+                  id:13,
+                  title: "Projects under non-IITG clubs/orgs",
+                  data:[{
+                    title:"",
+                    description:"",
+                    category:"",
+                    
+                  }]
+              },
+              {
+                  id:14,
+                  title:"Projects under profs",
+                  data:[{
+                    title:"",
+                    description:"",
+                    category:"",
+                    
+                  }]
+              }
+          ],
+          hash:{
+              "Personal Project": 11,
+              "Project under IITG clubs/orgs": 12,
+              "Projects under non-IITG clubs/orgs": 13,
+              "Projects under profs": 14
+          }
+      },
+      {
+          id:2,
+          title: "Courses",
+          selected:false,
+          sub_category: [
+              {
+                  id:21,
+                  title: "College Course",
+                  data:[{
+                    title:"",
+                    description:"",
+                    category:"",
+                    
+                  }]
+              },{
+                  id:22,
+                  title: "Online Courses",
+                  data:[{
+                    title:"",
+                    description:"",
+                    category:"",
+                    
+                  }]
+              }
+          ], 
+          hash: {
+              "College Course":21,
+              "Online Courses":22
+          }
+      },
+      {
+          id:3,
+          title: "Positions of responsibility",
+          selected:false,
+          sub_category: [
+              {
+                  id:31,
+                  title:"In IITG",
+                  data:[{
+                    title:"",
+                    description:"",
+                    category:"",
+                    
+                  }]
+              },
+              {
+                  id:32,
+                  title:"Outside IITG",
+                  data:[{
+                    title:"",
+                    description:"",
+                    category:"",
+                    
+                  }]
+              }
+          ],
+          hash:{
+              "In IITG":31,
+              "Outside IITG":32
+          }
+      },
+      {
+          id:4,
+          title: "Achievements",
+          selected:false,
+          sub_category:[
+              {
+                  id:41,
+                  title:"Inside IITG",
+                  data:[{
+                    title:"",
+                    description:"",
+                    category:"",
+                    
+                  }]
+              },
+              {
+                  id:42,
+                  title:"Outside IITG",
+                  data:[{
+                    title:"",
+                    description:"",
+                    category:"",
+                    
+                  }]
+              }
+          ],
+          hash: {
+              "Inside IITG":41,
+              "Outside IITG":42
+          }
+      },
+      {
+          id:5,
+          title:"Experience",
+          selected:false,
+          sub_category:[
+              {
+                  id:51,
+                  title: "Project under IITG clubs/orgs",
+                  data:[{
+                    title:"",
+                    description:"",
+                    category:"",
+                    
+                  }]
+              },
+              {
+                  id:52,
+                  title: "Projects under non-IITG clubs/orgs",
+                  data:[{
+                    title:"",
+                    description:"",
+                    category:"",
+                    
+                  }]
+              },
+              {
+                  id:53,
+                  title:"Projects under profs",
+                  data:[{
+                    title:"",
+                    description:"",
+                    category:"",
+                    
+                  }]
+              }
+          ],
+          hash:{
+              "Project under IITG clubs/orgs":51,
+              "Projects under non-IITG clubs/orgs":52,
+              "Projects under profs":53,
+          }
+      },
+      {
+          id:6,
+          title:"Extracurriculars",
+          selected:false,
+          sub_category:[
+              {
+                  id:61,
+                  title: "Extracurriculars",
+                  data:[{
+                    title:"",
+                    description:"",
+                    category:"",
+                    
+                  }]
+              }
+          ],
+          hash:{
+              "Extracurriculars":61
+          }
+      }
+  ],
+  "hash":{
+      "Projects":1,
+      "Courses":2,
+      "Positions of responsibility":3,
+      "Achievements":4,
+      "Experience":5,
+      "Extracurriculars":6
+  }
+  }
+  );
 
 
 
   function split_category(data){
     var _categoryData = JSON.parse(JSON.stringify(CategoryList));
-    console.log(_categoryData);
+    
     _categoryData["categories"].map((category)=>{
       category.sub_category.map((sub_category)=>{
-        sub_category["data"]=[{}]
+        sub_category["data"]=[]
       })
     })
+    console.log(_categoryData);
     data.map((point)=>{
-      console.log(point.category);
+      if(point.point_id!=107)
+      {console.log(point.category);
       const _category = point.category.split('$');
       const category_index = _categoryData.hash[_category[0]]-1;
-      const sub_category_index = _categoryData["categories"][category_index].hash[_category[1]];
-      _categoryData["categories"][category_index].sub_category[sub_category_index]["data"].push(point)
+      console.log(category_index);
+      const sub_category_index = _categoryData["categories"][category_index].hash[_category[1]]%10 - 1;
+      console.log(sub_category_index);
+      _categoryData["categories"][category_index].sub_category[sub_category_index]["data"].push(point);}
     });
     console.log(_categoryData);
+    setCategoryData(_categoryData);
   
   }
 
@@ -115,7 +338,9 @@ function App() {
       clubs: [clubs,setClubs],
       clubId: [clubId, setClubId], 
       user: user,
-      fetchRawData: fetchRawData}}>
+      fetchRawData: fetchRawData,
+      categoryData: [categoryData,setCategoryData]
+      }}>
       <div className="App">
         <Router>
           <Routes>

@@ -40,9 +40,11 @@ const Sidemenu = (props) => {
                 </div>
                 <hr id='small-line' />
                 <div className="upper">
-                    {MenuList.map((M)=>(
-                        <div className={"items"+(M.selected?" selected":"")} onClick={()=> handleClick(M)}>{M.title}</div>
-                    ))}
+                    {MenuList.map((M)=>{
+                        if(M.id<=5)
+                            return(
+                            <div className={"items"+(M.selected?" selected":"")} onClick={()=> handleClick(M)}>{M.title}</div>
+                    )})}
                 </div>
                 <hr id='line' />
              <div className="user">
@@ -50,14 +52,14 @@ const Sidemenu = (props) => {
              </div>
              <hr id='small-line' />
              <div className="upper">
-                {AdminMenuList.map((M)=>(
-                    <div className={"items"+(M.selected?" selected":"")} onClick={()=> handleClick(M)}>{M.title}</div>
-                ))}
+                {MenuList.map((M)=>{
+                    if(M.id>=6)
+                        return(
+                        <div className={"items"+(M.selected?" selected":"")} onClick={()=> handleClick(M)}>{M.title}</div>
+                )})}
             </div>
 
             </div>
-            
-            
             <div className="lower">
                 <p>Faqs</p>
                 <p>Contact us</p>
