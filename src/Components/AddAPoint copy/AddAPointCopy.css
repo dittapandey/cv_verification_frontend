@@ -96,11 +96,12 @@ form{
 }
 .but{
     margin-top: 30px !important;
+    margin-left: 90%;
 }
 .form-content button{
-    font-size:20px;
+    font-size:15px;
     padding:10px;
-    background-color: rgb(71, 71, 71);
+    background-color: rgb(100, 100, 100);
     color:white;
     border-style: none;
     border-radius: 10px;
@@ -109,4 +110,13 @@ form{
 
 .list{
     margin-top: 10px;
+}
+
+#page1 {
+    margin: auto;
+    
+}
+#page2 {
+    margin: auto;
+    
 }
