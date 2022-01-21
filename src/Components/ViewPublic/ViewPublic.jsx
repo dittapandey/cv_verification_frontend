@@ -8,6 +8,8 @@ import PublicCard from "../PublicCard/PublicCard";
 import PointCard from "../PointCard/PointCard"
 import CardContent from "../../Assets/CardContent";
 import { BACKEND_URL as url } from "../../Assets/FullForm";
+import { useContext } from "react";
+import { AppContext } from "../../App";
 
 const Styles = styled.div`
   `
@@ -70,8 +72,8 @@ function Table({ columns, data }) {
 
                             <tr className={row.original.status}{...row.getRowProps()} style={{
                                 height:"50px",
-                                marginTop:"10px"
-                            }}
+                                marginTop:"10px",
+                            }} onClick={()=>{console.log(row.original)}}
                             >
                                 {/* {console.log(row.original.status)} */}
                                 {row.cells.map(cell => {
@@ -151,17 +153,9 @@ function Table({ columns, data }) {
   }
 
 const ViewPublic = () => {
+    const appContext = useContext(AppContext);
     const [query, setQuery] = useState("");
-    const point = {
-        title:"Dummy Point",
-        description:"This point was made for dummy testing of the points card",
-        start_date: "23/12/2002",
-        end_date:"12/12/2002",
-        category:"experience",
-        proof_link: "https://www.google.com/",
-        status:"D",
-        visibility:"P"
-    }
+    const [rawData, setRawData] = appContext.rawData;
     function handleAddAPoint(){
         console.log("Add A Point Button Clicked");
     }
@@ -178,34 +172,15 @@ const ViewPublic = () => {
                     Header:"Description",
                     accessor:"description",
                     
-                },
-                {
-                    Header:"End Date",
-                    accessor:"end_date"
                 }
         ]
     );
     // const data = useMemo(()=>{CardContent},[])
 
-    const [clubs, setClubs] = useState(
-        [
-            {org_id: 100, name: 'Coding Club', createdAt: '2022-01-03T06:57:39.000Z', updatedAt: '2022-01-03T06:57:39.000Z', parent_org_id: null}
-        ]
-    );
-
-    function fetchClubs(){
-        fetch(url+"/orgs")
-        .then((res)=>res.json())
-            .then((result)=>{
-                console.log(result);
-                setClubs(result);
-            }).catch((e)=>{
-                console.error("Error Message is",e.message)
-            });
-    }
+    const [clubs, setClubs] = appContext.clubs;
     
     useEffect(()=>{
-        fetchClubs();
+        appContext.fetchRawData();
     },[])
     return ( 
         <div className="viewpoint">
@@ -278,7 +253,7 @@ const ViewPublic = () => {
             </div>
             <div className="bottom">
                 <Styles>
-                <Table columns={columns} data={CardContent}/>
+                <Table columns={columns} data={rawData}/>
                 </Styles>
                 
             </div>

@@ -339,7 +339,8 @@ function App() {
       clubId: [clubId, setClubId], 
       user: user,
       fetchRawData: fetchRawData,
-      categoryData: [categoryData,setCategoryData]
+      categoryData: [categoryData,setCategoryData],
+      rawData: [rawData,setRawData]
       }}>
       <div className="App">
         <Router>

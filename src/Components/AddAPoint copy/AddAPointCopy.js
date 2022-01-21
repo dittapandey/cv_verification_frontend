@@ -2,71 +2,9 @@ import { Close, Co2Sharp } from '@mui/icons-material';
 import { useState, useEffect } from 'react';
 import { CategoryList, PointTypes } from '../../Assets/Lists';
 import './AddAPointCopy.css';
-import { BACKEND_URL as url } from '../../Assets/FullForm';
-import { isAuthenticated } from '../../services/Auth_service';
 
-const AddAPointCopy = (props) => {
-    const setShowAddPoint = props.setShowAddPoint;
-    const [inputs, setInputs] = useState({});
-    const [categoryId, setCategoryId] = useState(1);
-    const [clubId, setClubId] = useState(0);
-    // const [fade,setFade] = 
-    // const [closeButtonColor, setCloseButtonColor] = useState("disabled");
-
-
-    function getClubId(club){
-        console.log(club);
-        setClubId(club.org_id);
-    }
-    function closeAddPoint(){
-        setShowAddPoint(false);
-    }
-    function handleSubmit(event){
-        event.preventDefault()
-        isAuthenticated();
-        console.log(inputs);
-        fetch(url+'/points',{
-            method:'POST',
-            body:JSON.stringify(inputs),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-                "Accept":"application/json"
-            },
-            credentials: "include",
-            mode:"no-cors"
-        }).then((res)=>{res.text()})
-        .then((response)=>{console.log(response)})
-        .catch((error)=>{console.error(error.message)});
-    }
-    const handleChange = (event) => {
-        const name = event.target.name;
-        const value = event.target.value;
-        if(name==="category"){
-            setCategoryId(CategoryList["hash"][value]);
-        }
-        setInputs(values => ({...values, [name]: value}))
-    }
-
-    const [clubs, setClubs] = useState(
-        [
-            {org_id: 100, name: 'Coding Club', createdAt: '2022-01-03T06:57:39.000Z', updatedAt: '2022-01-03T06:57:39.000Z', parent_org_id: null}
-        ]
-    );
-
-    function fetchClubs(){
-        fetch(url+"/orgs")
-        .then((res)=>res.json())
-            .then((result)=>{
-                // console.log(result);
-                setClubs(result);
-            }).catch((e)=>{
-                console.error("Error Message is",e.message)
-            });
-    }
-    
-    useEffect(()=>{
-        fetchClubs();
-    },[])
+const PointDetails = (props) => {
+    const point = props.point
 
     return ( 
         <div className="page">
@@ -204,4 +142,4 @@ const AddAPointCopy = (props) => {
      );
 }
  
-export default AddAPointCopy;
+export default PointDetails;

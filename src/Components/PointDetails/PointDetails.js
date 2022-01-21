@@ -1,23 +1,11 @@
 import { Close, Co2Sharp } from '@mui/icons-material';
 import { useState, useEffect } from 'react';
 import { CategoryList } from '../../Assets/Lists';
-import {Button} from 'react-bootstrap';
 import './AddAPoint.css';
 import { BACKEND_URL as url } from '../../Assets/FullForm';
 import { isAuthenticated } from '../../services/Auth_service';
 
-
-function ResponsiveForm(page_no){
-    const [page, setPage] = useState(1);
-    return(
-        <div className="form_page">
-            <Button variant="primary">Prev</Button>
-            <Button variant="primary">Next</Button>
-        </div>
-    );
-}
-
-const AddAPoint = (props) => {
+const PointDetails = (props) => {
     const setShowAddPoint = props.setShowAddPoint;
     const [inputs, setInputs] = useState({});
     const [categoryId, setCategoryId] = useState(1);
@@ -91,7 +79,7 @@ const AddAPoint = (props) => {
                     <Close color="disabled"sx={{fontSize:"30px"}}
                         />
                 </div>
-                {/* <div className="form_">
+                <div className="form_">
                     <div className="heading">
                         Add Points To your CV
                     </div>
@@ -172,12 +160,11 @@ const AddAPoint = (props) => {
                         </div>
                         
                     </form>
-                </div> */}
-                {ResponsiveForm()}
+                </div>
             </div>
         </div>
         
      );
 }
  
-export default AddAPoint;
+export default PointDetails;

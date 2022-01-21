@@ -153,11 +153,11 @@ const ViewPoints = (props) => {
                         <div className="sub_category">
                             {sub_category.title}
                             {JSON.stringify(categoryData["categories"][currentCategory.id-1].sub_category[sub_category.id%10 -1]["data"])}
-                            {/* {categoryData["categories"][currentCategory.id-1].sub_category[sub_category.id%10 -1]["data"].map((point)=>{
+                            {categoryData["categories"][currentCategory.id-1].sub_category[sub_category.id%10 -1]["data"].map((point)=>{
                                 return(
                                     <PointCard point={point} flagmenu={false}/>
                                 );
-                            })} */}
+                            })}
                         </div>
                     )
                 })}
