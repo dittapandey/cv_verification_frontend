@@ -12,8 +12,6 @@ const AddAPoint = (props) => {
     const [clubId, setClubId] = useState(0);
     // const [fade,setFade] = 
     // const [closeButtonColor, setCloseButtonColor] = useState("disabled");
-
-
     function getClubId(club){
         console.log(club);
         setClubId(club.org_id);
