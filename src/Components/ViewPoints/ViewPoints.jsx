@@ -1,4 +1,4 @@
-import Button from "../Button/Button";
+
 import {useState} from 'react';
 import "./ViewPoints.css";
 import { ArrowDownward, Margin } from "@mui/icons-material";
@@ -7,6 +7,7 @@ import { BACKEND_URL as url } from "../../Assets/FullForm";
 import { useEffect, useContext } from "react";
 import { AppContext } from "../../App";
 import { CategoryList } from "../../Assets/Lists";
+import { Button } from '@mui/material';
 
 const ViewPoints = (props) => {
     const appContext = useContext(AppContext);
@@ -64,7 +65,7 @@ const ViewPoints = (props) => {
             <div className="top">
                 <div className="topupper">
                     <div className="addapointbutton">
-                        <Button fg_color={"white"} bg_color={"#0A6ABF"} handleClick={()=>{handleAddAPoint()}} text={"Add A Point"}/>
+                        <Button variant="contained" onClick={()=>{handleAddAPoint()}}>Add A Point</Button>
                     </div>
                 </div>
                 

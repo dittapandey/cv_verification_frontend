@@ -1,29 +1,84 @@
 import { Close, Co2Sharp } from '@mui/icons-material';
 import { useState, useEffect } from 'react';
 import { CategoryList } from '../../Assets/Lists';
-import {Button} from 'react-bootstrap';
 import './AddAPoint.css';
 import { BACKEND_URL as url } from '../../Assets/FullForm';
 import { isAuthenticated } from '../../services/Auth_service';
-
-
-function ResponsiveForm(page_no){
-    const [page, setPage] = useState(1);
-    return(
-        <div className="form_page">
-            <Button variant="primary">Prev</Button>
-            <Button variant="primary">Next</Button>
-        </div>
-    );
-}
+import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 const AddAPoint = (props) => {
     const setShowAddPoint = props.setShowAddPoint;
     const [inputs, setInputs] = useState({});
+    const [page, setPage]= useState(1);
+    const [currentCategory, setCurrentCategory] = useState()
     const [categoryId, setCategoryId] = useState(1);
     const [clubId, setClubId] = useState(0);
     // const [fade,setFade] = 
     // const [closeButtonColor, setCloseButtonColor] = useState("disabled");
+
+    function renderFormPage(page){
+        if(page===1){
+            return(
+                <div className="content_page p1">
+                            <h2>
+                                What type of CV Point do you wish to add?
+                            </h2>
+                            <FormControl sx={{width: "70%", m:"2",marginTop:"45px"}}>
+                            <InputLabel id="category">Category</InputLabel>
+                            <Select
+                                labelId="category"
+                                id="category"
+                                name="category"
+                                value={inputs.category || " "}
+                                label="category"
+                                onChange={handleChange}
+                            >
+                                {
+                                    CategoryList["categories"].map((category)=>{
+                                        return(
+                                            <MenuItem value={category.title}>{category.title}</MenuItem>
+                                        );
+                                    })
+                                }
+                                {/* <MenuItem value={10}>Ten</MenuItem>
+                                <MenuItem value={20}>Twenty</MenuItem>
+                                <MenuItem value={30}>Thirty</MenuItem> */}
+                            </Select>
+                            </FormControl>
+                        </div>
+            );
+        } else if(page===2){
+            return(
+                <div className="content_page p1">
+                            <h2>
+                                What type of {currentCatego} do you wish to add?
+                            </h2>
+                            <FormControl sx={{width: "70%", m:"2",marginTop:"45px"}}>
+                            <InputLabel id="category">Category</InputLabel>
+                            <Select
+                                labelId="category"
+                                id="category"
+                                name="category"
+                                value={inputs.category || " "}
+                                label="category"
+                                onChange={handleChange}
+                            >
+                                {
+                                    CategoryList["categories"].map((category)=>{
+                                        return(
+                                            <MenuItem value={category.title}>{category.title}</MenuItem>
+                                        );
+                                    })
+                                }
+                                {/* <MenuItem value={10}>Ten</MenuItem>
+                                <MenuItem value={20}>Twenty</MenuItem>
+                                <MenuItem value={30}>Thirty</MenuItem> */}
+                            </Select>
+                            </FormControl>
+                        </div>
+            );
+        }
+    }
 
 
     function getClubId(club){
@@ -173,7 +228,15 @@ const AddAPoint = (props) => {
                         
                     </form>
                 </div> */}
-                {ResponsiveForm()}
+                <div className="form_page">
+                    <div className="content">
+                        {renderFormPage(page)}
+                    </div>
+                    <div className="control">
+                        <Button variant="contained">Prev</Button>{'\t\t'}
+                        <Button variant="contained">Next</Button>
+                    </div>
+                </div>
             </div>
         </div>
         

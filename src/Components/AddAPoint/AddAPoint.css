@@ -27,6 +27,7 @@
 }
 .close{
     position: absolute;
+    z-index:3;
     top:15px;
     right:25px;
 }
@@ -109,4 +110,31 @@ form{
 
 .list{
     margin-top: 10px;
+}
+.form_page{
+    height: 80%;
+    width: 70%;
+    margin-top:5%;
+    margin-bottom: 5%;
+    position: relative;
+    justify-content: center;
+}
+.content{
+    height:70%;
+}
+.control{
+    position:absolute;
+    bottom:5%;
+    left:37%;
+    right:30%;
+}
+.content_page{
+    display: flex;
+    margin-top:10%;
+    flex-direction: column;
+    height:100%;
+    width:100%;
+}
+.content_page h2{
+    margin-top: 25px;
 }
