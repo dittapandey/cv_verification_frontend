@@ -1,13 +1,47 @@
 
-import {useState} from 'react';
 import "./ViewPoints.css";
 import { ArrowDownward, Margin } from "@mui/icons-material";
 import PointCard from "../PointCard/PointCard";
 import { BACKEND_URL as url } from "../../Assets/FullForm";
-import { useEffect, useContext } from "react";
+import {useState, useEffect, useContext } from "react";
 import { AppContext } from "../../App";
 import { CategoryList } from "../../Assets/Lists";
-import { Button } from '@mui/material';
+import { Button, Divider, Grid, Stack, Tab, TabPanelUnstyled, Tabs, Typography } from '@mui/material';
+import { Box } from '@mui/system';
+import PropTypes from 'prop-types';
+import BasicTabs from "./TabPanel";
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+  
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  }
+  
+  TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+  };
+  
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
 
 const ViewPoints = (props) => {
     const appContext = useContext(AppContext);
@@ -17,6 +51,11 @@ const ViewPoints = (props) => {
     const [rawData, setRawData] = useState([{}]);
     const [categoryData, setCategoryData] = appContext.categoryData;
     const setShowAddPoint=props.setShowAddPoint;
+    const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
     function handleAddAPoint(){
         setShowAddPoint(true);
     }
@@ -61,7 +100,7 @@ const ViewPoints = (props) => {
     },[])
 
     return ( 
-        <div className="viewpoint">
+        <Stack>
             <div className="top">
                 <div className="topupper">
                     <div className="addapointbutton">
@@ -69,8 +108,8 @@ const ViewPoints = (props) => {
                     </div>
                 </div>
                 
-                <div className="toplower">
-                    <div className="searchbar">
+                <Grid>
+                    <Grid item xs={8}>
                         <form>
                             <input style={{
                                 backgroundColor:"#FDFDFD",
@@ -85,7 +124,8 @@ const ViewPoints = (props) => {
                             value={query}
                             onChange={handleQuery}/>
                         </form>
-                    </div>
+                    </Grid>
+                    {/* <Grid item xs={4}>
                     <div className="redbuttons">
                         <div className="dropdown">
                             <button className="dropbtn" onClick={()=>{toggleClubMenu()}}
@@ -104,9 +144,9 @@ const ViewPoints = (props) => {
                                     );})
                             }
                         </div>
-                        </div>
+                        </div> */}
                         
-                        <div className="dropdown">
+                        {/* <div className="dropdown">
                             <button className="dropbtn" onClick={()=>{toggleClubMenu()}}
                             ><ArrowDownward fontSize="small"/>  Select Board</button>
                             <div className="dropdown-content">
@@ -126,16 +166,18 @@ const ViewPoints = (props) => {
                         </div>
                         
                     </div>
-                </div>
+
+                    </Grid> */}
+                        
+                    
+                </Grid>
                 
             </div>
-            <div className="Selection-bar middle">
-                {/* <button type="button">Experience</button>
-                <button type="button">Projects</button>
-                <button type="button">Courses</button>
-                <button type="button">Positions of Responsibility</button>
-                <button type="button">Achievements</button>
-                <button type="button">Extracurriculars</button> */}
+
+            <BasicTabs categoryData={categoryData}/>
+            
+            
+            {/* <div className="Selection-bar middle">
                 {
                     CategoryList["categories"].map((category)=>{
                         return(<button type="button" onClick={()=>{categoryChange(category)}}>{category.title}</button>);
@@ -143,17 +185,12 @@ const ViewPoints = (props) => {
                 }
             </div>
             <div className="bottom">
-                {/* <PointCard point={point} flagmenu={false}/>
-                <PointCard point={point} flagmenu={false}/>
-                <PointCard point={point} flagmenu={false}/>
-                <PointCard point={point} flagmenu={false}/>
-                <PointCard point={point} flagmenu={false}/> */}
-                {/* {currentCategory.title} */}
                 {currentCategory.sub_category.map((sub_category)=>{
                     return(
                         <div className="sub_category">
-                            {sub_category.title}
-                            {JSON.stringify(categoryData["categories"][currentCategory.id-1].sub_category[sub_category.id%10 -1]["data"])}
+                            <div style={{height:"30px"}}></div>
+                            <Typography sx={{fontSize:"30px"}}>{sub_category.title}</Typography>
+                            <Divider/>
                             {categoryData["categories"][currentCategory.id-1].sub_category[sub_category.id%10 -1]["data"].map((point)=>{
                                 return(
                                     <PointCard point={point} flagmenu={false}/>
@@ -163,8 +200,8 @@ const ViewPoints = (props) => {
                     )
                 })}
                 
-            </div>
-        </div>
+            </div> */}
+        </Stack>
      );
 }
  

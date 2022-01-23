@@ -1,5 +1,4 @@
 import { useState } from "react";
-import {MenuList} from '../../Assets/Lists';
 import './HeadingPage.css';
 import NavBar from "../../Components/Navbar/Navbar";
 import Sidemenu from "../../Components/Sidemenu/Sidemenu";
@@ -12,11 +11,112 @@ import AddAPoint from "../../Components/AddAPoint/AddAPoint";
 import WorkInProgress from "../../Components/WorkInProgress/WorkInProgress";
 import ViewRequest from "../../Components/ViewRequests/ViewRequests";
 import FlagApprovals from "../../Components/FlagApprovals/FlagApprovals";
-const HeadingPage = () => {
+// const HeadingPage = () => {
+//     const [name, setName]= useState("");
+//     const [item, setItem]= useState(MenuList[0]);
+//     const [showAddPoint, setShowAddPoint] = useState(false);
+
+//     function itemRender(M){
+//         if(M.id===1){
+//             return <ViewPoints setShowAddPoint={setShowAddPoint}/>
+//         }
+//         else if(M.id===2){
+//             return <ViewPublic/>
+//         }
+//         else if(M.id===3){
+//             return <FlaggedByYou/>
+//         }
+//         else if(M.id===4){
+//             return <SelfFlag/>
+//         }
+//         else if(M.id===5){
+//             return <GeneralGuidelines/>
+//         } else if(M.id==6){
+//             return <WorkInProgress/>
+//         } else if(M.id == 7){
+//             return <ViewRequest/>
+//         } else if(M.id == 8){
+//             return <WorkInProgress/>
+//         } else if(M.id == 9){
+//             return <FlagApprovals/>
+//         } else if(M.id==10){
+//             return <GeneralGuidelines/>
+//         }
+//     }
+//     return ( 
+//         <div className="AddAPoint">
+//             {showAddPoint && <AddAPoint setShowAddPoint={setShowAddPoint}/>}
+//             <div className="row2">
+//                     <Sidemenu item={item} setItem={setItem}/>
+//                 <div className="content">
+//                     {itemRender(item)}
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// }
+// export default HeadingPage;
+
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import MailIcon from '@mui/icons-material/Mail';
+import MenuIcon from '@mui/icons-material/Menu';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { MenuList } from '../../Assets/Lists';
+import { AppContext } from "../../App";
+import { makeStyles } from "@mui/styles";
+
+const drawerWidth = 240;
+const useStyles = makeStyles({
+    list: {
+      width: 250
+    },
+    fullList: {
+      width: "auto"
+    },
+    paper: {
+      background: "#343A40"
+    }
+  });
+
+function HeadingPage(props) {
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const classes = useStyles();
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  function handleClick(menuitem){
+    setItem(menuitem);
+    MenuList.map((M)=>{
+        if(M===menuitem){
+            M.selected=true;
+        } else{
+            M.selected=false;
+        }
+    })
+    // console.log(menuitem);
+    // console.log(MenuList);
+    }
     const [name, setName]= useState("");
     const [item, setItem]= useState(MenuList[0]);
     const [showAddPoint, setShowAddPoint] = useState(false);
-
+    const appContext = React.useContext(AppContext);
+    const user=appContext.user;
     function itemRender(M){
         if(M.id===1){
             return <ViewPoints setShowAddPoint={setShowAddPoint}/>
@@ -44,16 +144,128 @@ const HeadingPage = () => {
             return <GeneralGuidelines/>
         }
     }
-    return ( 
-        <div className="AddAPoint">
-            {showAddPoint && <AddAPoint setShowAddPoint={setShowAddPoint}/>}
-            <div className="row2">
-                    <Sidemenu item={item} setItem={setItem}/>
-                <div className="content">
-                    {itemRender(item)}
-                </div>
-            </div>
-        </div>
-    );
+
+  const drawer = (
+    <div>
+      <Toolbar>
+        <img src="iitg-logo.png" alt="" style={{height: "30px"}}/>
+        {"\t"}CV Verfication
+        </Toolbar>
+      <Divider/>
+      <Toolbar>Welcome {user?user.name:"Guest"}</Toolbar>
+      <Divider />
+      <List>
+        {MenuList.map((item, index) => {
+            if(item.id<=5)
+                {
+                    return(
+                <ListItem onClick={()=>{handleClick(item)}}>
+                    <ListItemText primary={item.title} />
+                </ListItem>
+                )}
+            }
+            )
+        }
+      </List>
+      <Divider />
+      <List>
+        {MenuList.map((M, index) => {
+            if(M.id>=6)
+                {
+                    return(
+                <ListItem onClick={()=>handleClick(M)}>
+                    <ListItemText primary={M.title} />
+                </ListItem>
+                )}
+            }
+            )
+        }
+      </List>
+    </div>
+  );
+
+  const container = window !== undefined ? () => window().document.body : undefined;
+
+  return (
+      <>
+      {showAddPoint && <AddAPoint setShowAddPoint={setShowAddPoint}/>}
+      <Box sx={{ display: 'flex' }}>
+        
+        <CssBaseline />
+        <AppBar
+          position="fixed"
+          sx={{
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            ml: { sm: `${drawerWidth}px` },
+          }}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: 'none' } }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div">
+              Responsive drawer
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Box
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+          aria-label="mailbox folders"
+        >
+          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+          <Drawer
+             className={classes.paper}
+            container={container}
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+            sx={{
+              display: { xs: 'block', sm: 'none' },
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            }}
+          >
+            {drawer}
+          </Drawer>
+          <Drawer
+            variant="permanent"
+            sx={{
+              display: { xs: 'none', sm: 'block' },
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            }}
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Box>
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+        >
+          <Toolbar />
+          {itemRender(item)}
+        </Box>
+      </Box>
+      </>
+    
+  );
 }
+
+HeadingPage.propTypes = {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window: PropTypes.func,
+};
+
 export default HeadingPage;

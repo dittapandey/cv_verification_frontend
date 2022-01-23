@@ -2,7 +2,7 @@
     position:fixed;
     height: 100%;
     width: 100%;
-    z-index: 1;
+    z-index: 10000;
     background-color: rgba(150, 148, 148, 0.411);
     display:flex;
     flex-direction: column;
@@ -12,7 +12,7 @@
 
 .addapoint{
     right:2;
-    z-index:2;
+    z-index:100000;
     width:60vw;
     height:80vh;
     margin:auto;

@@ -1,3 +1,5 @@
+// not being used at all
+
 import './Sidemenu.css';
 import {MenuList,AdminMenuList} from '../../Assets/Lists';
 import { AppContext } from '../../App';
