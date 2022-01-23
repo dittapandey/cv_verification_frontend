@@ -1,22 +1,32 @@
 import { Close, Co2Sharp } from '@mui/icons-material';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { CategoryList } from '../../Assets/Lists';
 import './AddAPoint.css';
 import { BACKEND_URL as url } from '../../Assets/FullForm';
 import { isAuthenticated } from '../../services/Auth_service';
-import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Alert, Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { AppContext } from '../../App';
+import { InputGroup } from 'react-bootstrap';
 
 const AddAPoint = (props) => {
+    const appContext = useContext(AppContext);
     const setShowAddPoint = props.setShowAddPoint;
     const [inputs, setInputs] = useState({});
+    const [inputError, setInputError] = useState(false);
     const [page, setPage]= useState(1);
-    const [currentCategory, setCurrentCategory] = useState()
+    const [currentCategory, setCurrentCategory] = useState({
+        empty:true,
+        sub_category: []
+    });
+    const [currentsubCategory, setCurrentsubCategory] = useState({
+        empty:true,
+    });
     const [categoryId, setCategoryId] = useState(1);
     const [clubId, setClubId] = useState(0);
     // const [fade,setFade] = 
     // const [closeButtonColor, setCloseButtonColor] = useState("disabled");
 
-    function renderFormPage(page){
+    function renderFormPage(){
         if(page===1){
             return(
                 <div className="content_page p1">
@@ -48,34 +58,71 @@ const AddAPoint = (props) => {
                         </div>
             );
         } else if(page===2){
+                return(
+                    <div className="content_page p2">
+                                <h2>
+                                    What type of {currentCategory.title} do you wish to add?
+                                </h2>
+                                <FormControl sx={{width: "70%", m:"2",marginTop:"45px"}}>
+                                <InputLabel id="sub_category">Sub Category</InputLabel>
+                                <Select
+                                    labelId="sub_category"
+                                    id="sub_category"
+                                    name="sub_category"
+                                    value={inputs.sub_category || " "}
+                                    label="sub_category"
+                                    onChange={handleChange}
+                                >
+                                    {
+                                        currentCategory["sub_category"].map((category)=>{
+                                            return(
+                                                <MenuItem value={category.title}>{category.title}</MenuItem>
+                                            );
+                                        })
+                                    }
+                                </Select>
+                                </FormControl>
+                            </div>
+                );
+        } else if(page===3){
             return(
-                <div className="content_page p1">
-                            <h2>
-                                What type of {currentCatego} do you wish to add?
-                            </h2>
-                            <FormControl sx={{width: "70%", m:"2",marginTop:"45px"}}>
-                            <InputLabel id="category">Category</InputLabel>
-                            <Select
-                                labelId="category"
-                                id="category"
-                                name="category"
-                                value={inputs.category || " "}
-                                label="category"
-                                onChange={handleChange}
-                            >
-                                {
-                                    CategoryList["categories"].map((category)=>{
-                                        return(
-                                            <MenuItem value={category.title}>{category.title}</MenuItem>
-                                        );
-                                    })
-                                }
-                                {/* <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem> */}
-                            </Select>
-                            </FormControl>
-                        </div>
+                <div className="content_page p3">
+                    <h2>
+                        Type in the title of your CV Point: 
+                    </h2>
+                    <TextField
+                    id="title"
+                    name="title"
+                    label="Your Point Title"
+                    type="text"
+                    value={inputs.title || ""}
+                    onChange={handleChange}
+                    // autoComplete="current-password"
+                    sx={{marginTop:"50px"}}
+                    />
+                </div>
+            );
+        } else if(page===4){
+            return(
+                <div className="content_page p4">
+                    <h2>
+                        Type in the Description of your CV Point: 
+                    </h2>
+                    <TextField
+                    id="outlined-multiline-static"
+                    name="description"
+                    label="Your Point Description"
+                    type="text"
+                    placeholder='Description'
+                    value={inputs.description || ""}
+                    onChange={handleChange}
+                    // autoComplete="current-password"
+                    sx={{marginTop:"50px"}}
+                    fullWidth
+                    rows={5}
+                    multiline
+                    />
+                </div>
             );
         }
     }
@@ -105,35 +152,53 @@ const AddAPoint = (props) => {
         .then((response)=>{console.log(response)})
         .catch((error)=>{console.error(error.message)});
     }
+
+    const handleNext = () => {
+        if(page===1 && currentCategory.empty){
+            setInputError(true);
+        } else if(page===2 && currentsubCategory.empty){
+            setInputError(true);
+        } else if(page===3 && (!("title" in inputs)|| inputs.title==="")){
+            setInputError(true);
+        }
+        else{
+            setPage(page+1);
+            setInputError(false);
+        }
+            
+    }
+    const handlePrev = () => {
+        setPage(page-1);
+    }
     const handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         if(name==="category"){
             setCategoryId(CategoryList["hash"][value]);
+            setCurrentCategory(CategoryList["categories"][CategoryList["hash"][value]-1]);
+        } else if(name==="sub_category"){
+            setCurrentsubCategory(value);
+            console.log(value);
         }
         setInputs(values => ({...values, [name]: value}))
     }
 
-    const [clubs, setClubs] = useState(
-        [
-            {org_id: 100, name: 'Coding Club', createdAt: '2022-01-03T06:57:39.000Z', updatedAt: '2022-01-03T06:57:39.000Z', parent_org_id: null}
-        ]
-    );
+    const [clubs, setClubs] = appContext.clubs;
 
-    function fetchClubs(){
-        fetch(url+"/orgs")
-        .then((res)=>res.json())
-            .then((result)=>{
-                // console.log(result);
-                setClubs(result);
-            }).catch((e)=>{
-                console.error("Error Message is",e.message)
-            });
-    }
+    // function fetchClubs(){
+    //     fetch(url+"/orgs")
+    //     .then((res)=>res.json())
+    //         .then((result)=>{
+    //             // console.log(result);
+    //             setClubs(result);
+    //         }).catch((e)=>{
+    //             console.error("Error Message is",e.message)
+    //         });
+    // }
     
-    useEffect(()=>{
-        fetchClubs();
-    },[])
+    // useEffect(()=>{
+    //     fetchClubs();
+    // },[])
 
     return ( 
         <div className="page">
@@ -230,11 +295,14 @@ const AddAPoint = (props) => {
                 </div> */}
                 <div className="form_page">
                     <div className="content">
-                        {renderFormPage(page)}
+                        {renderFormPage()}
                     </div>
+                    {inputError&& <div className="error">
+                        <Alert severity='error'>Input not correct</Alert>
+                    </div>}
                     <div className="control">
-                        <Button variant="contained">Prev</Button>{'\t\t'}
-                        <Button variant="contained">Next</Button>
+                        <Button variant="contained" onClick={()=>handlePrev()}>Prev</Button>{'\t\t'}
+                        <Button variant="contained" onClick={()=>handleNext()}>Next</Button>
                     </div>
                 </div>
             </div>

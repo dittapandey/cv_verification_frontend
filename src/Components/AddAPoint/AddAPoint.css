@@ -138,3 +138,7 @@ form{
 .content_page h2{
     margin-top: 25px;
 }
+.form_page .error{
+    position:absolute;
+    bottom:10%
+}
