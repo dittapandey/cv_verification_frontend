@@ -11,52 +11,7 @@ import AddAPoint from "../../Components/AddAPoint/AddAPoint";
 import WorkInProgress from "../../Components/WorkInProgress/WorkInProgress";
 import ViewRequest from "../../Components/ViewRequests/ViewRequests";
 import FlagApprovals from "../../Components/FlagApprovals/FlagApprovals";
-// const HeadingPage = () => {
-//     const [name, setName]= useState("");
-//     const [item, setItem]= useState(MenuList[0]);
-//     const [showAddPoint, setShowAddPoint] = useState(false);
-
-//     function itemRender(M){
-//         if(M.id===1){
-//             return <ViewPoints setShowAddPoint={setShowAddPoint}/>
-//         }
-//         else if(M.id===2){
-//             return <ViewPublic/>
-//         }
-//         else if(M.id===3){
-//             return <FlaggedByYou/>
-//         }
-//         else if(M.id===4){
-//             return <SelfFlag/>
-//         }
-//         else if(M.id===5){
-//             return <GeneralGuidelines/>
-//         } else if(M.id==6){
-//             return <WorkInProgress/>
-//         } else if(M.id == 7){
-//             return <ViewRequest/>
-//         } else if(M.id == 8){
-//             return <WorkInProgress/>
-//         } else if(M.id == 9){
-//             return <FlagApprovals/>
-//         } else if(M.id==10){
-//             return <GeneralGuidelines/>
-//         }
-//     }
-//     return ( 
-//         <div className="AddAPoint">
-//             {showAddPoint && <AddAPoint setShowAddPoint={setShowAddPoint}/>}
-//             <div className="row2">
-//                     <Sidemenu item={item} setItem={setItem}/>
-//                 <div className="content">
-//                     {itemRender(item)}
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// }
-// export default HeadingPage;
-
+import { BACKEND_URL as url } from "../../Assets/FullForm";
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
@@ -77,6 +32,8 @@ import Typography from '@mui/material/Typography';
 import { MenuList } from '../../Assets/Lists';
 import { AppContext } from "../../App";
 import { makeStyles } from "@mui/styles";
+import { Button } from "@mui/material";
+import axios from "axios";
 
 const drawerWidth = 240;
 const useStyles = makeStyles({
@@ -186,6 +143,24 @@ function HeadingPage(props) {
 
   const container = window !== undefined ? () => window().document.body : undefined;
 
+  function logout(){
+    axios.post(url+"/auth/logout", {
+        withCredentials:true,
+        headers:{
+            
+            "Access-Control-Allow-Origin": "http://localhost:3000",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": "true",
+            "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
+            "Access-Control-Allow-Headers":
+                "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+        }
+    })
+    .then((res)=>{
+        console.log(res);
+    })
+  }
+
   return (
       <>
       {showAddPoint && <AddAPoint setShowAddPoint={setShowAddPoint}/>}
@@ -209,9 +184,10 @@ function HeadingPage(props) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap component="div">
+            {/* <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
               Responsive drawer
-            </Typography>
+            </Typography> */}
+            <Button onClick={()=>{logout()}} color="inherit">Logout</Button>
           </Toolbar>
         </AppBar>
         <Box

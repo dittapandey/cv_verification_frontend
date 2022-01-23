@@ -81,7 +81,6 @@ thead {
         border-bottom-right-radius: 10px;
         border-right: 1px;
     }
-
     .A{
         background-color:#CDE1C8;
     }
@@ -91,25 +90,6 @@ thead {
     .P{
         background-color:#E2E392;
     }
-
-    th{
-      margin-bottom:2rem;
-      padding: 0.5rem;
-
-    }
-    td {
-      text-align: center;
-      margin-bottom: 5px;
-      border-top: 1px;
-      border-bottom: 1px;
-      padding: 0.5rem;
-      width:50px;
-    }
-tbody{
-    padding-left: 1rem;
-    padding-right:1rem;
-    align-content: center;
-}
   .pagination {
     padding: 0.5rem;
     display: flex;

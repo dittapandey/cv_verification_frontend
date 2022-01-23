@@ -4,13 +4,14 @@ import { useSortBy, useTable, usePagination, useExpanded } from 'react-table'
 import "./ViewPublic.css";
 import styled from "styled-components";
 import { ArrowDownward, ChevronRight, ConstructionOutlined, KeyboardArrowDown, KeyboardArrowUp, Margin } from "@mui/icons-material";
+import CollapsibleTable from "./TableRender";
 import PublicCard from "../PublicCard/PublicCard";
 import PointCard from "../PointCard/PointCard"
 import CardContent from "../../Assets/CardContent";
 import { BACKEND_URL as url } from "../../Assets/FullForm";
 import { useContext } from "react";
 import { AppContext } from "../../App";
-import { Card } from "@mui/material";
+import { Card, Stack } from "@mui/material";
 import { useCallback } from "react";
 
 const Styles = styled.div`
@@ -82,7 +83,7 @@ function Table({ columns, data, renderRowSubComponent }) {
                     prepareRow(row)
                     return (
                         <Fragment {...row.getRowProps()}>
-                            <tr dataToggle="collapse" dataTarget="#collapseData" className={row.original.status+"accordian-toggle"} style={{
+                            <tr dataToggle="collapse" dataTarget="#collapseData" className={row.original.status+" accordian-toggle"} style={{
                                 height:"50px",
                                 marginTop:"10px",
                             }} onClick={()=>{console.log(row.original)}}
@@ -217,7 +218,7 @@ const ViewPublic = () => {
         appContext.fetchRawData();
     },[])
     return ( 
-        <div className="viewpoint">
+        <Stack>
             <div className="top">
                 <div className="topupper">
                     <div className="addapointbutton">
@@ -280,13 +281,17 @@ const ViewPublic = () => {
                 </div>
                 
             </div>
-            <div className="bottom">
-                <Styles>
-                    <Table columns={columns} data={rawData} renderRowSubComponent={renderRowSubComponent}/>
-                </Styles>
+            <CollapsibleTable/>
+
+        </Stack>
+            
+            // {/* <div className="bottom">
+            //     <Styles>
+            //         <Table columns={columns} data={rawData} renderRowSubComponent={renderRowSubComponent}/>
+            //     </Styles>
                 
-            </div>
-        </div>
+            // </div> */}
+        
      );
 }
  
