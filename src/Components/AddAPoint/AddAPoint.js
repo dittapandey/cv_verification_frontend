@@ -11,7 +11,13 @@ import { InputGroup } from 'react-bootstrap';
 const AddAPoint = (props) => {
     const appContext = useContext(AppContext);
     const setShowAddPoint = props.setShowAddPoint;
-    const [inputs, setInputs] = useState({});
+    const [inputs, setInputs] = useState({
+        title:"",
+        description:"",
+        cat: "Projects",
+        sub_category: "Personal Project",
+        org_id:0
+    });
     const [inputError, setInputError] = useState(false);
     const [page, setPage]= useState(1);
     const [currentCategory, setCurrentCategory] = useState({
@@ -22,124 +28,158 @@ const AddAPoint = (props) => {
         empty:true,
     });
     const [categoryId, setCategoryId] = useState(1);
-    const [clubId, setClubId] = useState(0);
+    const [clubId, setClubId] = appContext.clubId;
     // const [fade,setFade] = 
     // const [closeButtonColor, setCloseButtonColor] = useState("disabled");
 
-    function renderFormPage(){
-        if(page===1){
-            return(
-                <div className="content_page p1">
-                            <h2>
-                                What type of CV Point do you wish to add?
-                            </h2>
-                            <FormControl sx={{width: "70%", m:"2",marginTop:"45px"}}>
-                            <InputLabel id="category">Category</InputLabel>
-                            <Select
-                                labelId="category"
-                                id="category"
-                                name="category"
-                                value={inputs.category || " "}
-                                label="category"
-                                onChange={handleChange}
-                            >
-                                {
-                                    CategoryList["categories"].map((category)=>{
-                                        return(
-                                            <MenuItem value={category.title}>{category.title}</MenuItem>
-                                        );
-                                    })
-                                }
-                                {/* <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem> */}
-                            </Select>
-                            </FormControl>
-                        </div>
-            );
-        } else if(page===2){
-                return(
-                    <div className="content_page p2">
-                                <h2>
-                                    What type of {currentCategory.title} do you wish to add?
-                                </h2>
-                                <FormControl sx={{width: "70%", m:"2",marginTop:"45px"}}>
-                                <InputLabel id="sub_category">Sub Category</InputLabel>
-                                <Select
-                                    labelId="sub_category"
-                                    id="sub_category"
-                                    name="sub_category"
-                                    value={inputs.sub_category || " "}
-                                    label="sub_category"
-                                    onChange={handleChange}
-                                >
-                                    {
-                                        currentCategory["sub_category"].map((category)=>{
-                                            return(
-                                                <MenuItem value={category.title}>{category.title}</MenuItem>
-                                            );
-                                        })
-                                    }
-                                </Select>
-                                </FormControl>
-                            </div>
-                );
-        } else if(page===3){
-            return(
-                <div className="content_page p3">
-                    <h2>
-                        Type in the title of your CV Point: 
-                    </h2>
-                    <TextField
-                    id="title"
-                    name="title"
-                    label="Your Point Title"
-                    type="text"
-                    value={inputs.title || ""}
-                    onChange={handleChange}
-                    // autoComplete="current-password"
-                    sx={{marginTop:"50px"}}
-                    />
-                </div>
-            );
-        } else if(page===4){
-            return(
-                <div className="content_page p4">
-                    <h2>
-                        Type in the Description of your CV Point: 
-                    </h2>
-                    <TextField
-                    id="outlined-multiline-static"
-                    name="description"
-                    label="Your Point Description"
-                    type="text"
-                    placeholder='Description'
-                    value={inputs.description || ""}
-                    onChange={handleChange}
-                    // autoComplete="current-password"
-                    sx={{marginTop:"50px"}}
-                    fullWidth
-                    rows={5}
-                    multiline
-                    />
-                </div>
-            );
-        }
-    }
+    // function renderFormPage(){
+    //     if(page===1){
+    //         return(
+    //             <div className="content_page p1">
+    //                         <h2>
+    //                             What type of CV Point do you wish to add?
+    //                         </h2>
+    //                         <FormControl sx={{width: "70%", m:"2",marginTop:"45px"}}>
+    //                         <InputLabel id="category">Category</InputLabel>
+    //                         <Select
+    //                             labelId="category"
+    //                             id="category"
+    //                             name="category"
+    //                             value={inputs.category || " "}
+    //                             label="category"
+    //                             onChange={handleChange}
+    //                         >
+    //                             {
+    //                                 CategoryList["categories"].map((category)=>{
+    //                                     console.log("category", category)
+    //                                     return(
+    //                                         <MenuItem sx={{zIndex:"1000001"}} value={category.title}>{category.title}</MenuItem>
+    //                                     );
+    //                                 })
+    //                             }
+    //                             {/* <MenuItem value={10}>Ten</MenuItem>
+    //                             <MenuItem value={20}>Twenty</MenuItem>
+    //                             <MenuItem value={30}>Thirty</MenuItem> */}
+    //                         </Select>
+    //                         </FormControl>
+    //                     </div>
+    //         );
+    //     } else if(page===2){
+    //             return(
+    //                 <div className="content_page p2">
+    //                             <h2>
+    //                                 What type of {currentCategory.title} do you wish to add?
+    //                             </h2>
+    //                             <FormControl sx={{width: "70%", m:"2",marginTop:"45px"}}>
+    //                             <InputLabel id="sub_category">Sub Category</InputLabel>
+    //                             <Select
+    //                                 labelId="sub_category"
+    //                                 id="sub_category"
+    //                                 name="sub_category"
+    //                                 value={inputs.sub_category || " "}
+    //                                 label="sub_category"
+    //                                 onChange={handleChange}
+    //                             >
+    //                                 {
+    //                                     currentCategory["sub_category"].map((category)=>{
+    //                                         return(
+    //                                             <MenuItem value={category.title}>{category.title}</MenuItem>
+    //                                         );
+    //                                     })
+    //                                 }
+    //                             </Select>
+    //                             </FormControl>
+    //                         </div>
+    //             );
+    //     } else if(page===3){
+    //         return(
+    //             <div className="content_page p3">
+    //                 <h2>
+    //                     Type in the title of your CV Point: 
+    //                 </h2>
+    //                 <TextField
+    //                 id="title"
+    //                 name="title"
+    //                 label="Your Point Title"
+    //                 type="text"
+    //                 value={inputs.title || ""}
+    //                 onChange={handleChange}
+    //                 // autoComplete="current-password"
+    //                 sx={{marginTop:"50px"}}
+    //                 />
+    //             </div>
+    //         );
+    //     } else if(page===4){
+    //         return(
+    //             <div className="content_page p4">
+    //                 <h2>
+    //                     Type in the Description of your CV Point: 
+    //                 </h2>
+    //                 <TextField
+    //                 id="outlined-multiline-static"
+    //                 name="description"
+    //                 label="Your Point Description"
+    //                 type="text"
+    //                 placeholder='Description'
+    //                 value={inputs.description || ""}
+    //                 onChange={handleChange}
+    //                 // autoComplete="current-password"
+    //                 sx={{marginTop:"50px"}}
+    //                 fullWidth
+    //                 rows={5}
+    //                 multiline
+    //                 />
+    //             </div>
+    //         ); 
+    //     }   else if(page===5){
+    //         return(
+    //             <div className="content_page p5">
+    //                         <h2>
+    //                             What type of organisation are you associated with?
+    //                         </h2>
+    //                         <FormControl sx={{width: "70%", m:"2",marginTop:"45px"}}>
+    //                         <InputLabel id="club">Organisation</InputLabel>
+    //                         <Select
+    //                             labelId="club"
+    //                             id="club"
+    //                             name="club"
+    //                             value={inputs.club || " "}
+    //                             label="club"
+    //                             onChange={handleChange}
+    //                         >
+    //                             {
+    //                                 clubs.map((club)=>{
+    //                                     return(
+    //                                         <option value={club.name} >{club.name}</option>
+    //                                     );
+    //                                 })
+    //                             }
+    //                         </Select>
+    //                         </FormControl>
+    //                     </div>
+    //         );
+    // }
+    // }
 
-
-    function getClubId(club){
-        console.log(club);
-        setClubId(club.org_id);
-    }
-    function closeAddPoint(){
-        setShowAddPoint(false);
-    }
     function handleSubmit(event){
         event.preventDefault()
+        // authentication
         isAuthenticated();
-        console.log(inputs);
-        fetch(url+'/points',{
+
+        //inputs manipulation
+        inputs["category"]=inputs.cat+"$"+inputs.sub_category;
+        delete inputs.cat;
+        delete inputs.sub_category;
+        inputs["org_id"]=clubId[inputs.club];
+        console.log("inputs",inputs)
+        //checking if all the inputs are valid
+        var check_inputs=true;
+        if(inputs["title"]==="" || inputs["description"]==="" || inputs["org_id"]===0){
+            check_inputs=!check_inputs;
+        }
+        console.log(JSON.stringify(inputs));
+        if(check_inputs){
+            fetch(url+'/points',{
             method:'POST',
             body:JSON.stringify(inputs),
             headers: {
@@ -147,10 +187,22 @@ const AddAPoint = (props) => {
                 "Accept":"application/json"
             },
             credentials: "include",
-            mode:"no-cors"
-        }).then((res)=>{res.text()})
-        .then((response)=>{console.log(response)})
-        .catch((error)=>{console.error(error.message)});
+            mode:"cors"
+            }).then((res)=>{res.json()})
+            .then((response)=>{
+                console.log(response)
+                alert("Request submitted");
+                setShowAddPoint(false);
+            })
+            .catch((error)=>{
+                console.error(error.message)
+            });
+        } else {
+            alert("Check all your inputs again");
+        }
+    }
+    function closeAddPoint(){
+        setShowAddPoint(false);
     }
 
     const handleNext = () => {
@@ -170,15 +222,24 @@ const AddAPoint = (props) => {
     const handlePrev = () => {
         setPage(page-1);
     }
+    // const handleChange = (event) => {
+    //     const name = event.target.name;
+    //     const value = event.target.value;
+    //     if(name==="category"){
+    //         setCategoryId(CategoryList["hash"][value]);
+    //         setCurrentCategory(CategoryList["categories"][CategoryList["hash"][value]-1]);
+    //     } else if(name==="sub_category"){
+    //         setCurrentsubCategory(value);
+    //         console.log(value);
+    //     }
+    //     setInputs(values => ({...values, [name]: value}))
+    // }
+
     const handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
-        if(name==="category"){
+        if(name==="cat"){
             setCategoryId(CategoryList["hash"][value]);
-            setCurrentCategory(CategoryList["categories"][CategoryList["hash"][value]-1]);
-        } else if(name==="sub_category"){
-            setCurrentsubCategory(value);
-            console.log(value);
         }
         setInputs(values => ({...values, [name]: value}))
     }
@@ -211,7 +272,7 @@ const AddAPoint = (props) => {
                     <Close color="disabled"sx={{fontSize:"30px"}}
                         />
                 </div>
-                {/* <div className="form_">
+                <div className="form_">
                     <div className="heading">
                         Add Points To your CV
                     </div>
@@ -230,7 +291,7 @@ const AddAPoint = (props) => {
                         </div>
                         <div className="form-content list">
                             <h4>Point Category:</h4>
-                            <select value={inputs.category || " "} name="category"  onChange={handleChange}>
+                            <select value={inputs.cat || " "} name="cat"  onChange={handleChange}>
                                 {
                                     CategoryList["categories"].map((category)=>{
                                         // console.log(category);
@@ -292,8 +353,8 @@ const AddAPoint = (props) => {
                         </div>
                         
                     </form>
-                </div> */}
-                <div className="form_page">
+                </div>
+                {/* <div className="form_page">
                     <div className="content">
                         {renderFormPage()}
                     </div>
@@ -304,7 +365,7 @@ const AddAPoint = (props) => {
                         <Button variant="contained" onClick={()=>handlePrev()}>Prev</Button>{'\t\t'}
                         <Button variant="contained" onClick={()=>handleNext()}>Next</Button>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
         

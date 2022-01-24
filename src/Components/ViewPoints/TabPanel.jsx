@@ -83,7 +83,6 @@ export default function BasicTabs(props) {
                             <Typography sx={{fontSize:"30px"}}>{sub_category.title}</Typography>
                             <Divider/>
                             {categoryData["categories"][currentCategory.id-1].sub_category[index]["data"].map((point)=>{
-                                console.log(point);
                                 return(
                                     <PointCard point={point} flagmenu={false}/>
                                 );

@@ -106,7 +106,7 @@ function HeadingPage(props) {
     <div>
       <Toolbar>
         <img src="iitg-logo.png" alt="" style={{height: "30px"}}/>
-        {"\t"}CV Verfication
+        {"\t\t"}CV Verfication
         </Toolbar>
       <Divider/>
       <Toolbar>Welcome {user?user.name:"Guest"}</Toolbar>

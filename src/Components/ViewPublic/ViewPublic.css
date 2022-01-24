@@ -81,6 +81,9 @@ thead {
         border-bottom-right-radius: 10px;
         border-right: 1px;
     }
+    th td{
+        color:white;
+    }
     .A{
         background-color:#CDE1C8;
     }

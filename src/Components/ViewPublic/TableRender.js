@@ -14,85 +14,206 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { AppContext } from '../../App';
+import { makeStyles } from '@mui/styles';
+import { FirstPage, KeyboardArrowLeft, KeyboardArrowRight, LastPage } from '@mui/icons-material';
+import { Alert, Button, Grid, Snackbar, TableFooter, TablePagination, TextField } from '@mui/material';
+import { useTheme } from '@emotion/react';
+import axios from 'axios';
+import { BACKEND_URL as url } from '../../Assets/FullForm';
+import { useState } from 'react';
 
-function createData(name, calories, fat, carbs, protein, price) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-    price,
-    history: [
-      {
-        date: '2020-01-05',
-        customerId: '11091700',
-        amount: 3,
-      },
-      {
-        date: '2020-01-02',
-        customerId: 'Anonymous',
-        amount: 1,
-      },
-    ],
-  };
+const useStyles = makeStyles(
+   { 
+       headTableRow: {
+        color:"white"
+        },
+    }
+);
+  
+  
+
+
+function TablePaginationActions(props) {
+    const theme = useTheme();
+    const { count, page, rowsPerPage, onPageChange } = props;
+  
+    const handleFirstPageButtonClick = (event) => {
+      onPageChange(event, 0);
+    };
+  
+    const handleBackButtonClick = (event) => {
+      onPageChange(event, page - 1);
+    };
+  
+    const handleNextButtonClick = (event) => {
+      onPageChange(event, page + 1);
+    };
+  
+    const handleLastPageButtonClick = (event) => {
+      onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    };
+  
+    return (
+      <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+        <IconButton
+          onClick={handleFirstPageButtonClick}
+          disabled={page === 0}
+          aria-label="first page"
+        >
+          {theme.direction === 'rtl' ? <LastPage /> : <FirstPage />}
+        </IconButton>
+        <IconButton
+          onClick={handleBackButtonClick}
+          disabled={page === 0}
+          aria-label="previous page"
+        >
+          {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+        </IconButton>
+        <IconButton
+          onClick={handleNextButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="next page"
+        >
+          {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+        </IconButton>
+        <IconButton
+          onClick={handleLastPageButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="last page"
+        >
+          {theme.direction === 'rtl' ? <FirstPage /> : <LastPage />}
+        </IconButton>
+      </Box>
+    );
 }
+  
+  TablePaginationActions.propTypes = {
+    count: PropTypes.number.isRequired,
+    onPageChange: PropTypes.func.isRequired,
+    page: PropTypes.number.isRequired,
+    rowsPerPage: PropTypes.number.isRequired,
+  };
 
 function Row(props) {
+    const appContext = React.useContext(AppContext);
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+  const [snackSuccessbarOpen, setSnackbarSuccessOpen] = useState(false);
+  const [snackFailurebarOpen, setSnackbarFailureOpen] = useState(false);
+  const [pointUser, setPointUser] = React.useState({});
+  const user = appContext.user;
+  const [flagDesc, setFlagDesc] = useState("");
+
+  function collapsePoint(){
+      if(!open){
+        axios.get(url+`/user/find/${row.user_id}`, {
+            withCredentials:true,
+            headers:{
+                "Access-Control-Allow-Origin": "http://localhost:3000",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": "true",
+                "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
+                "Access-Control-Allow-Headers":
+                    "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+            }
+        })
+        .then((res)=>{
+            if(res.data){
+                
+                setPointUser(res.data);
+            } else {
+                console.log(res);
+                console.log("User data not received");
+            }
+        })
+      }
+      setOpen(!open);
+
+  }
+  const [category,sub_category] = row.category.split('$');
+
+  function handleChange(event){
+      setFlagDesc(event.target.value);
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleFlag(e){
+      e.preventDefault();
+      console.log(1);
+      axios.post(url+`/points/${row.point_id}/flag`, {
+        withCredentials:true,
+        headers:{
+            "Access-Control-Allow-Origin": "http://localhost:3000",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": "true",
+            "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
+            "Access-Control-Allow-Headers":
+                "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+        }
+    })
+    .then((res)=>{
+        if(res.status==200){
+            console.log(res);
+        } 
+    })
+  }
 
   return (
     <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+      <TableRow className={row.status} sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
           <IconButton
             aria-label="expand row"
             size="small"
-            onClick={() => setOpen(!open)}
+            onClick={() => collapsePoint()}
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.name}
+          {row.point_id}
         </TableCell>
-        <TableCell align="right">{row.calories}</TableCell>
-        <TableCell align="right">{row.fat}</TableCell>
-        <TableCell align="right">{row.carbs}</TableCell>
-        <TableCell align="right">{row.protein}</TableCell>
+        <TableCell align="center">{row.title}</TableCell>
+        <TableCell align="center">{row.description}</TableCell>
+        <TableCell align="center">{row.user_id}</TableCell>
+        <TableCell align="center">{row.status}</TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell className={row.status} style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                History
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Customer</TableCell>
-                    <TableCell align="right">Amount</TableCell>
-                    <TableCell align="right">Total price ($)</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
-                      </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+            <Box sx={{ margin: 1,}}>
+            <Grid container spacing={2}>
+                <Grid item xs={6}>
+                    <Typography>Category: {category}-{sub_category}</Typography>
+                    <Typography>Project by: {pointUser.name}</Typography>
+                    <Typography>Email ID: {pointUser.user_id}</Typography>
+                    <Typography>Started on: {row.start_date}</Typography>
+                    <Typography>Ended on: {row.end_date}</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                    <Typography variant="h5">Flagging Form</Typography>
+                    <Typography>Reason for Flagging</Typography>
+                    <Box sx={{height:"10px"}}></Box>
+                    <TextField
+                    id="flagDesc"
+                    name="flagDesc"
+                    label="Descripiton"
+                    type="text"
+                    value={flagDesc || ""}
+                    onChange={handleChange}
+                    // autoComplete="current-password"
+                    />
+                    <Box sx={{height:"10px"}}></Box>
+                    <p><Button onClick={(e)=>{handleFlag(e)}} variant="contained">Flag this Point</Button></p>
+                </Grid>
+            </Grid>
             </Box>
           </Collapse>
         </TableCell>
@@ -100,61 +221,70 @@ function Row(props) {
     </React.Fragment>
   );
 }
-
-Row.propTypes = {
-  row: PropTypes.shape({
-    calories: PropTypes.number.isRequired,
-    carbs: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    history: PropTypes.arrayOf(
-      PropTypes.shape({
-        amount: PropTypes.number.isRequired,
-        customerId: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
-      }),
-    ).isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    protein: PropTypes.number.isRequired,
-  }).isRequired,
-};
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-  createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-  createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-];
-
 export default function CollapsibleTable() {
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const classes = useStyles();
     const appContext = React.useContext(AppContext);
     const [rawData, setRawData] = appContext.rawData;
     const keys = Object.keys(rawData[0]);
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+     const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rawData.length) : 0;
+
+      const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+    const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+    
+    console.log(keys);
     return (
         <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
             <TableHead>
-            <TableRow>
+            <TableRow style={{color:"white"}}>
                 <TableCell />
-                {
-                    keys.forEach((key,index)=>{
-                        <TableCell align="right">{key}</TableCell>
-                    })
-                }
-                {/* <TableCell>Dessert (100g serving)</TableCell>
-                <TableCell align="right">Calories</TableCell>
-                <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-
-                <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
+                
+                <TableCell >Point Id</TableCell>
+                <TableCell align="center">Title</TableCell>
+                <TableCell align="center">Description</TableCell>
+                <TableCell align="center">userID</TableCell>
+                <TableCell align="center">Approval Status</TableCell>
             </TableRow>
             </TableHead>
             <TableBody>
-            {rawData.map((point) => (
-                <Row key={row.name} row={row} />
-            ))}
+            {(rowsPerPage > 0
+            ? rawData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : rawData
+          ).map((row) => (
+            <Row key={row.point_id} keys={keys} row={row} />
+          ))}
             </TableBody>
+            <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+              colSpan={3}
+              count={rawData.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              SelectProps={{
+                inputProps: {
+                  'aria-label': 'rows per page',
+                },
+                native: true,
+              }}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              ActionsComponent={TablePaginationActions}
+            />
+          </TableRow>
+        </TableFooter>
         </Table>
         </TableContainer>
     );
