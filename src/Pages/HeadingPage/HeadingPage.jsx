@@ -32,7 +32,7 @@ import Typography from '@mui/material/Typography';
 import { MenuList } from '../../Assets/Lists';
 import { AppContext } from "../../App";
 import { makeStyles } from "@mui/styles";
-import { Button } from "@mui/material";
+import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import axios from "axios";
 
 const drawerWidth = 240;
@@ -49,6 +49,7 @@ const useStyles = makeStyles({
   });
 
 function HeadingPage(props) {
+
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const classes = useStyles();
@@ -73,7 +74,10 @@ function HeadingPage(props) {
     const [item, setItem]= useState(MenuList[0]);
     const [showAddPoint, setShowAddPoint] = useState(false);
     const appContext = React.useContext(AppContext);
+    const [clubs,setClubs] = appContext.clubs;
     const user=appContext.user;
+    // const [currentAdmin, setCurrentAdmin] = appContext.setCurrentAdmin;
+    // const AdminKeys = Object.keys(user.admin);
     function itemRender(M){
         if(M.id===1){
             return <ViewPoints setShowAddPoint={setShowAddPoint}/>
@@ -102,6 +106,10 @@ function HeadingPage(props) {
         }
     }
 
+    function handleChange(){
+
+    }
+
   const drawer = (
     <div>
       <Toolbar>
@@ -124,6 +132,21 @@ function HeadingPage(props) {
             )
         }
       </List>
+      <Divider/>
+      {/* <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id="demo-simple-select-standard-label">Select Admin's Organisation</InputLabel>
+                <Select
+                    labelId="demo-simple-select-standard-label"
+                    id="demo-simple-select-standard"
+                    value={currentAdmin}
+                    onChange={handleChange}
+                    label="Organization"
+                >
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+            </FormControl> */}
       <Divider />
       <List>
         {MenuList.map((M, index) => {

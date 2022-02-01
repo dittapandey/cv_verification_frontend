@@ -220,11 +220,6 @@ const ViewPublic = () => {
     return ( 
         <Stack>
             <div className="top">
-                <div className="topupper">
-                    <div className="addapointbutton">
-                        <Button fg_color={"white"} bg_color={"#0A6ABF"} handleClick={handleAddAPoint} text={"Add A Point"}/>
-                    </div>
-                </div>
                 <div className="toplower">
                     <div className="searchbar">
                         <form>
@@ -242,7 +237,7 @@ const ViewPublic = () => {
                             onChange={handleQuery}/>
                         </form>
                     </div>
-                    <div className="redbuttons">
+                    {/* <div className="redbuttons">
                         <div className="dropdown">
                             <button className="dropbtn" 
                             ><ArrowDownward fontSize="small"/>  Select Board</button>
@@ -277,12 +272,10 @@ const ViewPublic = () => {
                         </div>
                         </div>
                         
-                    </div>
+                    </div> */}
                 </div>
-                
             </div>
             <CollapsibleTable/>
-
         </Stack>
             
             // {/* <div className="bottom">

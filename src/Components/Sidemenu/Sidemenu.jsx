@@ -6,10 +6,12 @@ import { AppContext } from '../../App';
 import {useState, useContext} from 'react';
 import { useEffect } from 'react';
 import { isAuthenticated } from '../../services/Auth_service';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 const Sidemenu = (props) => {
     // const [item, setItem] = useState(MenuList[0]);
     const appContext = useContext(AppContext);
     const user = appContext.user;
+    const [currentAdmin, setCurrentAdmin] = appContext.currentAdmin;
     const item=props.item;
     const setItem=props.setItem;
     function handleClick(menuitem){
@@ -38,7 +40,7 @@ const Sidemenu = (props) => {
                 </div>
                 <hr id='line' />
                 <div className="user">
-                    WELCOME {user?user.name:"JS"}
+                    WELCOME {user?user.name:"Guest"}
                 </div>
                 <hr id='small-line' />
                 <div className="upper">
@@ -48,7 +50,26 @@ const Sidemenu = (props) => {
                             <div className={"items"+(M.selected?" selected":"")} onClick={()=> handleClick(M)}>{M.title}</div>
                     )})}
                 </div>
-                <hr id='line' />
+                {/* <hr id='line'/>
+                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel id="demo-simple-select-standard-label">Select Admin's Organisation</InputLabel>
+                    <Select
+                    labelId="demo-simple-select-standard-label"
+                    id="demo-simple-select-standard"
+                    value={}
+                    onChange={handleChange}
+                    label="Organization"
+                    >
+                    <MenuItem value="">
+                        <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                    </Select>
+                </FormControl>
+                    
+                <hr id='line' /> */}
              <div className="user">
                  ADMIN CONTROLS
              </div>

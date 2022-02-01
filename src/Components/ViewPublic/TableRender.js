@@ -21,6 +21,7 @@ import { useTheme } from '@emotion/react';
 import axios from 'axios';
 import { BACKEND_URL as url } from '../../Assets/FullForm';
 import { useState } from 'react';
+import {full} from '../../Assets/FullForm'
 
 const useStyles = makeStyles(
    { 
@@ -183,7 +184,7 @@ function Row(props) {
         <TableCell align="center">{row.title}</TableCell>
         <TableCell align="center">{row.description}</TableCell>
         <TableCell align="center">{row.user_id}</TableCell>
-        <TableCell align="center">{row.status}</TableCell>
+        <TableCell align="center">{full[row.status]}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell className={row.status} style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>

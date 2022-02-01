@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import {useState} from 'react';
+import {useState, useContext} from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -8,8 +8,10 @@ import Box from '@mui/material/Box';
 import { CategoryList } from '../../Assets/Lists';
 import { Divider } from '@mui/material';
 import PointCard from '../PointCard/PointCard';
+import {AppContext} from '../../App';
 
 function TabPanel(props) {
+    
   const { children, value, index, ...other } = props;
   
 
@@ -44,9 +46,11 @@ function a11yProps(index) {
 }
 
 export default function BasicTabs(props) {
+    const appContext = useContext(AppContext);
   const [value, setValue] = React.useState(0);
   const categoryData = props.categoryData;
   const [currentCategory, setCurrentCategory] = useState(CategoryList["categories"][0]);
+  const user = appContext.user;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -83,9 +87,10 @@ export default function BasicTabs(props) {
                             <Typography sx={{fontSize:"30px"}}>{sub_category.title}</Typography>
                             <Divider/>
                             {categoryData["categories"][currentCategory.id-1].sub_category[index]["data"].map((point)=>{
-                                return(
-                                    <PointCard point={point} flagmenu={false}/>
-                                );
+                                // if(point.user_id === appContext.user.user_id)
+                                    return(
+                                        <PointCard point={point} flagmenu={false}/>
+                                    );
                             })}
                         </div>
                         </Box>

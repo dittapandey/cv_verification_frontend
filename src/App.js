@@ -325,6 +325,9 @@ function App() {
     })
   }
 
+  const [currentAdmin, setCurrentAdmin] = useState('0');
+  
+
 
 
 
@@ -340,7 +343,8 @@ function App() {
       user: user,
       fetchRawData: fetchRawData,
       categoryData: [categoryData,setCategoryData],
-      rawData: [rawData,setRawData]
+      rawData: [rawData,setRawData],
+      currentAdmin: [currentAdmin, setCurrentAdmin],
       }}>
       <div className="App">
         <Router>
