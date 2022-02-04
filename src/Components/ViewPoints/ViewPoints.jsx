@@ -1,208 +1,230 @@
-
 import "./ViewPoints.css";
 import { ArrowDownward, Margin } from "@mui/icons-material";
 import PointCard from "../PointCard/PointCard";
 import { BACKEND_URL as url } from "../../Assets/FullForm";
-import {useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { AppContext } from "../../App";
 import { CategoryList } from "../../Assets/Lists";
-import { Button, Divider, Grid, Stack, Tab, TabPanelUnstyled, Tabs, Typography } from '@mui/material';
-import { Box } from '@mui/system';
-import PropTypes from 'prop-types';
+import {
+  Button,
+  Divider,
+  Grid,
+  Stack,
+  Tab,
+  TabPanelUnstyled,
+  Tabs,
+  Typography,
+} from "@mui/material";
+import { Box } from "@mui/system";
+import PropTypes from "prop-types";
 import BasicTabs from "./TabPanel";
 function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-  
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
-      </div>
-    );
-  }
-  
-  TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
-  
-  function a11yProps(index) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
-    };
-  }
+}
 
 const ViewPoints = (props) => {
-    const appContext = useContext(AppContext);
-    const [query, setQuery] = useState("");
-    const [clubMenu, setClubMenu] = useState(false);
-    const [currentCategory, setCurrentCategory] = useState(CategoryList["categories"][0]);
-    const [rawData, setRawData] = useState([{}]);
-    const [categoryData, setCategoryData] = appContext.categoryData;
-    const setShowAddPoint=props.setShowAddPoint;
-    const [value, setValue] = useState(0);
+  const appContext = useContext(AppContext);
+  const [query, setQuery] = useState("");
+  const [clubMenu, setClubMenu] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState(
+    CategoryList["categories"][0]
+  );
+  const [rawData, setRawData] = useState([{}]);
+  const [categoryData, setCategoryData] = appContext.categoryData;
+  const setShowAddPoint = props.setShowAddPoint;
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-    function handleAddAPoint(){
-        setShowAddPoint(true);
-    }
-    function handleQuery(e){
-        setQuery(e.target.value);
-    }
+  function handleAddAPoint() {
+    setShowAddPoint(true);
+  }
+  function handleQuery(e) {
+    setQuery(e.target.value);
+  }
 
-    const [clubs, setClubs] =appContext.clubs;
+  const [clubs, setClubs] = appContext.clubs;
 
-    // function fetchClubs(){
-    //     fetch(url+"/orgs")
-    //     .then((res)=>res.json())
-    //         .then((result)=>{
-    //             console.log(result);
-    //             setClubs(result);
-    //         }).catch((e)=>{
-    //             console.error("Error Message is",e.message)
-    //         });
-    // }
+  // function fetchClubs(){
+  //     fetch(url+"/orgs")
+  //     .then((res)=>res.json())
+  //         .then((result)=>{
+  //             console.log(result);
+  //             setClubs(result);
+  //         }).catch((e)=>{
+  //             console.error("Error Message is",e.message)
+  //         });
+  // }
 
-    
+  function categoryChange(_category) {
+    setCurrentCategory(_category);
+    CategoryList["categories"].map((category) => {
+      if (category.title === _category) {
+        category.selected = true;
+      } else {
+        category.selected = false;
+      }
+    });
+  }
 
-    
+  function toggleClubMenu() {
+    setClubMenu(!clubMenu);
+  }
 
-    function categoryChange(_category){
-        setCurrentCategory(_category)
-        CategoryList["categories"].map((category)=>{
-            if(category.title===_category){
-                category.selected=true;
-            } else {
-                category.selected=false;
-            }
-        })
-    }
+  useEffect(() => {
+    appContext.fetchRawData();
+  }, []);
 
-    function toggleClubMenu(){
-        setClubMenu(!clubMenu);
-    }
+  return (
+    <Stack>
+      <div className="top">
+        <div className="topupper">
+          <div className="addapointbutton">
+            <Button
+              variant="contained"
+              onClick={() => {
+                handleAddAPoint();
+              }}
+            >
+              Add A Point
+            </Button>
+          </div>
+        </div>
 
-    useEffect(()=>{
-        appContext.fetchRawData();
-    },[])
-
-    return ( 
-        <Stack>
-            <div className="top">
-                <div className="topupper">
-                    <div className="addapointbutton">
-                        <Button variant="contained" onClick={()=>{handleAddAPoint()}}>Add A Point</Button>
-                    </div>
+        <Grid>
+          <Grid item xs={8}>
+            <form>
+              <input
+                style={{
+                  backgroundColor: "#FDFDFD",
+                  borderStyle: "none",
+                  borderRadius: "2.5ch",
+                  minWidth: "200px",
+                  minHeight: "35px",
+                  textAlign: "left",
+                  padding: "5px",
+                  boxShadow: "0px 8px 16px 0px rgba(0,0,0,0.2)",
+                }}
+                type="text"
+                value={query}
+                onChange={handleQuery}
+              />
+            </form>
+          </Grid>
+          {/* <Grid item xs={4}>
+            <div className="redbuttons">
+              <div className="dropdown">
+                <button
+                  className="dropbtn"
+                  onClick={() => {
+                    toggleClubMenu();
+                  }}
+                >
+                  <ArrowDownward fontSize="small" /> Select Board
+                </button>
+                <div className="dropdown-content">
+                  {clubs.map((club) => {
+                    return (
+                      // <div className="clubitem">
+                      //     {club.name}
+                      // </div>
+                      <a href="#">{club.name}</a>
+                    );
+                  })}
                 </div>
-                
-                <Grid>
-                    <Grid item xs={8}>
-                        <form>
-                            <input style={{
-                                backgroundColor:"#FDFDFD",
-                                borderStyle:"none",
-                                borderRadius:"2.5ch",
-                                minWidth: "200px",
-                                minHeight:"35px",
-                                textAlign:"left",
-                                padding:"5px",
-                                boxShadow:"0px 8px 16px 0px rgba(0,0,0,0.2)"
-                            }} type="text" 
-                            value={query}
-                            onChange={handleQuery}/>
-                        </form>
-                    </Grid>
-                    {/* <Grid item xs={4}>
-                    <div className="redbuttons">
-                        <div className="dropdown">
-                            <button className="dropbtn" onClick={()=>{toggleClubMenu()}}
-                            ><ArrowDownward fontSize="small"/>  Select Board</button>
-                            <div className="dropdown-content">
-                            {   
-                                clubs.map((club)=>
-                                    {
-                                        return (
-                                        // <div className="clubitem">
-                                        //     {club.name}
-                                        // </div>
-                                        <a href="#">
-                                            {club.name}
-                                        </a>
-                                    );})
-                            }
-                        </div>
-                        </div> */}
-                        
-                        {/* <div className="dropdown">
-                            <button className="dropbtn" onClick={()=>{toggleClubMenu()}}
-                            ><ArrowDownward fontSize="small"/>  Select Board</button>
-                            <div className="dropdown-content">
-                            {   
-                                clubs.map((club)=>
-                                    {
-                                        return (
-                                        // <div className="clubitem">
-                                        //     {club.name}
-                                        // </div>
-                                        <a href="#">
-                                            {club.name}
-                                        </a>
-                                    );})
-                            }
-                        </div>
-                        </div>
-                        
-                    </div>
+              </div> */}
 
-                    </Grid> */}
-                        
-                    
-                </Grid>
-                
+          {/* <div className="dropdown">
+                <button
+                  className="dropbtn"
+                  onClick={() => {
+                    toggleClubMenu();
+                  }}
+                >
+                  <ArrowDownward fontSize="small" /> Select Board
+                </button>
+                <div className="dropdown-content">
+                  {clubs.map((club) => {
+                    return (
+                      // <div className="clubitem">
+                      //     {club.name}
+                      // </div>
+                      <a href="#">{club.name}</a>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
+          </Grid> */}
+        </Grid>
+      </div>
 
-            <BasicTabs categoryData={categoryData}/>
-            
-            
-            {/* <div className="Selection-bar middle">
-                {
-                    CategoryList["categories"].map((category)=>{
-                        return(<button type="button" onClick={()=>{categoryChange(category)}}>{category.title}</button>);
-                    })
-                }
+      <BasicTabs categoryData={categoryData} />
+
+      {/* <div className="Selection-bar middle">
+        {CategoryList["categories"].map((category) => {
+          return (
+            <button
+              type="button"
+              onClick={() => {
+                categoryChange(category);
+              }}
+            >
+              {category.title}
+            </button>
+          );
+        })}
+      </div> */}
+      {/* <div className="bottom">
+        {currentCategory.sub_category.map((sub_category) => {
+          return (
+            <div className="sub_category">
+              <div style={{ height: "30px" }}></div>
+              <Typography sx={{ fontSize: "30px" }}>
+                {sub_category.title}
+              </Typography>
+              <Divider />
+              {categoryData["categories"][currentCategory.id - 1].sub_category[
+                (sub_category.id % 10) - 1
+              ]["data"].map((point) => {
+                return <PointCard point={point} flagmenu={false} />;
+              })}
             </div>
-            <div className="bottom">
-                {currentCategory.sub_category.map((sub_category)=>{
-                    return(
-                        <div className="sub_category">
-                            <div style={{height:"30px"}}></div>
-                            <Typography sx={{fontSize:"30px"}}>{sub_category.title}</Typography>
-                            <Divider/>
-                            {categoryData["categories"][currentCategory.id-1].sub_category[sub_category.id%10 -1]["data"].map((point)=>{
-                                return(
-                                    <PointCard point={point} flagmenu={false}/>
-                                );
-                            })}
-                        </div>
-                    )
-                })}
-                
-            </div> */}
-        </Stack>
-     );
-}
- 
+          );
+        })}
+      </div> */}
+    </Stack>
+  );
+};
+
 export default ViewPoints;
