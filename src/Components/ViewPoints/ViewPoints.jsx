@@ -18,6 +18,8 @@ import {
 import { Box } from "@mui/system";
 import PropTypes from "prop-types";
 import BasicTabs from "./TabPanel";
+import { BiSearch } from "react-icons/bi";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -106,42 +108,50 @@ const ViewPoints = (props) => {
   }, []);
 
   return (
-    <Stack>
-      <div className="top">
-        <div className="topupper">
-          <div className="addapointbutton">
-            <Button
-              variant="contained"
-              onClick={() => {
-                handleAddAPoint();
-              }}
-            >
-              Add A Point
-            </Button>
-          </div>
+    // <Stack>
+    <>
+      <div className="abc">
+        <Button variant="contained" onClick={() => handleAddAPoint()}>
+          Add A Point
+        </Button>
+        <div className="xyz">
+          <BiSearch
+            style={{
+              fontSize: "25px",
+              position: "relative",
+              top: "10px",
+              left: "35px",
+            }}
+          />
+          <input
+            className="searchkey"
+            type="text"
+            value={query}
+            onChange={handleQuery}
+            placeholder="Search for keywords..."
+          />
         </div>
-
-        <Grid>
+      </div>
+      {/* <div className="top">
+        <div className="addapointbutton">
+          <Button
+            variant="contained"
+            onClick={() => {
+              handleAddAPoint();
+            }}
+          >
+            Add A Point
+          </Button>
+        </div>
+        <input type="text" value={query} onChange={handleQuery} />
+      </div> */}
+      {/* <Grid>
           <Grid item xs={8}>
-            <form>
-              <input
-                style={{
-                  backgroundColor: "#FDFDFD",
-                  borderStyle: "none",
-                  borderRadius: "2.5ch",
-                  minWidth: "200px",
-                  minHeight: "35px",
-                  textAlign: "left",
-                  padding: "5px",
-                  boxShadow: "0px 8px 16px 0px rgba(0,0,0,0.2)",
-                }}
-                type="text"
-                value={query}
-                onChange={handleQuery}
-              />
-            </form>
-          </Grid>
-          {/* <Grid item xs={4}>
+            <form> */}
+
+      {/* </form>
+          </Grid> */}
+      {/* <Grid item xs={4}>
             <div className="redbuttons">
               <div className="dropdown">
                 <button
@@ -164,7 +174,7 @@ const ViewPoints = (props) => {
                 </div>
               </div> */}
 
-          {/* <div className="dropdown">
+      {/* <div className="dropdown">
                 <button
                   className="dropbtn"
                   onClick={() => {
@@ -186,8 +196,7 @@ const ViewPoints = (props) => {
               </div>
             </div>
           </Grid> */}
-        </Grid>
-      </div>
+      {/* </Grid> */}
 
       <BasicTabs categoryData={categoryData} />
 
@@ -223,7 +232,8 @@ const ViewPoints = (props) => {
           );
         })}
       </div> */}
-    </Stack>
+      {/* </Stack> */}
+    </>
   );
 };
 

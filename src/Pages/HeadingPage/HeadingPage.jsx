@@ -187,6 +187,7 @@ function HeadingPage(props) {
   return (
     <>
       {showAddPoint && <AddAPoint setShowAddPoint={setShowAddPoint} />}
+
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar
@@ -206,6 +207,7 @@ function HeadingPage(props) {
             >
               <MenuIcon />
             </IconButton>
+
             {/* <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
               Responsive drawer
             </Typography> */}
