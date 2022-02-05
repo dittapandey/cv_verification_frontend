@@ -124,6 +124,7 @@ const Points = ({ student }) => {
                   id="mouse-over-popover"
                   sx={{
                     pointerEvents: "none",
+                    width: "70%",
                   }}
                   open={openpop}
                   anchorEl={anchorEl}

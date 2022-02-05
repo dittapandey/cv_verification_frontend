@@ -112,27 +112,37 @@ function HeadingPage(props) {
   const drawer = (
     <div>
       <Toolbar>
-        <img src="iitg-logo.png" alt="" style={{ height: "30px" }} />
-        {"\t\t"}CV Verfication
+        <div className="homeheading">
+          <img src="iitg-logo.png" alt="" style={{ height: "41px" }} />
+          {"\t\t"}
+          <h4>CV Verfication</h4>
+        </div>
       </Toolbar>
+
       <Divider />
       <Toolbar>Welcome {user ? user.name : "Guest"}</Toolbar>
       <Divider />
-      <List>
-        {MenuList.map((item, index) => {
-          if (item.id <= 5) {
-            return (
-              <ListItem
-                onClick={() => {
-                  handleClick(item);
-                }}
-              >
-                <ListItemText primary={item.title} />
-              </ListItem>
-            );
-          }
-        })}
-      </List>
+      <div className="menulists">
+        <List>
+          {MenuList.map((item, index) => {
+            if (item.id <= 5) {
+              return (
+                <div className="menuitems">
+                  <ListItem
+                    onClick={() => {
+                      handleClick(item);
+                    }}
+                  >
+                    <div className="menuitem">
+                      <ListItemText primary={item.title} />
+                    </div>
+                  </ListItem>
+                </div>
+              );
+            }
+          })}
+        </List>
+      </div>
       <Divider />
       {/* <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="demo-simple-select-standard-label">Select Admin's Organisation</InputLabel>
@@ -153,9 +163,11 @@ function HeadingPage(props) {
         {MenuList.map((M, index) => {
           if (M.id >= 6) {
             return (
-              <ListItem onClick={() => handleClick(M)}>
-                <ListItemText primary={M.title} />
-              </ListItem>
+              <div className="menuitems">
+                <ListItem onClick={() => handleClick(M)}>
+                  <ListItemText primary={M.title} />
+                </ListItem>
+              </div>
             );
           }
         })}
@@ -187,6 +199,7 @@ function HeadingPage(props) {
   return (
     <>
       {showAddPoint && <AddAPoint setShowAddPoint={setShowAddPoint} />}
+
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar
@@ -194,6 +207,11 @@ function HeadingPage(props) {
           sx={{
             width: { sm: `calc(100% - ${drawerWidth}px)` },
             ml: { sm: `${drawerWidth}px` },
+            color: "#0072E5",
+            display: "flex",
+
+            alignItems: "flex-end",
+            // border: "1px solid black",
           }}
         >
           <Toolbar>
@@ -202,18 +220,17 @@ function HeadingPage(props) {
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: "none" } }}
+              sx={{ mr: 2, display: { sm: "none" }, justifyContent: "center" }}
             >
               <MenuIcon />
             </IconButton>
-            {/* <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-              Responsive drawer
-            </Typography> */}
+
             <Button
               onClick={() => {
                 logout();
               }}
-              color="inherit"
+              // color="inherit"
+              sx={{ color: "#fff", justifyContent: "center" }}
             >
               Logout
             </Button>
