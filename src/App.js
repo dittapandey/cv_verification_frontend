@@ -1,4 +1,3 @@
-
 import './App.css';
 import LoginPage from './Pages/LoginPage/LoginPage';
 import HeadingPage from './Pages/HeadingPage/HeadingPage'
@@ -269,7 +268,6 @@ function App() {
     axios.get(url+"/auth/status", {
       withCredentials:true,
       headers:{
-          
           "Access-Control-Allow-Origin": "http://localhost:3000",
           "Content-Type": "application/json",
           "Access-Control-Allow-Credentials": "true",
@@ -327,10 +325,6 @@ function App() {
 
   const [currentAdmin, setCurrentAdmin] = useState('0');
   
-
-
-
-
   useEffect(()=>{
     fetchOrgs();
     checkLogin();

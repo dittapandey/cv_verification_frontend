@@ -120,7 +120,6 @@ const ViewRequest = () => {
             <Divider/>
         </Stack>
     );
-
 }
 
 export default ViewRequest;

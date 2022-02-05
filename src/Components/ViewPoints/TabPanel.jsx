@@ -51,6 +51,11 @@ export default function BasicTabs(props) {
   const categoryData = props.categoryData;
   const [currentCategory, setCurrentCategory] = useState(CategoryList["categories"][0]);
   const user = appContext.user;
+  const temp = {
+    title: "title 1",
+    description: "descripiton 1",
+    status: 'P'
+  }
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -89,7 +94,7 @@ export default function BasicTabs(props) {
                             {categoryData["categories"][currentCategory.id-1].sub_category[index]["data"].map((point)=>{
                                 // if(point.user_id === appContext.user.user_id)
                                     return(
-                                        <PointCard point={point} flagmenu={false}/>
+                                        <PointCard point={temp} flagmenu={false}/>
                                     );
                             })}
                         </div>
