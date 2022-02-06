@@ -4,12 +4,86 @@
   flex-direction: column;
   min-width: fit-content;
 }
+.MuiPaper-root::-webkit-scrollbar,
+.MuiPaper-elevation::-webkit-scrollbar,
+.MuiPaper-elevation0::-webkit-scrollbar,
+.MuiDrawer-paper::-webkit-scrollbar,
+.MuiDrawer-paperAnchorLeft::-webkit-scrollbar,
+.MuiDrawer-paperAnchorDockedLeft::-webkit-scrollbar,
+.css-12i7wg6-MuiPaper-root-MuiDrawer-paper ::-webkit-scrollbar {
+  width: 0 !important;
+}
+* {
+  overflow: -moz-scrollbars-none;
+  /* background-color: black; */
+}
 
 .homeheading {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
+  width: 85%;
+  margin: auto;
+  height: 4.1vmax;
+  margin-right: 25px;
+  /* border: 1px solid black; */
+  /* background-color: #0072e5; */
+}
+
+.pqr {
+  border: "1px solid white";
+}
+
+.pqr > div {
+  color: black;
+}
+
+.welcome {
+  /* text-align: center; */
   width: 100%;
+  /* border: 1px solid green; */
+  /* margin: auto; */
+  display: flex;
+  margin-right: 1vmax;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.weluser {
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+
+  justify-content: space-between;
+  /* width: 20%; */
+  /* height: 100%; */
+}
+
+.welcome > div {
+  /* margin-right: 30px; */
+  display: flex;
+  justify-content: space-around;
+  /* flex-direction: column; */
+  align-items: center;
+  /* border: 1px solid black; */
+}
+
+.welcome > div > h4 {
+  font-size: 1.1vmax;
+  font-weight: 500;
+  color: #fff;
+  margin-right: 0.5vmax;
+}
+
+.welcome > div > h3 {
+  color: #fff;
+  font-size: 1.1vmax;
+  font-weight: 500;
+}
+
+.homeheading > img,
+.welcome > img {
+  height: 40px;
 }
 
 .menulists {
@@ -22,13 +96,20 @@
   /* border: 1px solid green; */
 }
 
-.menuitems:hover {
-  background-color: #f3f6f9;
+.menuitems:hover .menuitemstext {
+  color: #1d1d1d !important;
+  font-size: 1.08vmax;
 }
 
-.menuitems:visited {
-  background-color: #f0f7ff;
+.menuitems:hover {
+  background-color: #f3f6f9 !important;
+  /* border: 1px solid black; */
+  /* box-shadow: 0 0 10px 100px #1882a8 inset; */
 }
+
+/* .menuitems:visited {
+  background-color: #f0f7ff;
+} */
 
 .menuitem {
   /* border: 1px solid black; */
@@ -55,7 +136,11 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Open Sans", sans-serif;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  /* overflow: scroll; */
 }
+
 .row1 {
   display: flex;
   flex-direction: row;

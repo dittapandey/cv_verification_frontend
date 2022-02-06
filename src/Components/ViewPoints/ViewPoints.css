@@ -29,9 +29,15 @@
   justify-content: space-between;
   align-items: center;
   /* border: 1px solid black; */
+  padding: 0 1.5vmax;
   margin: auto;
   margin-top: 1vmax;
   margin-bottom: 1.5vmax;
+}
+
+.tabpanels {
+  /* border: 1px solid black; */
+  padding: 0 1.5vmax;
 }
 
 .xyz {

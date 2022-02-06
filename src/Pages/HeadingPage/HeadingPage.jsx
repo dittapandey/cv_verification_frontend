@@ -64,6 +64,7 @@ function HeadingPage(props) {
   };
 
   function handleClick(menuitem) {
+    console.log("seleted item is", menuitem);
     setItem(menuitem);
     MenuList.map((M) => {
       if (M === menuitem) {
@@ -110,31 +111,53 @@ function HeadingPage(props) {
   function handleChange() {}
 
   const drawer = (
-    <div>
-      <Toolbar>
-        <div className="homeheading">
-          <img src="iitg-logo.png" alt="" style={{ height: "41px" }} />
-          {"\t\t"}
-          <h4>CV Verfication</h4>
-        </div>
-      </Toolbar>
+    <div className="homemenu">
+      {/* <Toolbar> */}
+      <div className="homeheading">
+        <img src="iitg-logo.png" alt="" />
+        {"\t\t"}
+        <h4>CV Verfication</h4>
+      </div>
+      {/* </Toolbar> */}
 
       <Divider />
-      <Toolbar>Welcome {user ? user.name : "Guest"}</Toolbar>
-      <Divider />
+      {/* <Toolbar
+    
+     
+      > */}
+
+      {/* </Toolbar> */}
+
       <div className="menulists">
         <List>
           {MenuList.map((item, index) => {
             if (item.id <= 5) {
               return (
-                <div className="menuitems">
+                <div
+                  className="menuitems"
+                  style={{
+                    backgroundColor: item.selected ? "#F0F7FF " : "#fff",
+                  }}
+                >
                   <ListItem
                     onClick={() => {
                       handleClick(item);
                     }}
                   >
                     <div className="menuitem">
-                      <ListItemText primary={item.title} />
+                      <ListItemText
+                        disableTypography
+                        primary={
+                          <div
+                            className="menuitemstext"
+                            style={{
+                              color: item.selected ? "#0072E5 " : "#3E5060",
+                            }}
+                          >
+                            {item.title}
+                          </div>
+                        }
+                      />
                     </div>
                   </ListItem>
                 </div>
@@ -144,6 +167,19 @@ function HeadingPage(props) {
         </List>
       </div>
       <Divider />
+      <Toolbar
+        sx={{
+          color: "#3E5060",
+          fontWeight: "700",
+          fontSize: "1.2vmax",
+          // backgroundColor: "#F0F7FF",
+          borderRadius: "5px",
+        }}
+      >
+        Admin Controls
+      </Toolbar>
+      <Divider />
+      {/* <Divider /> */}
       {/* <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="demo-simple-select-standard-label">Select Admin's Organisation</InputLabel>
                 <Select
@@ -158,14 +194,31 @@ function HeadingPage(props) {
                     <MenuItem value={30}>Thirty</MenuItem>
                 </Select>
             </FormControl> */}
-      <Divider />
+      {/* <Divider /> */}
       <List>
         {MenuList.map((M, index) => {
           if (M.id >= 6) {
             return (
-              <div className="menuitems">
+              <div
+                className="menuitems"
+                style={{
+                  backgroundColor: M.selected ? "#F0F7FF " : "#fff",
+                }}
+              >
                 <ListItem onClick={() => handleClick(M)}>
-                  <ListItemText primary={M.title} />
+                  <ListItemText
+                    disableTypography
+                    primary={
+                      <div
+                        className="menuitemstext"
+                        style={{
+                          color: M.selected ? "#0072E5 " : "#3E5060",
+                        }}
+                      >
+                        {M.title}
+                      </div>
+                    }
+                  />
                 </ListItem>
               </div>
             );
@@ -208,32 +261,47 @@ function HeadingPage(props) {
             width: { sm: `calc(100% - ${drawerWidth}px)` },
             ml: { sm: `${drawerWidth}px` },
             color: "#0072E5",
-            display: "flex",
+            // display: "flex",
 
-            alignItems: "flex-end",
+            // alignItems: "space-between",
             // border: "1px solid black",
           }}
         >
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: "none" }, justifyContent: "center" }}
-            >
-              <MenuIcon />
-            </IconButton>
-
-            <Button
-              onClick={() => {
-                logout();
-              }}
-              // color="inherit"
-              sx={{ color: "#fff", justifyContent: "center" }}
-            >
-              Logout
-            </Button>
+          <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+            <div className="pqr">
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{
+                  mr: 2,
+                  display: { sm: "none" },
+                  // justifyContent: "center",
+                  color: "#fff",
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <div></div>
+            </div>
+            <div className="weluser">
+              <div className="welcome">
+                <div>
+                  <h4>WELCOME </h4>
+                  <h3>{user ? user.name : "PARSHVA PRAGNESH SHAH"}</h3>
+                </div>
+              </div>
+              <Button
+                onClick={() => {
+                  logout();
+                }}
+                // color="inherit"
+                sx={{ color: "#fff" }}
+              >
+                Logout
+              </Button>
+            </div>
           </Toolbar>
         </AppBar>
         <Box

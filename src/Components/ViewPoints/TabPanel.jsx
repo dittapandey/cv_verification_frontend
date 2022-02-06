@@ -69,7 +69,7 @@ export default function BasicTabs(props) {
 
   return (
     <>
-      <div className="tabpanel">
+      <div className="tabpanels">
         {/* <Box sx={{ width: "100%" }}> */}
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
