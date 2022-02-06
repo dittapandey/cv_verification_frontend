@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { AppContext } from "../../App";
 import { InputGroup } from "react-bootstrap";
+import axios from "axios";
 
 const AddAPoint = (props) => {
   const appContext = useContext(AppContext);
@@ -191,27 +192,51 @@ const AddAPoint = (props) => {
     }
     console.log(JSON.stringify(inputs));
     if (check_inputs) {
-      fetch(url + "/points", {
-        method: "POST",
-        body: JSON.stringify(inputs),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Accept: "application/json",
-        },
-        credentials: "include",
-        mode: "cors",
-      })
-        .then((res) => {
-          res.json();
-        })
-        .then((response) => {
-          console.log(response);
-          alert("Request submitted");
-          setShowAddPoint(false);
-        })
-        .catch((error) => {
-          console.error(error.message);
-        });
+        axios.post(url+"/points", {
+            withCredentials: true,
+            body: {
+                point:JSON.stringify(inputs)
+            },
+            headers:{
+              "Access-Control-Allow-Origin": "http://localhost:3000",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": "true",
+                "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
+                "Access-Control-Allow-Headers":
+                    "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+            }
+          })
+          .then((response) => {
+            console.log(response);
+            alert("Request submitted");
+            setShowAddPoint(false);
+          })
+          .catch((error) => {
+            console.error(error.message);
+          });
+    //   fetch(url + "/points", {
+    //     method: "POST",
+    //     body: {
+    //         point: JSON.stringify(inputs)
+    //     },
+    //     headers: {
+    //       "Content-type": "application/json; charset=UTF-8",
+    //       Accept: "application/json",
+    //     },
+    //     credentials: "include",
+    //     mode: "cors",
+    //   })
+    //     .then((res) => {
+    //       res.json();
+    //     })
+    //     .then((response) => {
+    //       console.log(response);
+    //       alert("Request submitted");
+    //       setShowAddPoint(false);
+    //     })
+    //     .catch((error) => {
+    //       console.error(error.message);
+    //     });
     } else {
       alert("Check all your inputs again");
     }

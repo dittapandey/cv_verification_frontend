@@ -1,6 +1,4 @@
 import "./ViewPoints.css";
-import { ArrowDownward, Margin } from "@mui/icons-material";
-import PointCard from "../PointCard/PointCard";
 import { BACKEND_URL as url } from "../../Assets/FullForm";
 import { useState, useEffect, useContext } from "react";
 import { AppContext } from "../../App";

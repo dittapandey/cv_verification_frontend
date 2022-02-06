@@ -1,4 +1,3 @@
-
 import './App.css';
 import LoginPage from './Pages/LoginPage/LoginPage';
 import HeadingPage from './Pages/HeadingPage/HeadingPage'
@@ -10,14 +9,17 @@ import {BACKEND_URL as url} from "./Assets/FullForm";
 import { createContext } from 'react';
 import axios from 'axios';
 import { CategoryList } from './Assets/Lists';
+import {useNavigate} from 'react-router-dom';
 
 export const AppContext = createContext();
 
 function App() {
   const [user, setUser] = useState(null);
-  const [clubs, setClubs] = useState([{}]);
+  const [clubs, setClubs] = useState([{org_id: 100, name: 'Coding Club', createdAt: '2022-02-05T10:05:45.000Z', updatedAt: '2022-02-05T10:05:45.000Z', parent_org_id: null}]);
   const [clubId, setClubId] = useState({});
   const [rawData, setRawData] = useState([{}]);
+  const [adminData, setAdminData] = useState([{}]);
+  // const history = useNavigate();
   const [categoryData, setCategoryData] = useState(
     {
       "categories":[
@@ -269,7 +271,6 @@ function App() {
     axios.get(url+"/auth/status", {
       withCredentials:true,
       headers:{
-          
           "Access-Control-Allow-Origin": "http://localhost:3000",
           "Content-Type": "application/json",
           "Access-Control-Allow-Credentials": "true",
@@ -280,10 +281,30 @@ function App() {
   })
   .then((res)=>{
       if(res.data.user){
-          console.log(res.data.user)
+          console.log(res.data)
           setUser(res.data.user);
+          const keys  = Object.keys(res.data.admin);
+          var temp =[];
+          ////////-----------------------------------------------------------------NOT COMPLETED YET-----------------------------------------------------------------
+          keys.map((key)=>{
+            const k = parseInt(key);
+            if(k!==0){
+                clubs.map((i)=>{
+                  console.log(i.org_id)
+                  if(i.org_id === k){
+                    temp.push(i);
+                  }
+                })
+            }
+            // console.log(key, key!=="0");
+          })
+          setAdminData(temp);
+          console.log("Admin of", adminData);
+          
       } else {
+          setUser(null);
           console.log("User data not received");
+          // history("/");
       }
   })
   }
@@ -327,10 +348,6 @@ function App() {
 
   const [currentAdmin, setCurrentAdmin] = useState('0');
   
-
-
-
-
   useEffect(()=>{
     fetchOrgs();
     checkLogin();
@@ -340,19 +357,21 @@ function App() {
     <AppContext.Provider value={{
       clubs: [clubs,setClubs],
       clubId: [clubId, setClubId], 
-      user: user,
+      user:[ user, setUser],
       fetchRawData: fetchRawData,
+      checkLogin: checkLogin,
       categoryData: [categoryData,setCategoryData],
       rawData: [rawData,setRawData],
       currentAdmin: [currentAdmin, setCurrentAdmin],
+      adminData: [adminData, setAdminData],
       }}>
       <div className="App">
         <Router>
           <Routes>
           <Route exact path="/" element={user? <Link to="/headingPage"/>:<LoginPage/>}/>
-          <Route exact path="/headingPage" element={<HeadingPage/>}/>
+          {/* <Route exact path="/headingPage" element={<HeadingPage/>}/> */}
+          <Route exact path="/headingPage" element={user? <HeadingPage/>: <Link to="/"/>}/>
           </Routes>
-          
         </Router>
         {/* <LoginPage/> */}
       </div>

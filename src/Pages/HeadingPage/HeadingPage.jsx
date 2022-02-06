@@ -40,6 +40,7 @@ import {
   Select,
 } from "@mui/material";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const drawerWidth = 240;
 const useStyles = makeStyles({
@@ -58,6 +59,16 @@ function HeadingPage(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const classes = useStyles();
+  const [name, setName] = useState("");
+  const [item, setItem] = useState(MenuList[0]);
+  const [showAddPoint, setShowAddPoint] = useState(false);
+  const appContext = React.useContext(AppContext);
+  // const history = useHistory();
+
+  const [clubs, setClubs] = appContext.clubs;
+  const [user, setUser] = appContext.user;
+
+  // let history = useNavigate();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -73,15 +84,8 @@ function HeadingPage(props) {
         M.selected = false;
       }
     });
-    // console.log(menuitem);
-    // console.log(MenuList);
   }
-  const [name, setName] = useState("");
-  const [item, setItem] = useState(MenuList[0]);
-  const [showAddPoint, setShowAddPoint] = useState(false);
-  const appContext = React.useContext(AppContext);
-  const [clubs, setClubs] = appContext.clubs;
-  const user = appContext.user;
+
   // const [currentAdmin, setCurrentAdmin] = appContext.setCurrentAdmin;
   // const AdminKeys = Object.keys(user.admin);
   function itemRender(M) {
@@ -107,6 +111,29 @@ function HeadingPage(props) {
       return <GeneralGuidelines />;
     }
   }
+
+  const container =
+  window !== undefined ? () => window().document.body : undefined;
+
+function logout() {
+  axios
+    .get(url + "/auth/logout", {
+      withCredentials: true,
+      headers: {
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
+        "Access-Control-Allow-Headers":
+        "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers",
+      },
+    })
+    .then((res) => {
+      console.log(user);
+      setUser(null);
+      // history("/");
+    });
+}
 
   function handleChange() {}
 
@@ -228,26 +255,11 @@ function HeadingPage(props) {
     </div>
   );
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
 
-  function logout() {
-    axios
-      .post(url + "/auth/logout", {
-        withCredentials: true,
-        headers: {
-          "Access-Control-Allow-Origin": "http://localhost:3000",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": "true",
-          "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
-          "Access-Control-Allow-Headers":
-            "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers",
-        },
-      })
-      .then((res) => {
-        console.log(res);
-      });
-  }
+
+  React.useEffect(()=>{
+    appContext.checkLogin();
+  },[])
 
   return (
     <>
