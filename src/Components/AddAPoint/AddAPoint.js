@@ -190,20 +190,20 @@ const AddAPoint = (props) => {
     ) {
       check_inputs = !check_inputs;
     }
+    const fd  =  new FormData();
+    fd.append("point", JSON.stringify(inputs));
     console.log(JSON.stringify(inputs));
     if (check_inputs) {
         axios.post(url+"/points", {
             withCredentials: true,
-            body: {
-                point:JSON.stringify(inputs)
-            },
+            body: fd,
             headers:{
               "Access-Control-Allow-Origin": "http://localhost:3000",
-                "Content-Type": "application/json",
+                "Content-Type": `multipart/form-data; boundary=${fd._boundary}`,
                 "Access-Control-Allow-Credentials": "true",
                 "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
                 "Access-Control-Allow-Headers":
-                    "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+                "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
             }
           })
           .then((response) => {
@@ -334,7 +334,6 @@ const AddAPoint = (props) => {
                   onChange={handleChange}
                 >
                   {CategoryList["categories"].map((category) => {
-                    // console.log(category);
                     return (
                       <option value={category.title}>{category.title}</option>
                     );

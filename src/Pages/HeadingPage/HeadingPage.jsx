@@ -199,7 +199,7 @@ function logout() {
         {MenuList.map((M, index) => {
           if (M.id >= 6) {
             return (
-              <ListItem onClick={() => handleClick(M)}>
+              <ListItem  onClick={() => handleClick(M)}>
                 <ListItemText primary={M.title} />
               </ListItem>
             );

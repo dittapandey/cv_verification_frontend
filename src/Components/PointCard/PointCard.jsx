@@ -18,6 +18,7 @@ const PointCard = (props) => {
     setFlag(!flag);
     console.log(flag);
   }
+  //title, description, status, start_date, end_date, proof_link
 
   const [expanded, setExpanded] = React.useState(false);
 
@@ -50,7 +51,7 @@ const PointCard = (props) => {
               />
             </div>
             <div className="p2">
-              <h3>Dummy Project </h3>
+              <h3>{point.title}</h3>
             </div>
             <div className="p3">
               <h4>
@@ -74,16 +75,15 @@ const PointCard = (props) => {
             <h4>
               Description :
               <span>
-                This project was a dummy project created to placehold with
-                designing .
+                {point.descripiton}
               </span>
             </h4>
           </div>
           <div className="description_2">
             <h4>
-              Project Duration : <span>March 21 - September 21</span>
+              Project Duration : <span>{point.start_date} - {point.end_date}</span>
             </h4>
-            <a href="google.com">Link for the project</a>
+            <a href={point.proof_link}>Link for the project</a>
           </div>
         </AccordionDetails>
       </Accordion>

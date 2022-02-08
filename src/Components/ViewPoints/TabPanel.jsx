@@ -94,7 +94,7 @@ export default function BasicTabs(props) {
                             {categoryData["categories"][currentCategory.id-1].sub_category[index]["data"].map((point)=>{
                                 // if(point.user_id === appContext.user.user_id)
                                     return(
-                                        <PointCard point={temp} flagmenu={false}/>
+                                        <PointCard point={point} flagmenu={false}/>
                                     );
                             })}
                         </div>

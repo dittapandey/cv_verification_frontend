@@ -253,7 +253,7 @@ function App() {
     })
     console.log(_categoryData);
     data.map((point)=>{
-      if(point.point_id!=107)
+      if(point.status!='D')
       {console.log(point.category);
       const _category = point.category.split('$');
       const category_index = _categoryData.hash[_category[0]]-1;
