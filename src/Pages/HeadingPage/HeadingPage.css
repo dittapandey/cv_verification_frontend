@@ -22,7 +22,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  width: 85%;
+  /* width: 85%; */
   margin: auto;
   height: 4.1vmax;
   margin-right: 25px;
@@ -32,6 +32,9 @@
 
 .pqr {
   border: "1px solid white";
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .pqr > div {
@@ -84,6 +87,18 @@
 .homeheading > img,
 .welcome > img {
   height: 40px;
+}
+
+.notifications {
+  font: 500 1vmax sans-serif;
+  padding: 0.1vmax;
+  color: #0072e5;
+  background-color: #fff;
+  position: relative;
+  left: -1.2vmax;
+  top: -0.7vmax;
+  border: 1px solid #fff;
+  border-radius: 100%;
 }
 
 .menulists {
@@ -155,4 +170,38 @@
 .content {
   flex: 4;
   width: fit-content;
+}
+
+@media only screen and (max-width: 1300px) {
+  .homeheading > h4 {
+    font-size: 1.6vmax;
+  }
+  .menuitems:hover .menuitemstext {
+    color: #1d1d1d !important;
+    font-size: 1.3vmax;
+  }
+}
+
+@media only screen and (max-width: 1250px) {
+  .homeheading > h4 {
+    font-size: 1.8vmax;
+  }
+  .welcome > div > h4,
+  .welcome > div > h3 {
+    font-size: 1.21vmax;
+  }
+  .menuitems:hover .menuitemstext {
+    color: #1d1d1d !important;
+    font-size: 1.32vmax;
+  }
+}
+
+@media only screen and (max-width: 950px) {
+  .homeheading > h4 {
+    font-size: 1.99vmax;
+  }
+  .welcome > div > h4,
+  .welcome > div > h3 {
+    font-size: 1.3vmax;
+  }
 }

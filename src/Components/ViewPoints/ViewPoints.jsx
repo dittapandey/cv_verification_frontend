@@ -17,6 +17,9 @@ import { Box } from "@mui/system";
 import PropTypes from "prop-types";
 import BasicTabs from "./TabPanel";
 import { BiSearch } from "react-icons/bi";
+import { darken } from "@mui/material";
+import { makeStyles, withStyles } from "@mui/styles";
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -51,6 +54,13 @@ function a11yProps(index) {
   };
 }
 
+
+const GrayButton = withStyles({
+  button:{
+    backgroundColor:"black"
+  }
+})(Button);
+
 const ViewPoints = (props) => {
   const appContext = useContext(AppContext);
   const [query, setQuery] = useState("");
@@ -62,6 +72,7 @@ const ViewPoints = (props) => {
   const [categoryData, setCategoryData] = appContext.categoryData;
   const setShowAddPoint = props.setShowAddPoint;
   const [value, setValue] = useState(0);
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -86,6 +97,7 @@ const ViewPoints = (props) => {
   //         });
   // }
 
+
   function categoryChange(_category) {
     setCurrentCategory(_category);
     CategoryList["categories"].map((category) => {
@@ -97,10 +109,6 @@ const ViewPoints = (props) => {
     });
   }
 
-  function toggleClubMenu() {
-    setClubMenu(!clubMenu);
-  }
-
   useEffect(() => {
     appContext.fetchRawData();
   }, []);
@@ -109,9 +117,9 @@ const ViewPoints = (props) => {
     // <Stack>
     <>
       <div className="abc">
-        <Button variant="contained" onClick={() => handleAddAPoint()}>
+        <GrayButton variant="contained"  onClick={() => handleAddAPoint()}>
           Add A Point
-        </Button>
+        </GrayButton>
         <div className="xyz">
           <BiSearch
             style={{
@@ -149,51 +157,7 @@ const ViewPoints = (props) => {
 
       {/* </form>
           </Grid> */}
-      {/* <Grid item xs={4}>
-            <div className="redbuttons">
-              <div className="dropdown">
-                <button
-                  className="dropbtn"
-                  onClick={() => {
-                    toggleClubMenu();
-                  }}
-                >
-                  <ArrowDownward fontSize="small" /> Select Board
-                </button>
-                <div className="dropdown-content">
-                  {clubs.map((club) => {
-                    return (
-                      // <div className="clubitem">
-                      //     {club.name}
-                      // </div>
-                      <a href="#">{club.name}</a>
-                    );
-                  })}
-                </div>
-              </div> */}
-
-      {/* <div className="dropdown">
-                <button
-                  className="dropbtn"
-                  onClick={() => {
-                    toggleClubMenu();
-                  }}
-                >
-                  <ArrowDownward fontSize="small" /> Select Board
-                </button>
-                <div className="dropdown-content">
-                  {clubs.map((club) => {
-                    return (
-                      // <div className="clubitem">
-                      //     {club.name}
-                      // </div>
-                      <a href="#">{club.name}</a>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </Grid> */}
+      
       {/* </Grid> */}
 
       <BasicTabs categoryData={categoryData} />

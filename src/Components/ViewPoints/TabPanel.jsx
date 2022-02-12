@@ -73,6 +73,8 @@ export default function BasicTabs(props) {
         {/* <Box sx={{ width: "100%" }}> */}
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
+            indicatorColor="black"
+            textColor="black"
             variant="scrollable"
             value={value}
             onChange={handleChange}

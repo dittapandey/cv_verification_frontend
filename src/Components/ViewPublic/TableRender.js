@@ -300,7 +300,7 @@ function Row(props) {
         <TableCell align="center">{row.User.roll_no}</TableCell>
         <TableCell align="center">{row.User.name}</TableCell>
         <TableCell align="center">{row.title}</TableCell>
-        <tableCell align="center">{row.response_by}</tableCell>
+        <TableCell align="center">{row.response_by}</TableCell>
         <TableCell align="center">{date}</TableCell>
         <TableCell align="center">
           <IconButton
@@ -324,7 +324,7 @@ function Row(props) {
                 <Grid item xs={6} sx={{display:"flex", flexDirection:"column", justifyContent:"center"}}>
                   <Typography><b>Branch:</b>{row.User.branch}</Typography>
                   <Typography><b>Description:</b>{row.description}</Typography>
-                  <Typography><b>Project Durattion:</b> {row.start_date} to {row.end_date}</Typography>
+                  <Typography><b>Project Duration:</b> {row.start_date} to {row.end_date}</Typography>
                 </Grid>
                 <Grid item xs={6}>
                   <Box sx={{display:'flex',flexWrap:'wrap'}}>

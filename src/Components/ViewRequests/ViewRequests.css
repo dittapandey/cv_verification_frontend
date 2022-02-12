@@ -10,7 +10,7 @@
 
 .approvals {
   /* border: 1px solid green; */
-  margin: 1vmax 1vmax;
+  margin: 0.5vmax 1vmax;
   /* display: flex;
   flex-direction: column; */
 }
@@ -45,7 +45,8 @@
   font-weight: 500;
 }
 
-.approvalbutton {
+.approvalbutton,
+.flaggedbutton {
   /* border: 1px solid black; */
   width: 15%;
   /* background-color: #e3f0e7; */
@@ -53,13 +54,32 @@
 
 .approvalbutton > button {
   background-color: #e3f0e7;
-  width: 100%;
+  width: 85%;
   border-radius: 5px;
   outline: none;
   text-decoration: none;
+
   padding: 0.2vmax;
+  padding-top: 0.3vmax;
+  padding-bottom: 0.3vmax;
   font-size: 1vmax;
   font-weight: 500;
+  border: none;
+}
+
+.flaggedbutton > button {
+  background-color: #f0e3e3;
+  width: 85%;
+  border-radius: 5px;
+  outline: none;
+  text-decoration: none;
+
+  padding: 0.2vmax;
+  padding-top: 0.3vmax;
+  padding-bottom: 0.3vmax;
+  font-size: 1vmax;
+  font-weight: 500;
+  border: none;
 }
 
 .requesttitle {
@@ -103,7 +123,7 @@
 
 .requestbuttons > div {
   display: flex;
-  width: 99%;
+  width: 100%;
   /* border: 1px solid black; */
   justify-content: space-between;
   /* align-items: center; */
@@ -113,7 +133,7 @@
 .requestbuttons > div > button {
   margin-top: 0.3vmax;
   background-color: #e3f0e7;
-  /* margin-left: 0.5vmax; */
+  /* margin-left: 0.25vmax; */
   border-radius: 5px;
   outline: none;
   text-decoration: none;

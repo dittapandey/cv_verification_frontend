@@ -22,7 +22,7 @@ const ViewPublic = () => {
       }}
       >
         <Typography variant="h6">
-          View the Approved CV Points of all your friends and your collegues and flag them in order to raise any disputes against the points.
+          View the Approved CV Points of all your friends and collegues and flag them in order to raise any disputes against the points.
         </Typography>
         <Typography variant="subtite1">
         <p><b>Note:</b> All flagging activity is monitored and cases of aimless flagging will be dealt with carefully and strictly.</p>

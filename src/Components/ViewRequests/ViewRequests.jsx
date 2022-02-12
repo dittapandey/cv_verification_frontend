@@ -17,7 +17,8 @@ import { ExpandMore } from "@mui/icons-material";
 import { useContext } from "react";
 import { AppContext } from "../../App";
 import axios from "axios";
-import Points from "./Points";
+import ApprovalPoints from "./ApprovalPoints";
+import FlaggedPoints from "./FlaggedPoints";
 
 const ViewRequest = () => {
   const appContext = useContext(AppContext);
@@ -156,6 +157,54 @@ const ViewRequest = () => {
       prooflink: "www.google.com",
       description: "Hello this is my project description",
     },
+    {
+      name: "Parshva",
+      rollno: "20000000",
+      request: "Position Of Responsibility",
+      status: "Flagged",
+      programme: "Btech 2nd Year",
+      branch: "cse",
+      requesttitle: "Dummy POR",
+      duration: "21/12/2021 - 21/2/2022",
+      prooflink: "www.google.com",
+      description: "Hello this is my project description",
+    },
+    {
+      name: "Parshva",
+      rollno: "20000000",
+      request: "Position Of Responsibility",
+      status: "Flagged",
+      programme: "Btech 2nd Year",
+      branch: "cse",
+      requesttitle: "Dummy POR",
+      duration: "21/12/2021 - 21/2/2022",
+      prooflink: "www.google.com",
+      description: "Hello this is my project description",
+    },
+    {
+      name: "Parshva",
+      rollno: "20000000",
+      request: "Position Of Responsibility",
+      status: "Flagged",
+      programme: "Btech 2nd Year",
+      branch: "cse",
+      requesttitle: "Dummy POR",
+      duration: "21/12/2021 - 21/2/2022",
+      prooflink: "www.google.com",
+      description: "Hello this is my project description",
+    },
+    {
+      name: "Parshva",
+      rollno: "20000000",
+      request: "Position Of Responsibility",
+      status: "Flagged",
+      programme: "Btech 2nd Year",
+      branch: "cse",
+      requesttitle: "Dummy POR",
+      duration: "21/12/2021 - 21/2/2022",
+      prooflink: "www.google.com",
+      description: "Hello this is my project description",
+    },
   ];
 
   const fetchRequests =  async()=>{
@@ -183,13 +232,13 @@ const ViewRequest = () => {
   return (
     // <div>hello</div>
     <Stack>
-      <Box overflow="auto" sx={{ height: "50vh" }}>
-        <Typography variant="h4">Requests for approval</Typography>
-        <Divider sx={{ borderBottomWidth: 5 }} />
+      <Typography variant="h4">Requests for approval</Typography>
+      <Divider sx={{ borderBottomWidth: 5 }} />
+      <Box overflow="auto" sx={{ height: "50vh", marginBottom: "1vmax" }}>
         <div className="approvals">
           {requestData.map((student) => {
               return(
-              <Points request={student}/>
+              <ApprovalPoints request={student}/>
             )
           })}
           {/* {rawData.map((point, index) => (
@@ -287,12 +336,12 @@ const ViewRequest = () => {
                     </Accordion> */}
         </div>
       </Box>
+      <Typography variant="h4">Flagged Points</Typography>
+      <Divider sx={{ borderBottomWidth: 5, color: "black" }} />
       <Box overflow="auto" sx={{ height: "50vh", marginTop: "1vmax" }}>
-        <Typography variant="h4">Flagged Points</Typography>
-        <Divider sx={{ borderBottomWidth: 5, color: "black" }} />
         <div className="approvals">
           {requestData.map((student) => (
-            <Points request={student} />
+            <FlaggedPoints student={student} />
           ))}
         </div>
       </Box>

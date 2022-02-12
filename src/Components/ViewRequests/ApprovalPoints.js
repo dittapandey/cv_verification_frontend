@@ -7,8 +7,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Slide from "@mui/material/Slide";
 
-const Points = ({ request }) => {
-  console.log(request);
+const ApprovalPoints = ({ request }) => {
   const style = {
     position: "absolute",
     top: "50%",
@@ -222,4 +221,4 @@ const Points = ({ request }) => {
   );
 };
 
-export default Points;
+export default ApprovalPoints;
