@@ -7,8 +7,32 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Slide from "@mui/material/Slide";
 import { BACKEND_URL as url} from "../../Assets/FullForm";
+import { RequestContext } from "./ViewRequests";
 
-const FlaggedPoints = ({ flag }) => {
+const FlaggedPoints = (props) => {
+  const requestContext = React.useContext(RequestContext);
+  let flag = {
+    Point: {
+      point_id: 0,
+      description: "",
+      title: "",
+      category: "$",
+      user_id:"",
+    },
+    description:"",
+    flag_id: 0,
+    flagged_by: "",
+    status: ""
+  }
+  if(props.flag){
+    flag=props.flag;
+    if(!flag.description){
+      delete flag.description
+      flag["description"] = "";
+    }
+  }
+
+  
   const style = {
     position: "absolute",
     top: "50%",
@@ -21,23 +45,77 @@ const FlaggedPoints = ({ flag }) => {
     boxShadow: 24,
     p: 4,
   };
+  const [user,setUser] = React.useState({
+    name:"",
+    description:"",
+    roll_no:"",
+    branch:""
+  });
+  const [flagger, setFlagger] = React.useState({
+    name:"",
+    description:"",
+    roll_no:"",
+    branch:""
+  });
+  const [category, sub_category] = flag.Point.category.split('$');
 
   const fetchUserDetails = async() => {
-    const response = await fetch(url + `/user/find/${flag.Point.user_id}`)
+    
+    const res = await fetch(url + `/user/find/${flag.Point.user_id}`,{credentials:"include"});
+    
+    const response = await res.json();
+    console.log(response);
+    if(res.status===200){
+      setUser(response)
+      // console.log(response)
+    }
+
+    const res1 = await fetch(url + `/user/find/${flag.flagged_by}`,{credentials:"include"});
+    const response1 = await res1.json();
+    if(res1.status === 200) {
+      setFlagger(response1)
+      // console.log(response1)
+    }
   }
 
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  let { description } = student;
+  let { description } = flag.Point;
+  let flagDescription = flag.description;
 
   let descriptionslice = description.slice(0, 155);
   if (description.length > 155) {
     descriptionslice = `${descriptionslice}....`;
   }
 
+  let flagDescriptionSlice = flagDescription.slice(0,155);
+  if(flagDescription.length > 155) {
+    flagDescriptionSlice = `${flagDescriptionSlice}`
+  }
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const acceptFlag = async ()=>{
+    const res = await fetch(url+`/flag/accept/${flag.flag_id}`,{method:"POST", credentials:"include"});
+    const response = await res.json();
+    if(res.status === 200){
+      alert(response);
+    }
+    handleClose();
+    requestContext.onStart();
+  }
+
+  const denyFlag = async ()=>{
+    const res = await fetch(url+`/flag/decline/${flag.flag_id}`,{method:"POST", credentials:"include"});
+    // console.log(res);
+    const response = await res.json();
+    if(res.status === 200){
+      alert(response);
+    }
+    handleClose();
+    requestContext.onStart();
+  }
 
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -48,21 +126,22 @@ const FlaggedPoints = ({ flag }) => {
   };
 
   const openpop = Boolean(anchorEl);
+
+  React.useEffect(()=>{fetchUserDetails()},[])
   return (
     <>
       <div
         className="pointofapproval"
         style={{
-          backgroundColor:
-            student.status === "Approved" ? "#a5d6a7" : "#E57373",
+          backgroundColor: "#E57373",
         }}
       >
         <div className="approvalinfo">
           <h4>
-            {student.name} ({student.rollno})
+            {user.name} ({user.roll_no})
           </h4>
           <h4>
-            <span>Requested for</span> {student.request} <span>approval</span>
+            <span>Requested for</span> {category} <span>approval</span>
           </h4>
         </div>
         <div className="flaggedbutton">
@@ -100,29 +179,23 @@ const FlaggedPoints = ({ flag }) => {
                   Request Details
                 </Typography> */}
                 <h4>
-                  Student Name : <span>{student.name}</span>
+                  Student Name : <span>{user.name}</span>
                 </h4>
                 <h4>
-                  Roll No : <span>{student.rollno}</span>
+                  Roll No : <span>{user.rollno}</span>
                 </h4>
                 <h4>
-                  Programme : <span>{student.programme}</span>
+                  Branch : <span>{user.branch}</span>
                 </h4>
                 <h4>
-                  Branch : <span>{student.branch}</span>
+                  Point Type : <span>{category}</span>
                 </h4>
                 <h4>
-                  Point Type : <span>{student.request}</span>
-                </h4>
-                <h4>
-                  Point Title : <span>{student.requesttitle}</span>
-                </h4>
-                <h4>
-                  Duration : <span>{student.duration}</span>
+                  Point Title : <span>{flag.Point.title}</span>
                 </h4>
                 <h4>
                   Proof link :{" "}
-                  <a href="student.prooflink">{student.prooflink}</a>
+                  <a href="student.prooflink">{flag.Point.proof_link}</a>
                 </h4>
                 <div>
                   <Typography
@@ -157,7 +230,7 @@ const FlaggedPoints = ({ flag }) => {
                     onClose={handlePopoverClose}
                     disableRestoreFocus
                   >
-                    <Typography sx={{ p: 1 }}>{student.description}</Typography>
+                    <Typography sx={{ p: 1 }}>{flag.Point>description}</Typography>
                   </Popover>
                 </div>
                 {/* <h4>
@@ -167,16 +240,13 @@ const FlaggedPoints = ({ flag }) => {
               <div className="flagdetails">
                 <div className="requestinfoheading">Flag Details</div>
                 <h4>
-                  Flagged By : <span>{student.name} </span>
+                  Flagged By : <span>{flag.flagged_by} </span>
                 </h4>
                 <h4>
-                  Roll No : <span>{student.rollno}</span>
+                  Roll No : <span>{flagger.roll_no}</span>
                 </h4>
                 <h4>
-                  Programme : <span>{student.programme}</span>
-                </h4>
-                <h4>
-                  Branch : <span>{student.branch}</span>
+                  Branch : <span>{flagger.branch}</span>
                 </h4>
                 <div>
                   <Typography
@@ -188,7 +258,7 @@ const FlaggedPoints = ({ flag }) => {
                     <h4 className="descriptiontitle">
                       Flag Description :{" "}
                       <span className="descriptionhover">
-                        {descriptionslice}
+                        {flagDescriptionSlice}
                       </span>
                     </h4>
                   </Typography>
@@ -211,22 +281,18 @@ const FlaggedPoints = ({ flag }) => {
                     onClose={handlePopoverClose}
                     disableRestoreFocus
                   >
-                    <Typography sx={{ p: 1 }}>{student.description}</Typography>
+                    <Typography sx={{ p: 1 }}>{flag.description}</Typography>
                   </Popover>
                 </div>
               </div>
             </div>
             <div className="flagbuttons">
               <div>
-                <button type="button" className="button1" onClick={handleOpen}>
-                  Approve Request
+                <button type="button" className="button1" onClick={()=>{acceptFlag()}}>
+                  Accept Flag
                 </button>
-
-                <button type="button" className="button2" onClick={handleOpen}>
-                  Suggest Changes
-                </button>
-                <button type="button" className="button3" onClick={handleOpen}>
-                  Deny Request
+                <button type="button" className="button3" onClick={()=>{denyFlag()}}>
+                  Decline Flag
                 </button>
               </div>
             </div>

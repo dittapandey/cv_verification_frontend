@@ -46,7 +46,8 @@ const ViewRequest = () => {
     Point:{
       title:"",
       description:"",
-      status:""
+      status:"",
+      category:"$"
     }
   }]);
 
@@ -55,7 +56,8 @@ const ViewRequest = () => {
       point_id: 0,
       description: "",
       title: "",
-      category: "",
+      category: "$",
+      user_id:"",
     },
     description:"",
     flag_id: 0,
@@ -251,16 +253,26 @@ const ViewRequest = () => {
   })
   }
 
-  useEffect(()=>{
+  const loadFlagData = () => {
+    console.log(appContext.apiData.pendingFlagsOfAdmin)
+    setFlagData(appContext.apiData.pendingFlagsOfAdmin)
+  }
+
+  const onStart = async () => {
     fetchRequests();
     appContext.fetchApiData();
+    loadFlagData();
+  }
+  useEffect(()=>{
+    onStart();
+    
   },[])
 
   return (
-    // <div>hello</div>
     <RequestContext.Provider 
     value={{
-      fetchRequests:fetchRequests
+      fetchRequests:fetchRequests,
+      onStart: onStart,
     }}>
     <Stack>
       <Typography variant="h4">Requests for approval ({requestData.length})</Typography>
@@ -272,106 +284,13 @@ const ViewRequest = () => {
               <ApprovalPoints request={student}/>
             )
           })}
-          {/* {rawData.map((point, index) => (
-              <Accordion
-                expanded={expanded === "panel" + (index + 1).toString()}
-                onChange={handleExpanded("panel" + (index + 1).toString())}
-              >
-                <AccordionSummary
-                  expandIcon={<ExpandMore />}
-                  aria-controls="panel1bh-content"
-                  id="panel1bh-header"
-                >
-                  <Typography sx={{ width: "33%", flexShrink: 0 }}>
-                    {point.title}
-                  </Typography>
-                  <Typography sx={{ color: "text.secondary" }}>
-                    {point.category.replace("$", " ")}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography>Point Description: {point.description}</Typography>
-                  <Typography>User Email ID: {point.user_id}</Typography>
-                  <Box sx={{ height: "20px" }}></Box>
-                  <Box>
-                    <Button
-                      sx={{ display: "inline", margin: "5px" }}
-                      variant="contained"
-                    >
-                      Approve Request
-                    </Button>
-                    <Button
-                      sx={{ display: "inline", margin: "5px" }}
-                      variant="contained"
-                    >
-                      Deny Request
-                    </Button>
-                  </Box>
-                </AccordionDetails>
-              </Accordion>
-            ))} */}
-
-          {/* <Accordion expanded={expanded === 'panel2'} onChange={handleExpanded('panel2')}>
-                        <AccordionSummary
-                        expandIcon={<ExpandMore />}
-                        aria-controls="panel2bh-content"
-                        id="panel2bh-header"
-                        >
-                        <Typography sx={{ width: '33%', flexShrink: 0 }}>Users</Typography>
-                        <Typography sx={{ color: 'text.secondary' }}>
-                            You are currently not an owner
-                        </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                        <Typography>
-                            Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus,
-                            varius pulvinar diam eros in elit. Pellentesque convallis laoreet
-                            laoreet.
-                        </Typography>
-                        </AccordionDetails>
-                    </Accordion>
-                    <Accordion expanded={expanded === 'panel3'} onChange={handleExpanded('panel3')}>
-                        <AccordionSummary
-                        expandIcon={<ExpandMore />}
-                        aria-controls="panel3bh-content"
-                        id="panel3bh-header"
-                        >
-                        <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                            Advanced settings
-                        </Typography>
-                        <Typography sx={{ color: 'text.secondary' }}>
-                            Filtering has been entirely disabled for whole web server
-                        </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                        <Typography>
-                            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-                            amet egestas eros, vitae egestas augue. Duis vel est augue.
-                        </Typography>
-                        </AccordionDetails>
-                    </Accordion>
-                    <Accordion expanded={expanded === 'panel4'} onChange={handleExpanded('panel4')}>
-                        <AccordionSummary
-                        expandIcon={<ExpandMore />}
-                        aria-controls="panel4bh-content"
-                        id="panel4bh-header"
-                        >
-                        <Typography sx={{ width: '33%', flexShrink: 0 }}>Personal data</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                        <Typography>
-                            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-                            amet egestas eros, vitae egestas augue. Duis vel est augue.
-                        </Typography>
-                        </AccordionDetails>
-                    </Accordion> */}
         </div>
       </Box>
-      <Typography variant="h4">Flagged Points</Typography>
+      <Typography variant="h4">Flagged Points ({flagData.length})</Typography>
       <Divider sx={{ borderBottomWidth: 5, color: "black" }} />
       <Box overflow="auto" sx={{ height: "50vh", marginTop: "1vmax" }}>
         <div className="approvals">
-          {appContext.apiData.pendingFlagsOfAdmins.map((flag) => (
+          {flagData.map((flag) => (
             <FlaggedPoints flag={flag} />
           ))}
         </div>

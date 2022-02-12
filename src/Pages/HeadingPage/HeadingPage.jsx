@@ -42,6 +42,8 @@ import {useNavigate} from "react-router-dom";
 import ApprovedByYou from "../../Components/ApprovedByYou/ApprovedByYou";
 import { MdOutlineNotificationsNone } from "react-icons/md";
 
+export const HeadingPageContext = React.createContext();
+
 const drawerWidth = 240;
 const useStyles = makeStyles({
   list: {
@@ -134,6 +136,7 @@ function HeadingPage(props) {
   }
 
   const drawer = (
+    
     <div className="homemenu">
       {/* <Toolbar> */}
       <div className="homeheading">
