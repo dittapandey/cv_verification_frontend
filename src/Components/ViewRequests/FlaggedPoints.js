@@ -14,7 +14,7 @@ const FlaggedPoints = ({ flag }) => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 500,
+    width: 700,
     bgcolor: "background.paper",
     borderRadius: "5px",
     // border: "2px solid #000",
@@ -88,84 +88,145 @@ const FlaggedPoints = ({ flag }) => {
             >
               Request Details
             </Typography>
-            <div className="requestdetails">
-              <h4>
-                Student Name : <span>{student.name}</span>
-              </h4>
-              <h4>
-                Roll No : <span>{student.rollno}</span>
-              </h4>
-              <h4>
-                Programme : <span>{student.programme}</span>
-              </h4>
-              <h4>
-                Branch : <span>{student.branch}</span>
-              </h4>
-              <h4>
-                Point Type : <span>{student.request}</span>
-              </h4>
-              <h4>
-                Point Title : <span>{student.requesttitle}</span>
-              </h4>
-              <h4>
-                Duration : <span>{student.duration}</span>
-              </h4>
-              <h4>
-                Proof link : <a href="student.prooflink">{student.prooflink}</a>
-              </h4>
-              <div>
-                <Typography
-                  aria-owns={openpop ? "mouse-over-popover" : undefined}
-                  aria-haspopup="true"
-                  onMouseEnter={handlePopoverOpen}
-                  onMouseLeave={handlePopoverClose}
+            <div className="flag">
+              <div className="requestinfo">
+                <div className="requestinfoheading">Request Details</div>
+                {/* <Typography
+                  className="requesttitle"
+                  id="modal-modal-title"
+                  variant="h6"
+                  component="h2"
                 >
-                  <h4 className="descriptiontitle">
-                    Description :{" "}
-                    <span className="descriptionhover">{descriptionslice}</span>
-                  </h4>
-                </Typography>
-                <Popover
-                  id="mouse-over-popover"
-                  sx={{
-                    pointerEvents: "none",
-                    width: "70%",
-                  }}
-                  open={openpop}
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                  onClose={handlePopoverClose}
-                  disableRestoreFocus
-                >
-                  <Typography sx={{ p: 1 }}>{student.description}</Typography>
-                </Popover>
-              </div>
-              {/* <h4>
+                  Request Details
+                </Typography> */}
+                <h4>
+                  Student Name : <span>{student.name}</span>
+                </h4>
+                <h4>
+                  Roll No : <span>{student.rollno}</span>
+                </h4>
+                <h4>
+                  Programme : <span>{student.programme}</span>
+                </h4>
+                <h4>
+                  Branch : <span>{student.branch}</span>
+                </h4>
+                <h4>
+                  Point Type : <span>{student.request}</span>
+                </h4>
+                <h4>
+                  Point Title : <span>{student.requesttitle}</span>
+                </h4>
+                <h4>
+                  Duration : <span>{student.duration}</span>
+                </h4>
+                <h4>
+                  Proof link :{" "}
+                  <a href="student.prooflink">{student.prooflink}</a>
+                </h4>
+                <div>
+                  <Typography
+                    aria-owns={openpop ? "mouse-over-popover" : undefined}
+                    aria-haspopup="true"
+                    onMouseEnter={handlePopoverOpen}
+                    onMouseLeave={handlePopoverClose}
+                  >
+                    <h4 className="descriptiontitle">
+                      Description :{" "}
+                      <span className="descriptionhover">
+                        {descriptionslice}
+                      </span>
+                    </h4>
+                  </Typography>
+                  <Popover
+                    id="mouse-over-popover"
+                    sx={{
+                      pointerEvents: "none",
+                      width: "70%",
+                    }}
+                    open={openpop}
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "left",
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                    onClose={handlePopoverClose}
+                    disableRestoreFocus
+                  >
+                    <Typography sx={{ p: 1 }}>{student.description}</Typography>
+                  </Popover>
+                </div>
+                {/* <h4>
                 Description : <span>{descriptionslice}</span>
               </h4> */}
+              </div>
+              <div className="flagdetails">
+                <div className="requestinfoheading">Flag Details</div>
+                <h4>
+                  Flagged By : <span>{student.name} </span>
+                </h4>
+                <h4>
+                  Roll No : <span>{student.rollno}</span>
+                </h4>
+                <h4>
+                  Programme : <span>{student.programme}</span>
+                </h4>
+                <h4>
+                  Branch : <span>{student.branch}</span>
+                </h4>
+                <div>
+                  <Typography
+                    aria-owns={openpop ? "mouse-over-popover" : undefined}
+                    aria-haspopup="true"
+                    onMouseEnter={handlePopoverOpen}
+                    onMouseLeave={handlePopoverClose}
+                  >
+                    <h4 className="descriptiontitle">
+                      Flag Description :{" "}
+                      <span className="descriptionhover">
+                        {descriptionslice}
+                      </span>
+                    </h4>
+                  </Typography>
+                  <Popover
+                    id="mouse-over-popover"
+                    sx={{
+                      pointerEvents: "none",
+                      width: "70%",
+                    }}
+                    open={openpop}
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "left",
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                    onClose={handlePopoverClose}
+                    disableRestoreFocus
+                  >
+                    <Typography sx={{ p: 1 }}>{student.description}</Typography>
+                  </Popover>
+                </div>
+              </div>
             </div>
-            <div className="requestbuttons">
+            <div className="flagbuttons">
               <div>
-                <button type="button" onClick={handleOpen}>
+                <button type="button" className="button1" onClick={handleOpen}>
                   Approve Request
                 </button>
-                <button type="button" onClick={handleOpen}>
-                  Approve Request Using Existing Template
-                </button>
-              </div>
-              <div>
-                <button type="button" onClick={handleOpen}>
-                  Approve Request And Create New Template
-                </button>
-                <button type="button" onClick={handleOpen}>
+
+                <button type="button" className="button2" onClick={handleOpen}>
                   Suggest Changes
+                </button>
+                <button type="button" className="button3" onClick={handleOpen}>
+                  Deny Request
                 </button>
               </div>
             </div>
