@@ -82,8 +82,35 @@
   border: none;
 }
 
+.flag {
+  border-top: 1px solid black;
+  display: flex;
+  /* align-items: center; */
+  justify-content: space-between;
+  /* flex-direction: column; */
+  margin-top: 1vmax;
+  padding-top: 1vmax;
+}
+
+.flagdetails {
+  margin-left: 3vmax;
+}
+
 .requesttitle {
   text-align: center;
+}
+
+.requestinfo {
+  display: flex;
+  flex-direction: column;
+  /* margin-top: 1vmax; */
+  /* padding-top: 1vmax; */
+}
+
+.requestinfoheading {
+  text-align: center;
+  font: 500 1.2vmax "Roboto", sans-serif;
+  margin-bottom: 1vmax;
 }
 
 .requestdetails {
@@ -94,7 +121,8 @@
   padding-top: 1vmax;
 }
 
-.requestdetails > h4 {
+.requestdetails > h4,
+.requestinfo > h4 {
   font-size: 1.1vmax;
   font-weight: 600;
 }
@@ -109,7 +137,8 @@
   font-weight: 500;
 }
 
-.requestdetails > h4 > span {
+.requestdetails > h4 > span,
+.requestinfo > h4 > span {
   font-size: 1.1vmax;
   font-weight: 500;
 }
@@ -119,6 +148,22 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.flagbuttons {
+  margin-top: 1vmax;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.flagbuttons > div {
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1vmax;
+  width: 70%;
 }
 
 .requestbuttons > div {
@@ -142,4 +187,28 @@
   padding-right: 0.5vmax;
   font-size: 0.9vmax;
   font-weight: 500;
+}
+
+.flagbuttons > div > button {
+  margin-top: 0.3vmax;
+  /* background-color: #e3f0e7; */
+  /* margin-left: 0.25vmax; */
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  text-decoration: none;
+  padding: 0.3vmax;
+  padding-left: 0.5vmax;
+  padding-right: 0.5vmax;
+  font-size: 1.1vmax;
+  font-weight: 500;
+}
+
+.button1,
+.button2 {
+  background-color: #f0e3e3;
+}
+
+.button3 {
+  background-color: #e3f0e7;
 }
