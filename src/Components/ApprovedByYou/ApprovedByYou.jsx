@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {BACKEND_URL as url } from "../../Assets/FullForm";
-import "./ViewRequests.css";
+import "./ApprovedByYou.css";
 import { useEffect } from "react";
 
 import {
@@ -19,7 +19,7 @@ import { AppContext } from "../../App";
 import axios from "axios";
 import Points from "./Points";
 
-const ViewRequest = () => {
+const ApprovedByYou = () => {
   const appContext = useContext(AppContext);
   const [expanded, setExpanded] = useState(false);
   //   const [rawData, setRawData] = appContext.rawData;
@@ -159,7 +159,8 @@ const ViewRequest = () => {
   ];
 
   const fetchRequests =  async()=>{
-    axios.get(url+"/requests/pending", {
+
+    axios.get(url+"/requests/approved", {
       withCredentials:true,
       headers:{
           "Access-Control-Allow-Origin": "http://localhost:3000",
@@ -301,4 +302,4 @@ const ViewRequest = () => {
   );
 };
 
-export default ViewRequest;
+export default ApprovedByYou;

@@ -41,6 +41,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import ApprovedByYou from "../../Components/ApprovedByYou/ApprovedByYou";
 
 const drawerWidth = 240;
 const useStyles = makeStyles({
@@ -75,6 +76,7 @@ function HeadingPage(props) {
   };
 
   function handleClick(menuitem) {
+    console.log("seleted item is", menuitem);
     setItem(menuitem);
     MenuList.map((M) => {
       if (M === menuitem) {
@@ -99,7 +101,7 @@ function HeadingPage(props) {
     } else if (M.id === 5) {
       return <GeneralGuidelines />;
     } else if (M.id == 6) {
-      return <WorkInProgress />;
+      return <ApprovedByYou/>;
     } else if (M.id == 7) {
       return <ViewRequest />;
     } else if (M.id == 8) {
@@ -137,30 +139,66 @@ function logout() {
   function handleChange() {}
 
   const drawer = (
-    <div>
-      <Toolbar>
-        <img src="iitg-logo.png" alt="" style={{ height: "30px" }} />
-        {"\t\t"}CV Verfication
+    <div className="homemenu">
+      {/* <Toolbar> */}
+      <div className="homeheading">
+        <img src="iitg-logo.png" alt="" />
+        {"\t\t"}
+        <h4>CV Verfication</h4>
+      </div>
+      <Divider />
+      <div className="menulists">
+        <List>
+          {MenuList.map((item, index) => {
+            if (item.id <= 5) {
+              return (
+                <div
+                  className="menuitems"
+                  style={{
+                    backgroundColor: item.selected ? "#F0F7FF " : "#fff",
+                  }}
+                >
+                  <ListItem
+                    onClick={() => {
+                      handleClick(item);
+                    }}
+                  >
+                    <div className="menuitem">
+                      <ListItemText
+                        disableTypography
+                        primary={
+                          <div
+                            className="menuitemstext"
+                            style={{
+                              color: item.selected ? "#0072E5 " : "#3E5060",
+                            }}
+                          >
+                            {item.title}
+                          </div>
+                        }
+                      />
+                    </div>
+                  </ListItem>
+                </div>
+              );
+            }
+          })}
+        </List>
+      </div>
+      <Divider />
+      <Toolbar
+        sx={{
+          color: "#3E5060",
+          fontWeight: "700",
+          fontSize: "1.2vmax",
+          // backgroundColor: "#F0F7FF",
+          borderRadius: "5px",
+        }}
+      >
+        Admin Controls
       </Toolbar>
       <Divider />
-      <Toolbar>Welcome {user ? user.name : "Guest"}</Toolbar>
-      <Divider />
-      <List>
-        {MenuList.map((item, index) => {
-          if (item.id <= 5) {
-            return (
-              <ListItem
-                onClick={() => {
-                  handleClick(item);
-                }}
-              >
-                <ListItemText primary={item.title} />
-              </ListItem>
-            );
-          }
-        })}
-      </List>
-      <Divider />
+      {/* <Divider /> */}
       {/* <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="demo-simple-select-standard-label">Select Admin's Organisation</InputLabel>
                 <Select
@@ -175,33 +213,33 @@ function logout() {
                     <MenuItem value={30}>Thirty</MenuItem>
                 </Select>
             </FormControl> */}
-      <Divider />
-      {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-helper-label">Age</InputLabel>
-        <Select
-          labelId="demo-simple-select-helper-label"
-          id="demo-simple-select-helper"
-          value={age}
-          label="Age"
-          onChange={handleChange}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-        <FormHelperText>With label + helper text</FormHelperText>
-      </FormControl> */}
-      <Divider />
+      {/* <Divider /> */}
       <List>
         {MenuList.map((M, index) => {
           if (M.id >= 6) {
             return (
-              <ListItem  onClick={() => handleClick(M)}>
-                <ListItemText primary={M.title} />
-              </ListItem>
+              <div
+                className="menuitems"
+                style={{
+                  backgroundColor: M.selected ? "#F0F7FF " : "#fff",
+                }}
+              >
+                <ListItem onClick={() => handleClick(M)}>
+                  <ListItemText
+                    disableTypography
+                    primary={
+                      <div
+                        className="menuitemstext"
+                        style={{
+                          color: M.selected ? "#0072E5 " : "#3E5060",
+                        }}
+                      >
+                        {M.title}
+                      </div>
+                    }
+                  />
+                </ListItem>
+              </div>
             );
           }
         })}
@@ -226,30 +264,48 @@ function logout() {
           sx={{
             width: { sm: `calc(100% - ${drawerWidth}px)` },
             ml: { sm: `${drawerWidth}px` },
+            color: "#0072E5",
+            // display: "flex",
+
+            // alignItems: "space-between",
+            // border: "1px solid black",
           }}
         >
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: "none" } }}
-            >
-              <MenuIcon />
-            </IconButton>
-
-            {/* <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-              Responsive drawer
-            </Typography> */}
-            <Button
-              onClick={() => {
-                logout();
-              }}
-              color="inherit"
-            >
-              Logout
-            </Button>
+          <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+            <div className="pqr">
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{
+                  mr: 2,
+                  display: { sm: "none" },
+                  // justifyContent: "center",
+                  color: "#fff",
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <div></div>
+            </div>
+            <div className="weluser">
+              <div className="welcome">
+                <div>
+                  <h4>WELCOME </h4>
+                  <h3>{user ? user.name : "PARSHVA PRAGNESH SHAH"}</h3>
+                </div>
+              </div>
+              <Button
+                onClick={() => {
+                  logout();
+                }}
+                // color="inherit"
+                sx={{ color: "#fff" }}
+              >
+                Logout
+              </Button>
+            </div>
           </Toolbar>
         </AppBar>
         <Box

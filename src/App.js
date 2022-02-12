@@ -300,7 +300,6 @@ function App() {
           })
           setAdminData(temp);
           console.log("Admin of", adminData);
-          
       } else {
           setUser(null);
           console.log("User data not received");
@@ -339,10 +338,11 @@ function App() {
       }
     })
     .then((res)=>{
+      console.log(res.data);
       setRawData(res.data);
       split_category(res.data);
       // split_data(res.data);
-      console.log(res.data);
+      
     })
   }
 
@@ -369,8 +369,8 @@ function App() {
         <Router>
           <Routes>
           <Route exact path="/" element={user? <Link to="/headingPage"/>:<LoginPage/>}/>
-          {/* <Route exact path="/headingPage" element={<HeadingPage/>}/> */}
-          <Route exact path="/headingPage" element={user? <HeadingPage/>: <Link to="/"/>}/>
+          <Route exact path="/headingPage" element={<HeadingPage/>}/>
+          {/* <Route exact path="/headingPage" element={user? <HeadingPage/>: <Link to="/"/>}/> */}
           </Routes>
         </Router>
         {/* <LoginPage/> */}

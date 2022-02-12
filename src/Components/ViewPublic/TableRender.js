@@ -5,7 +5,8 @@ import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
+import TableSortLabel from '@mui/material/TableSortLabel';
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -14,7 +15,7 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { AppContext } from "../../App";
-import { makeStyles } from "@mui/styles";
+import { makeStyles, styled } from "@mui/styles";
 import {
   FirstPage,
   KeyboardArrowLeft,
@@ -22,7 +23,6 @@ import {
   LastPage,
 } from "@mui/icons-material";
 import {
-  Alert,
   Button,
   Grid,
   Snackbar,
@@ -34,13 +34,119 @@ import { useTheme } from "@emotion/react";
 import axios from "axios";
 import { BACKEND_URL as url } from "../../Assets/FullForm";
 import { useState } from "react";
+import {visuallyHidden} from '@mui/utils';
 import { full } from "../../Assets/FullForm";
 
-const useStyles = makeStyles({
-  headTableRow: {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "#343A40",
     color: "white",
   },
-});
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+function descendingComparator(a, b, orderBy){
+  if( b[orderBy]<a[orderBy]){
+    return -1;
+  }
+  if(b[orderBy] > a[orderBy]){
+    return 1;
+  } 
+  return 0;
+}
+
+function getComparator(order, orderBy){
+  return order=='desc' ? (a,b) => descendingComparator(a,b,orderBy) :(a,b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator){
+  const stabilizedThis = array.map((el, index)=>[el,index]);
+  stabilizedThis.sort((a,b)=>{
+    const order = comparator(a[0], b[0]);
+    if(order !== 0){
+      return order;
+    }
+    return a[1]-b[1];
+  });
+
+  return stabilizedThis.map((el)=> el[0]);
+}
+
+const headCells = [
+  {
+    id:"Point ID"
+  },
+  {
+    id:"Roll No."
+  },
+  {
+    id:"Student Name"
+  },
+  {
+    id:"Point Title"
+  },
+  {
+    id:"Approved By"
+  },
+  {
+    id:"Added On"
+  }
+]
+
+function EnhancedTableHead(props){
+  const { order, orderBy, onRequestSort} =
+    props;
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
+  };
+  
+  
+
+  return(
+    <TableHead>
+      <TableRow>
+      {
+        headCells.map((head)=>{
+          return(
+            <StyledTableCell align="center"
+              key={head.id}
+              sortDirection = {orderBy === headCells.id ? order : false}
+            >
+            <TableSortLabel
+              active={orderBy == headCells.id}
+              direction={orderBy === headCells.id ? order : 'asc'}
+              onClick={createSortHandler(head.id)}
+            >
+              {head.id}
+              {orderBy === head.id? (
+                <Box component="span" sx={visuallyHidden}>
+                  {order==='desc'? 'sorted descending' : 'sorted ascending'}
+                </Box>
+              ): null}
+            </TableSortLabel>
+            </StyledTableCell>
+          )
+        })
+      }
+      {/* <StyledTableCell align="center">Point Id</StyledTableCell>
+      <StyledTableCell align="center">Title</StyledTableCell>
+      <StyledTableCell align="center">Description</StyledTableCell>
+      <StyledTableCell align="center">userID</StyledTableCell>
+      <StyledTableCell align="center">Approval Status</StyledTableCell> */}
+      <StyledTableCell align="center" />
+      </TableRow>
+    </TableHead>
+
+  );
+}
+
+EnhancedTableHead.propTypes = {
+  onRequestSort: PropTypes.func.isRequired,
+  order: PropTypes.oneOf(['asc','desc']).isRequired,
+  orderBy: PropTypes.string.isRequired
+};
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -113,44 +219,35 @@ TablePaginationActions.propTypes = {
 
 function Row(props) {
   const appContext = React.useContext(AppContext);
-  const { row } = props;
+  var row = {
+    title:"",
+    description:"",
+    createdAt:"T",
+    point_id:"",
+    category:"$",
+    start_date:"",
+    end_date:"",
+    User:{
+      name:"",
+      roll_no:"",
+      user_id:""
+    },
+    Flags: [
+      {
+        flagged_by:""
+      }
+    ]
+  }
+  row  = props.row;
+  const [date, time] = row.createdAt.split('T')
   const [open, setOpen] = React.useState(false);
-  const [snackSuccessbarOpen, setSnackbarSuccessOpen] = useState(false);
-  const [snackFailurebarOpen, setSnackbarFailureOpen] = useState(false);
-  const [pointUser, setPointUser] = React.useState({});
   const user = appContext.user;
-  const [flagDesc, setFlagDesc] = useState("");
 
   function collapsePoint() {
-    if (!open) {
-      axios
-        .get(url + `/user/find/${row.user_id}`, {
-          withCredentials: true,
-          headers: {
-            "Access-Control-Allow-Origin": "http://localhost:3000",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Credentials": "true",
-            "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
-            "Access-Control-Allow-Headers":
-              "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers",
-          },
-        })
-        .then((res) => {
-          if (res.data) {
-            setPointUser(res.data);
-          } else {
-            console.log(res);
-            console.log("User data not received");
-          }
-        });
-    }
     setOpen(!open);
   }
-  const [category, sub_category] = row.category.split("$");
+  const [ category, sub_category ] = row.category.split("$");
 
-  function handleChange(event) {
-    setFlagDesc(event.target.value);
-  }
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -160,27 +257,35 @@ function Row(props) {
     setOpen(false);
   };
 
-  function handleFlag(e) {
+  const handleFlag = async (e) => {
     e.preventDefault();
-    console.log(1);
-    axios
-      .post(url + `/points/${row.point_id}/flag`, {
-        withCredentials: true,
-        headers: {
-          "Access-Control-Allow-Origin": "http://localhost:3000",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": "true",
-          "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
-          "Access-Control-Allow-Headers":
-            "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers",
-        },
-      })
-      .then((res) => {
-        if (res.status == 200) {
-          console.log(res);
-        }
-      });
+    const response = await fetch(url+`/flag/${row.point_id}`,{method:"POST", credentials:"include"})
+    if(response.status === 400) {
+      alert(response.error.message);
+    } else if (response.status === 200){
+      alert ("Point flagged");
+    }
+    setOpen(!open);
+    appContext.fetchRawData();
   }
+
+  const [isFlaggable, setIsFlaggable] = useState(true);
+
+  const checkFlaggable = () => {
+    console.log("Is flag check implemented")
+    row.Flags.map((flag)=>{
+      console.log(flag)
+      console.log(user)
+      if(flag.flagged_by === user[0].user_id){
+        setIsFlaggable(false);
+      }
+    })
+  }
+  
+  React.useEffect(()=>{
+    checkFlaggable();
+  },[open])
+  
 
   return (
     <React.Fragment>
@@ -188,7 +293,16 @@ function Row(props) {
         className={row.status}
         sx={{ "& > *": { borderBottom: "unset" } }}
       >
-        <TableCell>
+        
+        <TableCell align="center" component="th" scope="row">
+          {row.point_id}
+        </TableCell>
+        <TableCell align="center">{row.User.roll_no}</TableCell>
+        <TableCell align="center">{row.User.name}</TableCell>
+        <TableCell align="center">{row.title}</TableCell>
+        <tableCell align="center">{row.response_by}</tableCell>
+        <TableCell align="center">{date}</TableCell>
+        <TableCell align="center">
           <IconButton
             aria-label="expand row"
             size="small"
@@ -197,56 +311,26 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
-          {row.point_id}
-        </TableCell>
-        <TableCell align="center">{row.title}</TableCell>
-        <TableCell align="center">{row.description}</TableCell>
-        <TableCell align="center">{row.user_id}</TableCell>
-        <TableCell align="center">{full[row.status]}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell
           className={row.status}
           style={{ paddingBottom: 0, paddingTop: 0 }}
-          colSpan={6}
+          colSpan={12}
         >
-          <Collapse in={open} timeout="auto" unmountOnExit>
+          <Collapse in={open} timeout="3000" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <Typography>
-                    Category: {category}-{sub_category}
-                  </Typography>
-                  <Typography>Project by: {pointUser.name}</Typography>
-                  <Typography>Email ID: {pointUser.user_id}</Typography>
-                  <Typography>Started on: {row.start_date}</Typography>
-                  <Typography>Ended on: {row.end_date}</Typography>
+                <Grid item xs={6} sx={{display:"flex", flexDirection:"column", justifyContent:"center"}}>
+                  <Typography><b>Branch:</b>{row.User.branch}</Typography>
+                  <Typography><b>Description:</b>{row.description}</Typography>
+                  <Typography><b>Project Durattion:</b> {row.start_date} to {row.end_date}</Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography variant="h5">Flagging Form</Typography>
-                  <Typography>Reason for Flagging</Typography>
-                  <Box sx={{ height: "10px" }}></Box>
-                  <TextField
-                    id="flagDesc"
-                    name="flagDesc"
-                    label="Descripiton"
-                    type="text"
-                    value={flagDesc || ""}
-                    onChange={handleChange}
-                    // autoComplete="current-password"
-                  />
-                  <Box sx={{ height: "10px" }}></Box>
-                  <p>
-                    <Button
-                      onClick={(e) => {
-                        handleFlag(e);
-                      }}
-                      variant="contained"
-                    >
-                      Flag this Point
-                    </Button>
-                  </p>
+                  <Box sx={{display:'flex',flexWrap:'wrap'}}>
+                    <Box sx={{display:'flex', flexDirection:"column", justifyContent:"center"}}><Typography><b align="center">Have issues with this project?</b></Typography></Box>
+                    {isFlaggable?<Button variant="contained" color="error" sx={{margin:"10px"}} onClick={(e)=>handleFlag(e)}>Flag this Point</Button>:<p>You have already flagged this point once</p>}
+                  </Box>
                 </Grid>
               </Grid>
             </Box>
@@ -258,42 +342,45 @@ function Row(props) {
 }
 export default function CollapsibleTable() {
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const classes = useStyles();
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
+  const [dense, setDense] = React.useState(false);
   const appContext = React.useContext(AppContext);
-  // const [rawData, setRawData] = appContext.rawData;
+  const [rawData, setRawData] = appContext.rawData;
+  const [publicData, setPublicData] = React.useState([{
+    title:"",
+    point_id:"",
+    description:"",
+    category:"$",
+    createdAt:"T",
+    response_by:"",
+    start_date:"",
+    end_date:"",
+    User:{
+      name:"",
+      roll_no:"",
+      branch:""
+    },
+    Flags: [
+      {
+        flagged_by:""
+      }
+    ]
+  }]);
+  const [order, setOrder]= React.useState('asc');
+  const [orderBy,setOrderBy] = React.useState('Point ID')
 
-  const rawData = [
-    {
-      title: "Title",
-      description: "Description",
-      category: "dummy$project",
-      user_id: "2001111111111",
-      point_id: "2312212414",
-      status: "A",
-    },
-    {
-      title: "Title",
-      description: "Description",
-      category: "dummy$project",
-      user_id: "2001111111111",
-      point_id: "2312212414",
-      status: "A",
-    },
-    {
-      title: "Title",
-      description: "Description",
-      category: "dummy$project",
-      user_id: "2001111111111",
-      point_id: "2312212414",
-      status: "A",
-    },
-  ];
+  const handleRequestSort = (event,property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc? 'desc' : 'asc');
+    setOrderBy(property);
+  }
+
+
   const keys = Object.keys(rawData[0]);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rawData.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - publicData.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -304,38 +391,60 @@ export default function CollapsibleTable() {
     setPage(0);
   };
 
-  console.log(keys);
+  const splitRawData = () => {
+    const tempData =[];
+    rawData.map((point)=>{
+      if(point.visibility==="P"){
+        tempData.push(point);
+      }
+    });
+    console.log(tempData);
+    setPublicData(tempData);
+  }
+
+  
+  // console.log(keys);
+
+  React.useEffect(()=>{
+    appContext.fetchRawData();
+    splitRawData();
+  },[])
+
+  
   return (
     <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow style={{ color: "white" }}>
-            <TableCell />
-
-            <TableCell>Point Id</TableCell>
-            <TableCell align="center">Title</TableCell>
-            <TableCell align="center">Description</TableCell>
-            <TableCell align="center">userID</TableCell>
-            <TableCell align="center">Approval Status</TableCell>
-          </TableRow>
-        </TableHead>
+      <Table aria-label="collapsible table" size={dense ? 'small' : 'medium'}>
+        <EnhancedTableHead
+        order={order}
+        orderBy={orderBy}
+        onRequestSort={handleRequestSort}
+        />
         <TableBody>
           {(rowsPerPage > 0
-            ? rawData.slice(
+            ? publicData.slice(
                 page * rowsPerPage,
                 page * rowsPerPage + rowsPerPage
               )
-            : rawData
+            : publicData
           ).map((row) => (
             <Row key={row.point_id} keys={keys} row={row} />
           ))}
+          {emptyRows > 0 && (
+                <TableRow
+                  style={{
+                    height: (dense ? 33 : 53) * emptyRows,
+                  }}
+                >
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+              rowsPerPageOptions={[25, 50, 100, { label: "All", value: -1 }]}
               colSpan={3}
-              count={rawData.length}
+              count={publicData.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{

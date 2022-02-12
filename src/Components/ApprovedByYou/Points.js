@@ -173,7 +173,7 @@ const Points = ({ request }) => {
                 Description : <span>{descriptionslice}</span>
               </h4> */}
             </div>
-            <div className="requestbuttons">
+            {/* <div className="requestbuttons">
               <div>
                 <button type="button" onClick={(e)=> approveRequest(e)}>
                   Approve Request
@@ -193,7 +193,7 @@ const Points = ({ request }) => {
                   Suggest Changes
                 </button>
               </div>
-            </div>
+            </div> */}
           </Box>
         </Modal>
       </div>

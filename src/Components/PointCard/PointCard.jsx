@@ -8,9 +8,10 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AccorSummary from "./AccorSummary";
 
 const PointCard = (props) => {
-  const point = props.point;
+  const rawDatas = props.point;
   const flagmenu = props.flagmenu;
   const [flag, setFlag] = useState(false);
   function handleFlagMenu(e) {
@@ -19,6 +20,36 @@ const PointCard = (props) => {
     console.log(flag);
   }
   //title, description, status, start_date, end_date, proof_link
+
+  // const rawDatas = [
+  //   {
+  //     title: "Dummy Project",
+  //     description: "This is dummy project",
+  //     status: "A",
+  //     start_date: "31/12/2021",
+  //     end_date: "31/1/2022",
+  //     category: "Dummy$Project",
+  //     proof_link: "https://www.google.com",
+  //   },
+  //   {
+  //     title: "Dummy Project",
+  //     description: "This is dummy project",
+  //     status: "P",
+  //     start_date: "1/12/2021",
+  //     end_date: "31/1/2022",
+  //     category: "Dummy$Project",
+  //     proof_link: "https://www.gmail.com",
+  //   },
+  //   {
+  //     title: "Dummy Project",
+  //     description: "This is dummy project",
+  //     status: "R",
+  //     start_date: "31/1/2022",
+  //     end_date: "31/3/2022",
+  //     category: "Dummy$Project",
+  //     proof_link: "https://www.youtube.com",
+  //   },
+  // ];
 
   const [expanded, setExpanded] = React.useState(false);
 
@@ -29,7 +60,10 @@ const PointCard = (props) => {
   return (
     // <div className={"card " + point.status}>
     <div className="accordioncards ">
-      <Accordion
+      {rawDatas.map((rawData, index) => (
+        <AccorSummary rawData={rawData} index={index} />
+      ))}
+      {/* <Accordion
         expanded={expanded === "panel1"}
         onChange={handleChange("panel1")}
       >
@@ -145,7 +179,7 @@ const PointCard = (props) => {
             <a href="google.com">Link for the project</a>
           </div>
         </AccordionDetails>
-      </Accordion>
+      </Accordion> */}
 
       {/* </div> */}
       {/* <div className="logo p1">

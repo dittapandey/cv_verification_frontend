@@ -38,8 +38,6 @@ const AddAPoint = (props) => {
   });
   const [categoryId, setCategoryId] = useState(1);
   const [clubId, setClubId] = appContext.clubId;
-  // const [fade,setFade] =
-  // const [closeButtonColor, setCloseButtonColor] = useState("disabled");
 
   // function renderFormPage(){
   //     if(page===1){
@@ -170,7 +168,7 @@ const AddAPoint = (props) => {
   // }
   // }
   const [title, setTitle] = useState("Project");
-  function handleSubmit(event) {
+  const handleSubmit = async (event)=> {
     event.preventDefault();
     // authentication
     isAuthenticated();
@@ -191,55 +189,27 @@ const AddAPoint = (props) => {
       check_inputs = !check_inputs;
     }
     const fd  =  new FormData();
+    const point = new Blob([JSON.stringify(inputs)], {
+      type: "application/json"
+    });
     fd.append("point", JSON.stringify(inputs));
+    for(var p of fd){
+      console.log(p);
+    }
     console.log(JSON.stringify(inputs));
     if (check_inputs) {
-        axios.post(url+"/points", {
-            withCredentials: true,
-            body: fd,
-            headers:{
-              "Access-Control-Allow-Origin": "http://localhost:3000",
-                "Content-Type": `multipart/form-data; boundary=${fd._boundary}`,
-                "Access-Control-Allow-Credentials": "true",
-                "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
-                "Access-Control-Allow-Headers":
-                "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
-            }
-          })
-          .then((response) => {
-            console.log(response);
-            alert("Request submitted");
-            setShowAddPoint(false);
-          })
-          .catch((error) => {
-            console.error(error.message);
-          });
-    //   fetch(url + "/points", {
-    //     method: "POST",
-    //     body: {
-    //         point: JSON.stringify(inputs)
-    //     },
-    //     headers: {
-    //       "Content-type": "application/json; charset=UTF-8",
-    //       Accept: "application/json",
-    //     },
-    //     credentials: "include",
-    //     mode: "cors",
-    //   })
-    //     .then((res) => {
-    //       res.json();
-    //     })
-    //     .then((response) => {
-    //       console.log(response);
-    //       alert("Request submitted");
-    //       setShowAddPoint(false);
-    //     })
-    //     .catch((error) => {
-    //       console.error(error.message);
-    //     });
+      const res = await fetch(url+`/points`, {
+          credentials:"include",
+          method: "POST",
+          body: fd
+        });
+      if(res.data) {
+        console.log(res.data)
+      }
     } else {
       alert("Check all your inputs again");
     }
+    setShowAddPoint(false);
   }
   function closeAddPoint() {
     setShowAddPoint(false);
@@ -286,20 +256,6 @@ const AddAPoint = (props) => {
 
   const [clubs, setClubs] = appContext.clubs;
 
-  // function fetchClubs(){
-  //     fetch(url+"/orgs")
-  //     .then((res)=>res.json())
-  //         .then((result)=>{
-  //             // console.log(result);
-  //             setClubs(result);
-  //         }).catch((e)=>{
-  //             console.error("Error Message is",e.message)
-  //         });
-  // }
-
-  // useEffect(()=>{
-  //     fetchClubs();
-  // },[])
 
   return (
     <div className="page">
