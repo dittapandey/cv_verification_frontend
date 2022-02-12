@@ -20,12 +20,8 @@
     "react-bootstrap": "^2.1.1",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
-<<<<<<< HEAD
-    "react-router-dom": "^6.1.1",
-=======
     "react-router": "^6.2.1",
     "react-router-dom": "^6.2.1",
->>>>>>> a334fe0c04f79b20e0ce6b543d35e2c73a3c3dba
     "react-scripts": "5.0.0",
     "react-table": "^7.7.0",
     "styled-components": "^5.3.3",

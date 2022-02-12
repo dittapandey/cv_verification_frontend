@@ -40,7 +40,8 @@ import {
   Select,
 } from "@mui/material";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { MdOutlineNotificationsNone } from "react-icons/md";
 
 const drawerWidth = 240;
 const useStyles = makeStyles({
@@ -113,27 +114,27 @@ function HeadingPage(props) {
   }
 
   const container =
-  window !== undefined ? () => window().document.body : undefined;
+    window !== undefined ? () => window().document.body : undefined;
 
-function logout() {
-  axios
-    .get(url + "/auth/logout", {
-      withCredentials: true,
-      headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3000",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Credentials": "true",
-        "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
-        "Access-Control-Allow-Headers":
-        "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers",
-      },
-    })
-    .then((res) => {
-      console.log(user);
-      setUser(null);
-      // history("/");
-    });
-}
+  function logout() {
+    axios
+      .get(url + "/auth/logout", {
+        withCredentials: true,
+        headers: {
+          "Access-Control-Allow-Origin": "http://localhost:3000",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
+          "Access-Control-Allow-Headers":
+            "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers",
+        },
+      })
+      .then((res) => {
+        console.log(user);
+        setUser(null);
+        // history("/");
+      });
+  }
 
   function handleChange() {}
 
@@ -255,11 +256,9 @@ function logout() {
     </div>
   );
 
-
-
-  React.useEffect(()=>{
+  React.useEffect(() => {
     appContext.checkLogin();
-  },[])
+  }, []);
 
   return (
     <>
@@ -295,15 +294,22 @@ function logout() {
               >
                 <MenuIcon />
               </IconButton>
-              <div></div>
-            </div>
-            <div className="weluser">
               <div className="welcome">
                 <div>
                   <h4>WELCOME </h4>
-                  <h3>{user ? user.name : "PARSHVA PRAGNESH SHAH"}</h3>
+                  <h3>{user ? user.name : "GUEST"}</h3>
                 </div>
               </div>
+            </div>
+            <div className="weluser">
+              <MdOutlineNotificationsNone
+                style={{
+                  color: "#fff",
+                  fontSize: "1.7vmax",
+                  marginRight: "1vmax",
+                }}
+              />
+              <div className="notifications">{100}</div>
               <Button
                 onClick={() => {
                   logout();

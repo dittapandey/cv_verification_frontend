@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Slide from "@mui/material/Slide";
 
-const Points = ({ student }) => {
+const FlaggedPoints = ({ student }) => {
   const style = {
     position: "absolute",
     top: "50%",
@@ -60,7 +60,7 @@ const Points = ({ student }) => {
             <span>Requested for</span> {student.request} <span>approval</span>
           </h4>
         </div>
-        <div className="approvalbutton">
+        <div className="flaggedbutton">
           <button type="button" onClick={handleOpen}>
             View Request
           </button>
@@ -192,4 +192,4 @@ const Points = ({ student }) => {
   );
 };
 
-export default Points;
+export default FlaggedPoints;

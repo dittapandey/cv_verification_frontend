@@ -23,12 +23,28 @@ const PointCard = (props) => {
   const rawDatas = [
     {
       title: "Dummy Project",
-      description: "This is dummy project",
+      description:
+        "This is dummy project Lorem ipsum dolor sit amet consectetur adipiscing elit conubia mus, natoque curae phasellus cras sagittis accumsan taciti luctus. Senectus proin potenti accumsan natoque cubilia dignissim augue mattis ex, eleifend interdum ligula neque hac curae pretium gravida justo, aliquam curabitur ad velit tellus praesent maecenas aenean. At dolor felis elementum magna fames mattis auctor nam sodales, ante diam ex ipsum finibus malesuada senectus aptent. Phasellus nisl ut rhoncus gravida dictumst dui dis interdum integer himenaeos varius mauris feugiat, adipiscing tristique habitant accumsan hendrerit nec neque consequat tincidunt penatibus vulputate. Et quis nostra eu accumsan magnis consequat quisque, consectetur mi nullam dignissim mollis turpis, libero mus semper vitae rutrum netus. Condimentum a fringilla eget tristique mollis arcu parturient fames conubia ultricies, sit nascetur potenti mauris ex est etiam facilisis dignissim. Pulvinar nisl hendrerit integer auctor at quisque donec sagittis rhoncus gravida, ex mauris pretium in nisi viverra diam sed. Nam eu commodo gravida tristique facilisi consequat aliquam hac egestas, vivamus nostra accumsan luctus litora velit lacinia viverra lobortis, placerat euismod tellus consectetur vestibulum iaculis adipiscing tortor.",
       status: "A",
       start_date: "31/12/2021",
       end_date: "31/1/2022",
       category: "Dummy$Project",
       proof_link: "https://www.google.com",
+      flag: [
+        "a@iitg.ac.in",
+        "a@iitg.ac.in",
+        "b@iitg.ac.in",
+        "c@iitg.ac.in",
+        "c@iitg.ac.in",
+        "d@iitg.ac.in",
+        "e@iitg.ac.in",
+        "a@iitg.ac.in",
+        "b@iitg.ac.in",
+        "c@iitg.ac.in",
+        "c@iitg.ac.in",
+        "d@iitg.ac.in",
+        "e@iitg.ac.in",
+      ],
     },
     {
       title: "Dummy Project",
@@ -38,6 +54,7 @@ const PointCard = (props) => {
       end_date: "31/1/2022",
       category: "Dummy$Project",
       proof_link: "https://www.gmail.com",
+      flag: [],
     },
     {
       title: "Dummy Project",
@@ -47,6 +64,7 @@ const PointCard = (props) => {
       end_date: "31/3/2022",
       category: "Dummy$Project",
       proof_link: "https://www.youtube.com",
+      flag: [],
     },
   ];
 
