@@ -24,7 +24,11 @@ import {
 } from "@mui/icons-material";
 import {
   Button,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
   Grid,
+  Modal,
   Snackbar,
   TableFooter,
   TablePagination,
@@ -217,8 +221,21 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
+
 function Row(props) {
   const appContext = React.useContext(AppContext);
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: "60vw",
+    bgcolor: 'background.paper',
+    // border: '2px solid #000',
+    borderRadius:"5px",
+    boxShadow: 24,
+    p: 4,
+  };
   var row = {
     title:"",
     description:"",
@@ -242,12 +259,23 @@ function Row(props) {
   const [date, time] = row.createdAt.split('T')
   const [open, setOpen] = React.useState(false);
   const user = appContext.user;
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [flagDesc, setFlagDesc] = React.useState("");
+  const [checkBox, setCheckBox] = React.useState(false);
 
+
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
+  const changeCheckBox = () => {
+    setCheckBox(!checkBox);
+    console.log(checkBox);
+}
   function collapsePoint() {
     setOpen(!open);
   }
   const [ category, sub_category ] = row.category.split("$");
 
+  const warningText = () => (<>I have read all the <a>Guidlines</a> regarding flagging a point and know that continuous unnecessary flagging may lead to discipilinary action against me by the concerned authorities.</>)
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -259,12 +287,13 @@ function Row(props) {
 
   const handleFlag = async (e) => {
     e.preventDefault();
-    const response = await fetch(url+`/flag/${row.point_id}`,{method:"POST", credentials:"include"})
+    const response = await fetch(url+`/flag/${row.point_id}`,{method:"POST",body:{description: flagDesc}, credentials:"include"})
     if(response.status === 400) {
       alert(response.error.message);
     } else if (response.status === 200){
       alert ("Point flagged");
     }
+    setModalOpen(!modalOpen);
     setOpen(!open);
     appContext.fetchRawData();
   }
@@ -280,6 +309,14 @@ function Row(props) {
         setIsFlaggable(false);
       }
     })
+  }
+
+  const submitButton = () => {
+    return(<>
+    {checkBox?<Button variant="contained" color="error" onClick={(e)=>handleFlag(e)}>Flag this point</Button>:
+          <Button variant="contained" color="error" disabled>Flag this point</Button>
+          }
+    </>)
   }
   
   React.useEffect(()=>{
@@ -329,7 +366,7 @@ function Row(props) {
                 <Grid item xs={6}>
                   <Box sx={{display:'flex',flexWrap:'wrap'}}>
                     <Box sx={{display:'flex', flexDirection:"column", justifyContent:"center"}}><Typography><b align="center">Have issues with this project?</b></Typography></Box>
-                    {isFlaggable?<Button variant="contained" color="error" sx={{margin:"10px"}} onClick={(e)=>handleFlag(e)}>Flag this Point</Button>:<p>You have already flagged this point once</p>}
+                    {isFlaggable?<Button variant="contained" color="error" sx={{margin:"10px"}} onClick={(e)=>handleModalOpen()}>Flag this Point</Button>:<Typography sx={{margin:"5px"}} variant="subtitle1">You have already flagged this point once</Typography>}
                   </Box>
                 </Grid>
               </Grid>
@@ -337,6 +374,34 @@ function Row(props) {
           </Collapse>
         </TableCell>
       </TableRow>
+      <Modal
+        open={modalOpen}
+        onClose={handleModalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{...style, margin:"10px"}}>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Why do you want to flag this point?
+          </Typography>
+          <TextField 
+          sx={{
+            width:"100%",
+            margin:"10px"
+          }}
+          id="outlined-multile-static"
+          label="Flag description"
+          multiline
+          rows={10}
+          value={flagDesc}
+          onChange={(e)=>{setFlagDesc(e.target.value)}}
+          />
+          <FormGroup>
+            <FormControlLabel control={<Checkbox onChange={changeCheckBox} />} label={warningText()} />
+          </FormGroup>
+          {submitButton()}
+        </Box>
+      </Modal>
     </React.Fragment>
   );
 }
@@ -394,7 +459,7 @@ export default function CollapsibleTable() {
   const splitRawData = () => {
     const tempData =[];
     rawData.map((point)=>{
-      if(point.visibility==="P"){
+      if(point.visibility==="P" && point.status==="A"){
         tempData.push(point);
       }
     });

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {BACKEND_URL as url } from "../../Assets/FullForm";
 import "./ViewRequests.css";
-import { useEffect } from "react";
+import { useEffect, createContext } from "react";
 
 import {
   Accordion,
@@ -20,6 +20,18 @@ import axios from "axios";
 import ApprovalPoints from "./ApprovalPoints";
 import FlaggedPoints from "./FlaggedPoints";
 
+export const RequestContext = createContext();
+
+// Point: {point_id: 104, description: 'fsiubfdsufbsduf', title: 'efdsndjfsndfj', category: 'Projects$Personal Project', start_date: null, …}
+// createdAt: "2022-02-10T10:49:50.000Z"
+// description: null
+// flag_id: 100
+// flagged_by: "aditya.pandey@iitg.ac.in"
+// point_id: 104
+// response_by: null
+// status: "P"
+// updatedAt: "2022-02-10T10:49:50.000Z"
+
 const ViewRequest = () => {
   const appContext = useContext(AppContext);
   const [expanded, setExpanded] = useState(false);
@@ -36,6 +48,19 @@ const ViewRequest = () => {
       description:"",
       status:""
     }
+  }]);
+
+  const [flagData, setFlagData] = useState([{
+    Point: {
+      point_id: 0,
+      description: "",
+      title: "",
+      category: "",
+    },
+    description:"",
+    flag_id: 0,
+    flagged_by: "",
+    status: ""
   }]);
 
   const handleExpanded = (panel) => (event, isExpanded) => {
@@ -225,14 +250,20 @@ const ViewRequest = () => {
     }
   })
   }
+
   useEffect(()=>{
     fetchRequests();
+    appContext.fetchApiData();
   },[])
 
   return (
     // <div>hello</div>
+    <RequestContext.Provider 
+    value={{
+      fetchRequests:fetchRequests
+    }}>
     <Stack>
-      <Typography variant="h4">Requests for approval</Typography>
+      <Typography variant="h4">Requests for approval ({requestData.length})</Typography>
       <Divider sx={{ borderBottomWidth: 5 }} />
       <Box overflow="auto" sx={{ height: "50vh", marginBottom: "1vmax" }}>
         <div className="approvals">
@@ -340,13 +371,14 @@ const ViewRequest = () => {
       <Divider sx={{ borderBottomWidth: 5, color: "black" }} />
       <Box overflow="auto" sx={{ height: "50vh", marginTop: "1vmax" }}>
         <div className="approvals">
-          {requestData.map((student) => (
-            <FlaggedPoints student={student} />
+          {appContext.apiData.pendingFlagsOfAdmins.map((flag) => (
+            <FlaggedPoints flag={flag} />
           ))}
         </div>
       </Box>
       <Divider />
     </Stack>
+    </RequestContext.Provider>
   );
 };
 

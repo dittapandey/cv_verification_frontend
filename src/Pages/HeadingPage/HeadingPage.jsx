@@ -1,7 +1,5 @@
 import { useState } from "react";
 import "./HeadingPage.css";
-import NavBar from "../../Components/Navbar/Navbar";
-import Sidemenu from "../../Components/Sidemenu/Sidemenu";
 import ViewPoints from "../../Components/ViewPoints/ViewPoints";
 import ViewPublic from "../../Components/ViewPublic/ViewPublic";
 import FlaggedByYou from "../../Components/FlaggedByYou/FlaggedByYou";

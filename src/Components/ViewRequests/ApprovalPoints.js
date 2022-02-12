@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Popover from "@mui/material/Popover";
 import { BACKEND_URL as url } from "../../Assets/FullForm";
 import Box from "@mui/material/Box";
@@ -6,8 +6,11 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Slide from "@mui/material/Slide";
+import { RequestContext } from "./ViewRequests";
 
 const ApprovalPoints = ({ request }) => {
+  const requestContext = useContext(RequestContext);
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -52,6 +55,8 @@ const ApprovalPoints = ({ request }) => {
     } else if(response.status===200){
       alert("Request approved")
     }
+    requestContext.fetchRequests();
+    handleClose();
   };
 
   const denyRequest = async (e) => {
@@ -62,6 +67,9 @@ const ApprovalPoints = ({ request }) => {
     } else if(response.status===200){
       alert("Request denied")
     }
+    requestContext.fetchRequests();
+    handleClose();
+
   };
 
   const openpop = Boolean(anchorEl);

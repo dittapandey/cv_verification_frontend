@@ -327,6 +327,8 @@ function App() {
       });
   }
 
+  const [apiData,setApiData] = useState({});
+
   function fetchOrgs() {
     fetch(url + "/orgs")
       .then((res) => res.json())
@@ -367,6 +369,7 @@ function App() {
     const res =  await fetch(url+'/api',{credentials:"include"});
     const response = await res.json();
     console.log(response);
+    setApiData(response);
   }
 
   const [currentAdmin, setCurrentAdmin] = useState("0");
@@ -384,7 +387,9 @@ function App() {
         clubId: [clubId, setClubId],
         user: [user, setUser],
         fetchRawData: fetchRawData,
+        fetchApiData: fetchApiData,
         checkLogin: checkLogin,
+        apiData:apiData,
         categoryData: [categoryData, setCategoryData],
         rawData: [rawData, setRawData],
         currentAdmin: [currentAdmin, setCurrentAdmin],

@@ -6,8 +6,9 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Slide from "@mui/material/Slide";
+import { BACKEND_URL as url} from "../../Assets/FullForm";
 
-const FlaggedPoints = ({ student }) => {
+const FlaggedPoints = ({ flag }) => {
   const style = {
     position: "absolute",
     top: "50%",
@@ -20,6 +21,10 @@ const FlaggedPoints = ({ student }) => {
     boxShadow: 24,
     p: 4,
   };
+
+  const fetchUserDetails = async() => {
+    const response = await fetch(url + `/user/find/${flag.Point.user_id}`)
+  }
 
   const [open, setOpen] = React.useState(false);
 
