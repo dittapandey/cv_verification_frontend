@@ -1,3 +1,14 @@
+### Screenshots:
+* All Screens 
+
+Screen 1  |  Screen 2  
+:-------------------------:|:-------------------------:
+![](cv_portal_screenshots/image1.png)|![](cv_portal_screenshots/image2.png)
+
+Screen 3 | Screen 4
+:-------------------------:|:-------------------------:
+|![](cv_portal_screenshots/image3.png)|![](cv_portal_screenshots/image4.png)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
